@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="hu">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.3/css/bootstrap.min.css" />
+  <link rel="stylesheet" href="./css/css.css" />
+  <link rel="icon" href="./img/favicon.png" type="image/png" />
+  <title>Szolgáltatásaink</title>
+</head>
+
+<body class="body">
+  <!--menü sor-->
+  <nav class="navbar navbar-expand-lg bg-body-tertiary">
+    <div class="container-fluid">
+      <a class="navbar-brand" href="./index.html">Pajti Paradicsom</a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarScroll"
+        aria-controls="navbarScroll" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarScroll">
+        <ul class="navbar-nav me-auto my-2 my-lg-0 navbar-nav-scroll" style="--bs-scroll-height: 100px">
+          <li class="nav-item">
+            <a class="nav-link active" aria-current="page" href="./login.html" target="_parent">
+              Bejelentkezés
+            </a>
+          </li>
+
+          <li class="nav-item">
+            <a class="nav-link" href="./szolgaltatasaink.html" target="_parent">Szolgáltatásaink</a>
+          </li>
+
+          <li class="nav-item">
+            <a class="nav-link" href="./áraink.html" target="_parent">Áraink</a>
+          </li>
+
+          <li class="nav-item">
+            <a class="nav-link" href="./időpontfoglaló.html" target="_parent">Időpontfoglalás</a>
+          </li>
+        </ul>
+
+
+        <div class="login-container">
+          <p>Bejelentkezés</p>
+          <form action="/action_page.php">
+            <input type="text" placeholder="Felhasználónév" name="username">
+            <input type="text" placeholder="Jelszó" name="password">
+            <button type="submit">Login</button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </nav>
+  <!--menü sor vége-->
+  <div>
+    <h3 style="color:beige; margin:auto; text-align:center">Szolgáltatásaink</h3>
+  </div>
+
+  <div class="container my-5">
+    <div class="row">
+      <div class="col-lg-4 col-md-6 mb-4">
+        <div class="card shadow-lg">
+          <img src="./img/foto2.jpg" class="card-img-top" alt="hotel">
+          <div class="card-body">
+            <h5 class="card-title"> Pajti Hotel </h5>
+            <p class="card-text">Kutyusunkat hosszabb távra, jelenlétünk nélkül másra bízni sokszor nehéz döntés, bizalmi kérdés.
+              A Pajti Paradicsom elsődleges célja kutyapanzióiban, hogy a kutyusok a lehető legjobban érezzék magukat, majd a tartózkodást követően a gazdi boldogan vihesse haza kedvencét.
+            </p>
+
+          </div>
+        </div>
+      </div>
+      <div class="col-lg-4 col-md-6 mb-4">
+        <div class="card shadow-lg">
+          <img src="./img/foto1.jpg" class="card-img-top" alt="kozmetika">
+          <div class="card-body">
+            <h5 class="card-title">Pajti kozmetika </h5>
+            <p class="card-text">Az okosság és intelligencia, illedelmesség, kedvesség, szófogadóság, szeretőképesség már-már minden olyan kvalitás, amivel rendelkezhet négylábú társunk! Mindezek mellett azonban nem szabad megfeledkeznünk szépségükről, ápoltságukról sem – ami nekünk első ránézésére talán csak esztétika, kutyusunknak jóérzés és egészség!</p>
+
+          </div>
+        </div>
+
+      </div>
+      <div class="col-lg-4 col-md-6 mb-4">
+        <div class="card shadow-lg">
+          <img src="./img/foto.jpg" class="card-img-top" alt="fotózás">
+          <div class="card-body">
+            <h5 class="card-title">Pajti fotózás</h5>
+            <p class="card-text">Nálunk a fotózás nem csak a gép kattintásairól szól, hanem sokkal inkább egy közös alkotásról, egy felejthetetlen élményről, érzékeny lelkű kutyáknak és gazdáiknak. Egy letisztult stílusú, élményorientált fotózáson várunk rád, ahol nincs helye a kényszernek, nincsenek megjátszott Instagram-képek, és nincsenek elvárások sem a gazditól, sem a kutyától.</p>
+
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+  </div>
+ 
+
+  <!--kérdése van?-->
+  <div class="container my-5">
+    <h1 class="text-center text-light">Kérdése van?</h1>
+    <form class="form" onsubmit="Bekuld(event)" id="kerdes">
+      <div class="mb-3">
+
+        <input type="email" class="form-control" id="email" required placeholder="E-mail" />
+      </div>
+
+      <div class="mb-3">
+
+        <textarea class="form-control" id="kerdes" rows="5" placeholder="Írja ide a kérdését"></textarea>
+      </div>
+
+      <button type="submit" class="btn btn-primary w-100">Elküld</button>
+    </form>
+  </div>
+  </div>
+  <!--kéréde van? vége-->
+
+
+
+  <!--Scriptek-->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.3/js/bootstrap.min.js"></script>
+  <script src="./app/app.js"></script>
+
+  <!--Scriptek vége -->
+</body>
+
+</html>
