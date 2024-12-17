@@ -1,0 +1,88 @@
+<div class="container position-relative my-5">
+	<div class="row mt-5 justify-content-center">
+    <!--IDŐPONTFOGLALÓ-->
+    <div class="container">
+      <h2 class="text-center text-light">Foglalás</h2>
+      <form id="bookingForm" onsubmit="submitBooking(event)">
+        <!-- Full Name Input -->
+        <div class="form-group">
+          <label for="fullName">Teljes név</label>
+          <input
+            type="text"
+            class="form-control"
+            id="fullName"
+            required
+            placeholder="Teljes név"
+          />
+        </div>
+
+        <!-- Social Security Number Input -->
+        <div class="form-group">
+          <label for="kutyanev">Kutya neve</label>
+          <input
+            type="text"
+            class="form-control"
+            id="kutyanev"
+            required
+            placeholder="Kutya neve"
+          />
+        </div>
+
+        <div class="form-group">
+          <label for="kutyafajta">Kutya fajtája</label>
+          <input
+            type="text"
+            class="form-control"
+            id="kutyafajta"
+            required
+            placeholder="Kutya fajtája""
+          />
+        </div>
+        <div class="form-group">
+          <label for="kutyakora">Kutya kora</label>
+          <input
+            type="text"
+            class="form-control"
+            id="kutyakora"
+            required
+            placeholder="Kutya Kora"
+          />
+        </div>
+
+        <!-- Select Service -->
+        <div class="form-group">
+          <label for="service">Szolgáltatás</label>
+          <select
+            class="form-control"
+            id="service"
+            required
+            onchange="showAvailableTimes()"
+          >
+            <option value="" disabled selected>Szolgáltatás</option>
+            <option value="service1">Hotel</option>
+            <option value="service2">Kozmetika</option>
+            <option value="service3">Fotózás</option>
+            
+          </select>
+        </div>
+
+        <!-- Available Time Slots -->
+        <div
+          class="appointment-times"
+          id="availableTimes"
+          style="display: none; color: white"
+        >
+          <h4>Elérhető időpontok:</h4>
+          <div id="timeSlots"></div>
+        </div>
+
+        <!-- Submit Button -->
+        <div class="form-group">
+          <button type="submit" class="btn btn-primary" id="submitBtn" disabled>
+            Időpont foglalása
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
