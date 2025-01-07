@@ -36,7 +36,8 @@
       .state('login', {
 				url: '/login',
         parent: 'root',
-				templateUrl: './html/login.html'
+				templateUrl: './html/login.html',
+        controller: 'loginController'
 			})
       .state('szolgaltatasaink', {
 				url: '/szolgaltatasaink',
@@ -63,6 +64,23 @@
     function() {
       console.log("Run...");
     }
-  ]);
+  ])
+
+  .controller('loginController', [
+    '$scope',
+    function($scope) {
+      
+      const container = document.getElementById('container');
+      const registerbtn = document.getElementById('register');
+      const loginbtn = document.getElementById('login');
+
+      registerbtn.addEventListener('click', ()=> {
+          container.classList.add("active"); 
+      })
+
+      loginbtn.addEventListener('click', ()=> {
+          container.classList.remove("active"); 
+      })
+  }]);
 	
 })(window, angular);
