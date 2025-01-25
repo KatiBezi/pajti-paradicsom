@@ -33,28 +33,49 @@
         parent: 'root',
 				templateUrl: './html/home.html'
 			})
+      .state('services', {
+				url: '/services',
+        parent: 'root',
+				templateUrl: './html/services.html',
+        
+			})
+      .state('schedule', {
+				url: '/schedule',
+        parent: 'root',
+				templateUrl: './html/schedule.html'
+			})
+      .state('prices', {
+				url: '/prices',
+        parent: 'root',
+				templateUrl: './html/prices.html'
+			})
+      .state('gallery', {
+				url: '/gallery',
+        parent: 'root',
+				templateUrl: './html/gallery.html'
+			})
+      .state('contact', {
+				url: '/contact',
+        parent: 'root',
+				templateUrl: './html/contact.html'
+			})
+      .state('policies', {
+				url: '/policies',
+        parent: 'root',
+				templateUrl: './html/policies.html'
+			})
       .state('login', {
-				url: '/login',
-        parent: 'root',
-				templateUrl: './html/login.html',
-        controller: 'loginController'
-			})
-      .state('szolgaltatasaink', {
-				url: '/szolgaltatasaink',
-        parent: 'root',
-				templateUrl: './html/szolgaltatasaink.html'
-			})
-      .state('araink', {
-				url: '/araink',
-        parent: 'root',
-				templateUrl: './html/araink.html'
-			})
-      .state('idopontFoglalo', {
-				url: '/idopontFoglalo',
-        parent: 'root',
-				templateUrl: './html/idopontFoglalo.html'
-			})
+        url: '/login',
+        templateUrl: 'login.html', // A login.html fájl
+        controller: 'LoginController'
+    })
+    .state('register', {
+        url: '/register',
+        templateUrl: 'register.html', // A register.html fájl
+        controller: 'RegisterController'
+    });
       
+		
       $urlRouterProvider.otherwise('/');
     }
   ])
@@ -82,5 +103,11 @@
           container.classList.remove("active"); 
       })
   }]);
+
+
+});
+
+ 
+      
 	
-})(window, angular);
+(window, angular);

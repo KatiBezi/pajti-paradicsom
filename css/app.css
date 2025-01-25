@@ -164,3 +164,7 @@ textarea {
 .table-hover tbody tr:hover {
 	background-color: #e9ecef;
 }
+
+* {box-sizing: border-box}
+
+
