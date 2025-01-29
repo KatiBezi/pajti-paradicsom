@@ -34,7 +34,7 @@ class Database {
 		// Merge with default
     $this->conn = Util::objMerge(array(
       "host"		=> "localhost",
-      "dbname"	=> "",
+      "dbname"	=> "pajti-paradicsom",
       "user"   	=> "root",
       "pass"		=> ""
     ), $conn, true);
