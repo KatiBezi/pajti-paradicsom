@@ -37,6 +37,7 @@
 				url: '/services',
         parent: 'root',
 				templateUrl: './html/services.html',
+        controller: 'serviceController'
         
 			})
       .state('schedule', {
@@ -68,12 +69,12 @@
         url: '/login',
         templateUrl: 'login.html', // A login.html fájl
         controller: 'LoginController'
-    })
-    .state('register', {
+      })
+      .state('register', {
         url: '/register',
         templateUrl: 'register.html', // A register.html fájl
         controller: 'RegisterController'
-    });
+      });
       
 		
       $urlRouterProvider.otherwise('/');
@@ -87,6 +88,19 @@
     }
   ])
 
+  .controller('serviceController', [
+    '$scope',
+    'http',
+    function($scope, http) {
+      http.request('./php/getServices.php')
+      .then(response => {
+        $scope.services = response;
+        $scope.$applyAsync();
+      })
+      .catch(e => console.log(e));
+    }
+  ])
+  
   .controller('loginController', [
     '$scope',
     function($scope) {

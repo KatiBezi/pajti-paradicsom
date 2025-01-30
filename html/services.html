@@ -1,50 +1,25 @@
 <div class="container position-relative my-5">
 	<div class="row mt-5 justify-content-center">
     <div>
-      <h3 style="color:beige; margin:auto; text-align:center">Szolgáltatásaink</h3>
+      <h3 style="color:beige; margin:auto; text-align:center">
+        Szolgáltatásaink
+      </h3>
     </div>
   
     <div class="container my-5">
       <div class="row">
-        <div class="col-lg-4 col-md-6 mb-4">
+        <div class="col-lg-4 col-md-6 mb-4"
+             ng-repeat="service in services">
           <div class="card shadow-lg">
-            <img src="./media/image/foto2.jpg" class="card-img-top" alt="hotel">
+            <img ng-src="./media/image/{{service.img}}" 
+                 class="card-img-top" alt="hotel">
             <div class="card-body">
-              <h5 class="card-title"> Pajti Hotel </h5>
-              <p class="card-text">Kutyusunkat hosszabb távra, jelenlétünk nélkül másra bízni sokszor nehéz döntés, bizalmi kérdés.
-                A Pajti Paradicsom elsődleges célja kutyapanzióiban, hogy a kutyusok a lehető legjobban érezzék magukat, majd a tartózkodást követően a gazdi boldogan vihesse haza kedvencét.
-              </p>
-  
+              <h5 class="card-title">{{service.name}}</h5>
+              <p class="card-text">{{service.description}}</p>
             </div>
           </div>
-        </div>
-        <div class="col-lg-4 col-md-6 mb-4">
-          <div class="card shadow-lg">
-            <img src="./media/image/foto1.jpg" class="card-img-top" alt="kozmetika">
-            <div class="card-body">
-              <h5 class="card-title">Pajti kozmetika </h5>
-              <p class="card-text">Az okosság és intelligencia, illedelmesség, kedvesség, szófogadóság, szeretőképesség már-már minden olyan kvalitás, amivel rendelkezhet négylábú társunk! Mindezek mellett azonban nem szabad megfeledkeznünk szépségükről, ápoltságukról sem – ami nekünk első ránézésére talán csak esztétika, kutyusunknak jóérzés és egészség!</p>
-  
-            </div>
-          </div>
-  
-        </div>
-        <div class="col-lg-4 col-md-6 mb-4">
-          <div class="card shadow-lg">
-            <img src="./media/image/foto.jpg" class="card-img-top" alt="fotózás">
-            <div class="card-body">
-              <h5 class="card-title">Pajti fotózás</h5>
-              <p class="card-text">Nálunk a fotózás nem csak a gép kattintásairól szól, hanem sokkal inkább egy közös alkotásról, egy felejthetetlen élményről, érzékeny lelkű kutyáknak és gazdáiknak. Egy letisztult stílusú, élményorientált fotózáson várunk rád, ahol nincs helye a kényszernek, nincsenek megjátszott Instagram-képek, és nincsenek elvárások sem a gazditól, sem a kutyától.</p>
-  
-            </div>
-          </div>
-  
         </div>
       </div>
-  
     </div>
-   
-  
-    
   </div>
 </div>
