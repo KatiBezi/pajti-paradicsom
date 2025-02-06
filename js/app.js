@@ -48,7 +48,8 @@
       .state('prices', {
 				url: '/prices',
         parent: 'root',
-				templateUrl: './html/prices.html'
+				templateUrl: './html/prices.html',
+        controller: 'pricesController'
 			})
       .state('gallery', {
 				url: '/gallery',
@@ -116,9 +117,20 @@
       loginbtn.addEventListener('click', ()=> {
           container.classList.remove("active"); 
       })
-  }]);
+  }])
 
-
+  .controller('pricesController', [
+    '$scope',
+    'http',
+    function($scope, http) {
+      http.request('./php/getprices.php')
+      .then(response => {
+        $scope.prices = response;
+        $scope.$applyAsync();
+      })
+      .catch(e => alert(e));
+    }
+  ]);
 })
 
  

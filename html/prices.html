@@ -1,35 +1,17 @@
 <div class="container">
     <div class="row justify-content-center mt-5">
         <h2 class="text-center">🐶 Kutyapanzió Árak</h2>
-        <table class="table table-bordered w-auto" cellpadding="10" cellspacing="0">
-            <tr>
-                <th>Kutya Mérete</th>
+        <table class="table table-bordered w-auto">
+            <thead>
+                <th>Név</th>
                 <th>Napi Ár (HUF)</th>
-            </tr>
-            <tr>
-                <td>Mini</td>
-                <td>3.500 Ft</td>
-            </tr>
-            <tr>
-                <td>Törpe</td>
-                <td>4.000 Ft</td>
-            </tr>
-            <tr>
-                <td>Kistestű</td>
-                <td>4.500 Ft</td>
-            </tr>
-            <tr>
-                <td>Közepes testű</td>
-                <td>5.500 Ft</td>
-            </tr>
-            <tr>
-                <td>Nagy testű</td>
-                <td>6.500 Ft</td>
-            </tr>
-            <tr>
-                <td>Óriás</td>
-                <td>8.000 Ft</td>
-            </tr>
+            </thead>
+            <tbody>
+                <tr ng-repeat="row in prices.prices_panzio">
+                    <td class="text-center">{{row.name}}</td>
+                    <td class="text-end">{{row.price}}</td>
+                </tr>
+            </tbody>
         </table>
     </div>
     
