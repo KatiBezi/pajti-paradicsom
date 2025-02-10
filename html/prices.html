@@ -1,6 +1,6 @@
 <div class="container">
     <div class="row justify-content-center mt-5">
-        <h2 class="text-center">🐶 Kutyapanzió Árak</h2>
+        <h2 class="text-center"> Pajti Panzió Árak</h2>
         <table class="table table-bordered w-auto">
             <thead>
                 <th>Név</th>
@@ -8,84 +8,56 @@
             </thead>
             <tbody>
                 <tr ng-repeat="row in prices.prices_panzio">
-                    <td class="text-center">{{row.name}}</td>
+                    <td class="text-center">{{row.id}}</td>
+                    <td class="text-center">{{row.services}}</td>
                     <td class="text-end">{{row.price}}</td>
                 </tr>
             </tbody>
         </table>
     </div>
+
+    <div class="container">
+        <div class="row justify-content-center mt-5">
+            <h2 class="text-center"> Pajti Kozmetika Árlista</h2>
+            <table class="table table-bordered w-auto">
+                <thead>
+                    <th>Név</th>
+                    <th>Szolgáltatás</th>
+                    <th>Ár (HUF)</th>
+                </thead>
+                <tbody>
+                    <tr ng-repeat="row in prices.prices_kozmetika">
+                        <td class="text-center">{{row.id}}</td>
+                        <td class="text-center">{{row.services}}</td>
+                        <td class="text-end">{{row.price}}</td>
+
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <div class="container">
+            <div class="row justify-content-center mt-5">
+                <h2 class="text-center"> Pajti Fotózás Árlista</h2>
+                <table class="table table-bordered w-auto">
+                    <thead>
+                        <th>Név</th>
+                        <th>Fotózás témája </th>
+                        <th>Fotók száma (db) </th>
+                        <th>Napi Ár (HUF)</th>
+                    </thead>
+                    <tbody>
+                        <tr ng-repeat="row in prices.prices_fotozas">
+                            <td class="text-center">{{row.id}}</td>
+                            <td class="text-end">{{row.photo_type}}</td>
+                            <td class="text-end">{{row.pictures}}</td>
+                            <td class="text-end">{{row.price}}</td>
     
-    <div class="row justify-content-center">
-        <h2 class="text-center">✂️ Kutyakozmetika és Macskakozmetika</h2>
-        <table class="table table-bordered w-auto" cellpadding="10" cellspacing="0">
-            <tr>
-                <th>Szolgáltatás</th>
-                <th>Ár (HUF)</th>
-            </tr>
-            <tr>
-                <td>Alapnyírás (kutya/macska)</td>
-                <td>7.000 Ft / 6.500 Ft</td>
-            </tr>
-            <tr>
-                <td>Fürdetés és szárítás</td>
-                <td>5.000 Ft</td>
-            </tr>
-            <tr>
-                <td>Karomvágás</td>
-                <td>2.000 Ft</td>
-            </tr>
-            <tr>
-                <td>Fültisztítás</td>
-                <td>1.500 Ft</td>
-            </tr>
-            <tr>
-                <td>Teljes kozmetikai csomag</td>
-                <td>12.000 Ft</td>
-            </tr>
-        </table>
-    </div>
-    
-    <div class="row justify-content-center">
-        <h2 class="text-center">📸 Kutya Fotózás Árlista</h2>
-        <table class="table table-bordered w-auto" cellpadding="10" cellspacing="0">
-            <tr>
-                <th>Fotózás Típus</th>
-                <th>Retusált Képek</th>
-                <th>Ár (HUF)</th>
-            </tr>
-            <tr>
-                <td>🥳 Szülinapi Fotózás</td>
-                <td>10 db</td>
-                <td>15 000 Ft</td>
-            </tr>
-            <tr>
-                <td>👩‍❤️‍👨 Gazdis Fotózás</td>
-                <td>15</td>
-                <td>18 000 Ft</td>
-            </tr>
-            <tr>
-                <td>🎄 Karácsonyi Fotózás</td>
-                <td>10</td>
-                <td>15 000 Ft</td>
-            </tr>
-            <tr>
-                <td>🌿 Kültéri Fotózás</td>
-                <td>20</td>
-                <td>20 000 Ft</td>
-            </tr>
-            <tr>
-                <td>🏡 Stúdiós Fotózás</td>
-                <td>15</td>
-                <td>22 000 Ft</td>
-            </tr>
-            <tr>
-                <td>🎭 Tematikus Fotózás</td>
-                <td>12</td>
-                <td>16 000 Ft</td>
-            </tr>
-        </table>
-    </div>
-    
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
     <div class="row justify-content-center my-5">
         <h3 class="text-center">
             Válaszd ki a kedvenc csomagodat, és örökítsd meg kedvenced legszebb pillanatait!
