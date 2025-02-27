@@ -3,9 +3,9 @@
 -- https://www.phpmyadmin.net/
 --
 -- Gép: 127.0.0.1
--- Létrehozás ideje: 2025. Feb 05. 16:37
--- Kiszolgáló verziója: 10.4.32-MariaDB
--- PHP verzió: 8.2.12
+-- Létrehozás ideje: 2025. Feb 27. 18:54
+-- Kiszolgáló verziója: 10.4.28-MariaDB
+-- PHP verzió: 8.1.17
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -18,7 +18,7 @@ SET time_zone = "+00:00";
 /*!40101 SET NAMES utf8mb4 */;
 
 --
--- Adatbázis: `phpmyadmin`
+-- Adatbázis: `pajti-paradicsom`
 --
 
 -- --------------------------------------------------------
@@ -38,75 +38,28 @@ CREATE TABLE `animals` (
 -- --------------------------------------------------------
 
 --
--- Tábla szerkezet ehhez a táblához `prices_fotozas`
+-- Tábla szerkezet ehhez a táblához `prices`
 --
 
-CREATE TABLE `prices_fotozas` (
+CREATE TABLE `prices` (
   `id` int(11) NOT NULL,
-  `photo_type` varchar(100) NOT NULL,
-  `pictures` int(11) NOT NULL,
+  `service_id` int(11) NOT NULL,
+  `type` varchar(50) NOT NULL,
   `price` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
--- A tábla adatainak kiíratása `prices_fotozas`
+-- A tábla adatainak kiíratása `prices`
 --
 
-INSERT INTO `prices_fotozas` (`id`, `photo_type`, `pictures`, `price`) VALUES
-(1, 'Szülinapi fotózás', 10, 15000),
-(2, 'Gazdis fotózás', 15, 18000),
-(3, 'Karácsonyi fotózás', 10, 15000),
-(4, 'Kültéri fotózás', 20, 20000),
-(5, 'Stúdiós fotózás', 15, 22000),
-(6, 'Tematikus fotózás', 12, 16000);
-
--- --------------------------------------------------------
-
---
--- Tábla szerkezet ehhez a táblához `prices_kozmetika`
---
-
-CREATE TABLE `prices_kozmetika` (
-  `id` int(11) NOT NULL,
-  `services` varchar(100) NOT NULL,
-  `price` int(20) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
-
---
--- A tábla adatainak kiíratása `prices_kozmetika`
---
-
-INSERT INTO `prices_kozmetika` (`id`, `services`, `price`) VALUES
-(1, 'Alapnyírás kutya', 7000),
-(2, 'Alapnyírás macska', 6500),
-(3, 'Fürdetés és szárítás', 5000),
-(4, 'Karomvágás', 2000),
-(5, 'Fültisztítás', 1500),
-(6, 'Teljes kozmetikai csomag', 12000);
-
--- --------------------------------------------------------
-
---
--- Tábla szerkezet ehhez a táblához `prices_panzio`
---
-
-CREATE TABLE `prices_panzio` (
-  `id` int(11) NOT NULL,
-  `services` varchar(50) NOT NULL,
-  `price` varchar(20) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
-
---
--- A tábla adatainak kiíratása `prices_panzio`
---
-
-INSERT INTO `prices_panzio` (`id`, `services`, `price`) VALUES
-(1, 'Mini', '3500'),
-(2, 'Törpe', '4000'),
-(3, 'Kistestű', '4500'),
-(4, 'Közepes testű', '5500'),
-(5, 'Nagy testű', '6500'),
-(6, 'Óriás', '8000');
+INSERT INTO `prices` (`id`, `service_id`, `type`, `price`) VALUES
+(1, 3, 'Gazdi fotozás', 500),
+(2, 3, 'Szülinapi', 10),
+(3, 3, 'Pajti', 1000),
+(4, 2, 'Vágás', 4099),
+(5, 2, 'Fürdetés', 2000),
+(6, 1, 'Napközi', 50000),
+(7, 1, 'Éjszakai', 100000);
 
 -- --------------------------------------------------------
 
@@ -133,7 +86,6 @@ CREATE TABLE `services` (
   `id` int(11) NOT NULL,
   `name` varchar(255) NOT NULL,
   `description` text NOT NULL,
-  `price` decimal(10,2) NOT NULL,
   `img` varchar(50) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
@@ -141,10 +93,10 @@ CREATE TABLE `services` (
 -- A tábla adatainak kiíratása `services`
 --
 
-INSERT INTO `services` (`id`, `name`, `description`, `price`, `img`) VALUES
-(1, 'Pajti Hotel', 'Kutyusunkat hosszabb távra, jelenlétünk nélkül másra bízni sokszor nehéz döntés, bizalmi kérdés. A Pajti Paradicsom elsődleges célja kutyapanzióiban, hogy a kutyusok a lehető legjobban érezzék magukat, majd a tartózkodást követően a gazdi boldogan vihesse haza kedvencét.', 5000.00, 'foto2.jpg'),
-(2, 'Pajti kozmetika', 'Az okosság és intelligencia, illedelmesség, kedvesség, szófogadóság, szeretőképesség már-már minden olyan kvalitás, amivel rendelkezhet négylábú társunk! Mindezek mellett azonban nem szabad megfeledkeznünk szépségükről, ápoltságukról sem – ami nekünk első ránézésére talán csak esztétika, kutyusunknak jóérzés és egészség!', 6000.00, 'foto1.jpg'),
-(3, 'Pajti fotózás', 'Nálunk a fotózás nem csak a gép kattintásairól szól, hanem sokkal inkább egy közös alkotásról, egy felejthetetlen élményről, érzékeny lelkű kutyáknak és gazdáiknak. Egy letisztult stílusú, élményorientált fotózáson várunk rád, ahol nincs helye a kényszernek, nincsenek megjátszott Instagram-képek, és nincsenek elvárások sem a gazditól, sem a kutyától.', 8000.00, 'foto.jpg');
+INSERT INTO `services` (`id`, `name`, `description`, `img`) VALUES
+(1, 'Pajti Hotel', 'Kutyusunkat hosszabb távra, jelenlétünk nélkül másra bízni sokszor nehéz döntés, bizalmi kérdés. A Pajti Paradicsom elsődleges célja kutyapanzióiban, hogy a kutyusok a lehető legjobban érezzék magukat, majd a tartózkodást követően a gazdi boldogan vihesse haza kedvencét.', 'foto2.jpg'),
+(2, 'Pajti kozmetika', 'Az okosság és intelligencia, illedelmesség, kedvesség, szófogadóság, szeretőképesség már-már minden olyan kvalitás, amivel rendelkezhet négylábú társunk! Mindezek mellett azonban nem szabad megfeledkeznünk szépségükről, ápoltságukról sem – ami nekünk első ránézésére talán csak esztétika, kutyusunknak jóérzés és egészség!', 'foto1.jpg'),
+(3, 'Pajti fotózás', 'Nálunk a fotózás nem csak a gép kattintásairól szól, hanem sokkal inkább egy közös alkotásról, egy felejthetetlen élményről, érzékeny lelkű kutyáknak és gazdáiknak. Egy letisztult stílusú, élményorientált fotózáson várunk rád, ahol nincs helye a kényszernek, nincsenek megjátszott Instagram-képek, és nincsenek elvárások sem a gazditól, sem a kutyától.', 'foto.jpg');
 
 -- --------------------------------------------------------
 
@@ -172,21 +124,9 @@ ALTER TABLE `animals`
   ADD UNIQUE KEY `owner_id` (`owner_id`);
 
 --
--- A tábla indexei `prices_fotozas`
+-- A tábla indexei `prices`
 --
-ALTER TABLE `prices_fotozas`
-  ADD PRIMARY KEY (`id`);
-
---
--- A tábla indexei `prices_kozmetika`
---
-ALTER TABLE `prices_kozmetika`
-  ADD PRIMARY KEY (`id`);
-
---
--- A tábla indexei `prices_panzio`
---
-ALTER TABLE `prices_panzio`
+ALTER TABLE `prices`
   ADD PRIMARY KEY (`id`);
 
 --
@@ -221,22 +161,10 @@ ALTER TABLE `animals`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
--- AUTO_INCREMENT a táblához `prices_fotozas`
+-- AUTO_INCREMENT a táblához `prices`
 --
-ALTER TABLE `prices_fotozas`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
-
---
--- AUTO_INCREMENT a táblához `prices_kozmetika`
---
-ALTER TABLE `prices_kozmetika`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
-
---
--- AUTO_INCREMENT a táblához `prices_panzio`
---
-ALTER TABLE `prices_panzio`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+ALTER TABLE `prices`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 
 --
 -- AUTO_INCREMENT a táblához `schedule`

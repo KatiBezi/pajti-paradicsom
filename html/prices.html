@@ -7,9 +7,10 @@
                 <th>Napi Ár (HUF)</th>
             </thead>
             <tbody>
-                <tr ng-repeat="row in prices.prices_panzio">
-                    <td class="text-center">{{row.id}}</td>
-                    <td class="text-center">{{row.services}}</td>
+                <tr ng-repeat="row in prices"
+                    ng-if="row.service_id==1">
+                    <!-- <td class="text-center">{{row.id}}</td> -->
+                    <td class="text-center">{{row.type}}</td>
                     <td class="text-end">{{row.price}}</td>
                 </tr>
             </tbody>
@@ -22,13 +23,14 @@
             <table class="table table-bordered w-auto">
                 <thead>
                     <th>Név</th>
-                    <th>Szolgáltatás</th>
+                    <!-- <th>Szolgáltatás</th> -->
                     <th>Ár (HUF)</th>
                 </thead>
                 <tbody>
-                    <tr ng-repeat="row in prices.prices_kozmetika">
-                        <td class="text-center">{{row.id}}</td>
-                        <td class="text-center">{{row.services}}</td>
+                    <tr ng-repeat="row in prices"
+                        ng-if="row.service_id==2">
+                        <!-- <td class="text-center">{{row.id}}</td> -->
+                        <td class="text-center">{{row.type}}</td>
                         <td class="text-end">{{row.price}}</td>
 
                     </tr>
@@ -41,16 +43,15 @@
                 <h2 class="text-center"> Pajti Fotózás Árlista</h2>
                 <table class="table table-bordered w-auto">
                     <thead>
-                        <th>Név</th>
+                        <!-- <th>Név</th> -->
                         <th>Fotózás témája </th>
-                        <th>Fotók száma (db) </th>
                         <th>Napi Ár (HUF)</th>
                     </thead>
                     <tbody>
-                        <tr ng-repeat="row in prices.prices_fotozas">
-                            <td class="text-center">{{row.id}}</td>
-                            <td class="text-end">{{row.photo_type}}</td>
-                            <td class="text-end">{{row.pictures}}</td>
+                        <tr ng-repeat="row in prices"
+                            ng-if="row.service_id==3">
+                            <!-- <td class="text-center">{{row.id}}</td> -->
+                            <td class="text-end">{{row.type}}</td>
                             <td class="text-end">{{row.price}}</td>
     
                         </tr>
