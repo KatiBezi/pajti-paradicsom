@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="hu" ng-app="petBookingApp">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Foglalási Űrlap</title>
+    <!-- AngularJS betöltése a cdnjs weboldalról -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.8.2/angular.min.js"></script>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+        }
+        label {
+            display: block;
+            margin: 10px 0 5px;
+        }
+        input, select {
+            padding: 10px;
+            width: 100%;
+            max-width: 300px;
+            margin-bottom: 20px;
+        }
+        .success-message {
+            color: green;
+            font-weight: bold;
+        }
+        .error-message {
+            color: red;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body ng-controller="BookingController">
+  <h1>Foglalási Űrlap</h1>
+  <form id="bookingForm" ng-submit="submitBooking()">
+      <!-- Szolgáltatás kiválasztása -->
+      <label for="service">Szolgáltatás:</label>
+      <select id="service" ng-model="selectedService" ng-change="updateTimes()" required>
+          <option value="daycare">Napközi (max 30 állat)</option>
+          <option value="overnight">Éjszakai szállás (max 15 kutya)</option>
+      </select>
+
+      <!-- Állatok számának megadása -->
+      <label for="pets">Állatok száma:</label>
+      <input type="number" id="pets" ng-model="numberOfPets" min="1" max="30" required>
+
+      <!-- Dátum kiválasztása -->
+      <label for="date">Dátum kiválasztása:</label>
+      <input type="date" id="date" ng-model="bookingDate" required>
+
+      <!-- Érkezési időpont kiválasztása -->
+      <label for="arrival">Érkezés időpontja:</label>
+      <select id="arrival" ng-model="arrivalTime" ng-options="time for time in availableArrivalTimes" required>
+          <option value="">Válasszon időpontot</option>
+      </select>
+
+      <!-- Dátum kiválasztása -->
+      <label for="date">Dátum kiválasztása:</label>
+      <input type="date" id="date" ng-model="bookingDate" required>
+
+      <!-- Távozási időpont kiválasztása  -->
+      <label for="departure">Távozás időpontja:</label>
+      <select id="departure" ng-model="departureTime" ng-options="time for time in availableDepartureTimesOvernight" ng-if="selectedService === 'overnight'" >
+          <option value="">Válasszon időpontot</option>
+      </select>
+
+      <!-- Foglalás gomb -->
+      <button type="submit">Foglalás</button>
+      
+      <!-- Sikeres foglalás üzenete -->
+      <div class="success-message" ng-show="successMessage">{{ successMessage }}</div>
+      
+      <!-- Hibaüzenet megjelenítése -->
+      <div class="error-message" ng-show="errorMessage">{{ errorMessage }}</div>
+  </form>
+</body>
+
+
+    <script>
+        // AngularJS alkalmazás létrehozása
+        angular.module('petBookingApp', [])
+            .controller('BookingController', ['$scope', function($scope) {
+                // Kezdeti változók beállítása
+                $scope.selectedService = 'daycare'; // Alapértelmezett szolgáltatás
+                $scope.numberOfPets = 0; // Alapértelmezett állatszám
+                $scope.bookingDate = ''; // Dátum változó
+                $scope.arrivalTime = ''; // Érkezés időpontja
+                $scope.departureTime = ''; // Távozás időpontja
+                $scope.successMessage = ''; // Sikeres üzenet
+                $scope.errorMessage = ''; // Hibaüzenet
+
+                // Elérhető érkezési időpontok
+                $scope.availableArrivalTimes = ['08:00','09:00', '10:00', '11:00', '12:00', '13:00', '14:00', '15:00', '16:00', '17:00'];
+                // Elérhető távozási időpontok
+                $scope.availableDepartureTimes = ['09:00', '10:00', '11:00', '12:00', '13:00', '14:00', '15:00', '16:00', '17:00', '18:00'];
+
+                // Éjszakai szállás esetén elérhető érkezési időpontok
+                $scope.availableArrivalTimesOvernight = ['18:00', '19:00', '20:00'];
+                $scope.availableDepartureTimesOvernight = [ '06:00', '07:00', '08:00'];
+                // Időpontok frissítése a szolgáltatás kiválasztásakor
+                $scope.updateTimes = function() {
+                    // Időpontok resetelése, ha a szolgáltatás változik
+                    $scope.arrivalTime = '';
+                    $scope.departureTime = '';
+
+                    // Ha éjszakai szállás van kiválasztva, frissítjük az érkezési időpontokat
+                    if ($scope.selectedService === 'overnight') {
+                        $scope.availableArrivalTimes = $scope.availableArrivalTimesOvernight;
+                    } else {
+                        $scope.availableArrivalTimes = ['18:00', '19:00', '20:00'];
+                    }
+                };
+
+                // Foglalás beküldése
+                $scope.submitBooking = function() {
+                    // Itt normál esetben a data-t a szerverre küldenénk
+                    // Példaként csak sikeres üzenetet jelenítünk meg
+                    $scope.successMessage = 'Sikeres foglalás!';
+                    $scope.errorMessage = '';
+                };
+            }]);
+    </script>
+</body>
+</html>

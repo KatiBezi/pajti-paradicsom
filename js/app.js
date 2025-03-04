@@ -42,7 +42,8 @@
       .state('schedule', {
         url: '/schedule',
         parent: 'root',
-        templateUrl: './html/schedule.html'
+        templateUrl: './html/schedule.html',
+        controller: 'scheduleController'
       })
       .state('prices', {
         url: '/prices',
@@ -134,12 +135,60 @@
   .controller('ContactController', [
     '$scope',
     'http',
+    function($scope, http) {
+    }
+    // function sendMessage(event) {
+    //   event.preventDefault(); // Megakadályozza az űrlap alapértelmezett elküldését
+    //   // Itt lehetne a backend hívás, de most csak a felugró ablakot mutatjuk
+    //   alert("Sikeres üzenetküldés!");
+    //   document.getElementById("contactForm").reset(); // Űrlap törlése
+    // }
+  ])
 
-    function sendMessage(event) {
-      event.preventDefault(); // Megakadályozza az űrlap alapértelmezett elküldését
-      // Itt lehetne a backend hívás, de most csak a felugró ablakot mutatjuk
-      alert("Sikeres üzenetküldés!");
-      document.getElementById("contactForm").reset(); // Űrlap törlése
+  .controller('scheduleController', [
+    '$scope',
+    function($scope) {
+      // Kezdeti változók beállítása
+      $scope.selectedService = 'daycare'; // Alapértelmezett szolgáltatás
+      $scope.numberOfPets = 0; // Alapértelmezett állatszám
+      $scope.bookingDate = ''; // Dátum változó
+      $scope.arrivalTime = ''; // Érkezés időpontja
+      $scope.departureTime = ''; // Távozás időpontja
+      $scope.successMessage = ''; // Sikeres üzenet
+      $scope.errorMessage = ''; // Hibaüzenet
+
+      // Elérhető érkezési időpontok
+      $scope.availableArrivalTimes = ['08:00','09:00', '10:00', '11:00', '12:00', '13:00', '14:00', '15:00', '16:00', '17:00'];
+      
+      // Elérhető távozási időpontok
+      $scope.availableDepartureTimes = ['09:00', '10:00', '11:00', '12:00', '13:00', '14:00', '15:00', '16:00', '17:00', '18:00'];
+
+      // Éjszakai szállás esetén elérhető érkezési időpontok
+      $scope.availableArrivalTimesOvernight = ['18:00', '19:00', '20:00'];
+      $scope.availableDepartureTimesOvernight = [ '06:00', '07:00', '08:00'];
+
+      // Időpontok frissítése a szolgáltatás kiválasztásakor
+      $scope.updateTimes = function() {
+          // Időpontok resetelése, ha a szolgáltatás változik
+          $scope.arrivalTime = '';
+          $scope.departureTime = '';
+
+          // Ha éjszakai szállás van kiválasztva, frissítjük az érkezési időpontokat
+          if ($scope.selectedService === 'overnight') {
+              $scope.availableArrivalTimes = $scope.availableArrivalTimesOvernight;
+          } else {
+              $scope.availableArrivalTimes = ['18:00', '19:00', '20:00'];
+          }
+      };
+
+      // Foglalás beküldése
+      $scope.submitBooking = function() {
+          // Itt normál esetben a data-t a szerverre küldenénk
+          // Példaként csak sikeres üzenetet jelenítünk meg
+          $scope.successMessage = 'Sikeres foglalás!';
+          $scope.errorMessage = '';
+      };
+      
     }
   ])
 

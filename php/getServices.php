@@ -5,7 +5,7 @@ declare(strict_types=1);
 require_once("../../common/php/environment.php");
 
 // Set SQL command
-$query = "SELECT `id`, `name`, `description`, `price`, `img` 
+$query = "SELECT `id`, `name`, `description`, `img` 
 					FROM `services`;";
 
 // Connect to MySQL server
