@@ -167,4 +167,41 @@ textarea {
 
 * {box-sizing: border-box}
 
+/*contact form*/
+*.container5 {
+    background-color: #343a40; /* Dark background */
+    padding: 30px;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
 
+h1 {
+    color: #ffffff; /* White text for the heading */
+    margin-bottom: 20px;
+}
+
+.form-control {
+    border: 1px solid #ced4da; /* Light border */
+    border-radius: 5px;
+    padding: 10px;
+    font-size: 16px;
+}
+
+.form-control:focus {
+    border-color: #007bff; /* Blue border on focus */
+    box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
+}
+
+.btn {
+    background-color: #007bff; /* Blue button */
+    color: #ffffff; /* White text for button */
+    border: none;
+    border-radius: 5px;
+    padding: 10px;
+    font-size: 16px;
+    transition: background-color 0.3s;
+}
+
+.btn:hover {
+    background-color: #0056b3; /* Darker blue on hover */
+}

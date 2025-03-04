@@ -1,15 +1,15 @@
-;(function(window, angular) {
+(function(window, angular) {
 
   'use strict';
 
   // Application module
-	angular.module('app', [
-		'ui.router',
+  angular.module('app', [
+    'ui.router',
     'app.common',
-	])
+  ])
 
-	// Application config
-	.config([
+  // Application config
+  .config([
     '$stateProvider', 
     '$urlRouterProvider', 
     function($stateProvider, $urlRouterProvider) {
@@ -28,44 +28,44 @@
           }
         }
       })
-			.state('home', {
-				url: '/',
+      .state('home', {
+        url: '/',
         parent: 'root',
-				templateUrl: './html/home.html'
-			})
+        templateUrl: './html/home.html'
+      })
       .state('services', {
-				url: '/services',
+        url: '/services',
         parent: 'root',
-				templateUrl: './html/services.html',
+        templateUrl: './html/services.html',
         controller: 'serviceController'
-        
-			})
+      })
       .state('schedule', {
-				url: '/schedule',
+        url: '/schedule',
         parent: 'root',
-				templateUrl: './html/schedule.html'
-			})
+        templateUrl: './html/schedule.html'
+      })
       .state('prices', {
-				url: '/prices',
+        url: '/prices',
         parent: 'root',
-				templateUrl: './html/prices.html',
+        templateUrl: './html/prices.html',
         controller: 'pricesController'
-			})
+      })
       .state('gallery', {
-				url: '/gallery',
+        url: '/gallery',
         parent: 'root',
-				templateUrl: './html/gallery.html'
-			})
+        templateUrl: './html/gallery.html'
+      })
       .state('contact', {
-				url: '/contact',
+        url: '/contact',
         parent: 'root',
-				templateUrl: './html/contact.html'
-			})
+        templateUrl: './html/contact.html',
+        controller: 'ContactController'
+      })
       .state('policies', {
-				url: '/policies',
+        url: '/policies',
         parent: 'root',
-				templateUrl: './html/policies.html'
-			})
+        templateUrl: './html/policies.html'
+      })
       .state('login', {
         url: '/login',
         templateUrl: 'login.html', // A login.html fájl
@@ -76,13 +76,12 @@
         templateUrl: 'register.html', // A register.html fájl
         controller: 'RegisterController'
       });
-      
-		
+
       $urlRouterProvider.otherwise('/');
     }
   ])
 
-	// Application run
+  // Application run
   .run([
     function() {
       console.log("Run...");
@@ -105,19 +104,19 @@
   .controller('loginController', [
     '$scope',
     function($scope) {
-      
       const container = document.getElementById('container');
       const registerbtn = document.getElementById('register');
       const loginbtn = document.getElementById('login');
 
-      registerbtn.addEventListener('click', ()=> {
+      registerbtn.addEventListener('click', () => {
           container.classList.add("active"); 
-      })
+      });
 
-      loginbtn.addEventListener('click', ()=> {
+      loginbtn.addEventListener('click', () => {
           container.classList.remove("active"); 
-      })
-  }])
+      });
+    }
+  ])
 
   .controller('pricesController', [
     '$scope',
@@ -130,10 +129,19 @@
       })
       .catch(e => alert(e));
     }
-  ]);
-})
+  ])
+  
+  .controller('ContactController', [
+    '$scope',
+    'http',
 
- 
-      
-	
-(window, angular);
+    function sendMessage(event) {
+      event.preventDefault(); // Megakadályozza az űrlap alapértelmezett elküldését
+      // Itt lehetne a backend hívás, de most csak a felugró ablakot mutatjuk
+      alert("Sikeres üzenetküldés!");
+      document.getElementById("contactForm").reset(); // Űrlap törlése
+    }
+  ])
+
+
+})(window, angular);
