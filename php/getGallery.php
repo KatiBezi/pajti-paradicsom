@@ -14,6 +14,8 @@ $db = new Database();
 // Execute SQL command
 $result = $db->execute($query);
 
+shuffle($result);
+
 // Close connection
 $db = null;
 
