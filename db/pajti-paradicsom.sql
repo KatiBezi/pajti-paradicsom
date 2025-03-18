@@ -3,9 +3,9 @@
 -- https://www.phpmyadmin.net/
 --
 -- Gép: 127.0.0.1
--- Létrehozás ideje: 2025. Feb 27. 18:54
--- Kiszolgáló verziója: 10.4.28-MariaDB
--- PHP verzió: 8.1.17
+-- Létrehozás ideje: 2025. Már 18. 02:05
+-- Kiszolgáló verziója: 10.4.32-MariaDB
+-- PHP verzió: 8.2.12
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -38,13 +38,36 @@ CREATE TABLE `animals` (
 -- --------------------------------------------------------
 
 --
+-- Tábla szerkezet ehhez a táblához `gallery`
+--
+
+CREATE TABLE `gallery` (
+  `id` int(11) NOT NULL,
+  `img` varchar(50) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- A tábla adatainak kiíratása `gallery`
+--
+
+INSERT INTO `gallery` (`id`, `img`) VALUES
+(4, 'dog1.jpg'),
+(5, 'dog2.jpg'),
+(6, 'dog3.jpg'),
+(7, 'dog4.jpg'),
+(8, 'dog5.jpg'),
+(9, 'dog6.jpg');
+
+-- --------------------------------------------------------
+
+--
 -- Tábla szerkezet ehhez a táblához `prices`
 --
 
 CREATE TABLE `prices` (
   `id` int(11) NOT NULL,
   `service_id` int(11) NOT NULL,
-  `type` varchar(50) NOT NULL,
+  `type` varchar(255) NOT NULL,
   `price` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
@@ -53,13 +76,16 @@ CREATE TABLE `prices` (
 --
 
 INSERT INTO `prices` (`id`, `service_id`, `type`, `price`) VALUES
-(1, 3, 'Gazdi fotozás', 500),
-(2, 3, 'Szülinapi', 10),
-(3, 3, 'Pajti', 1000),
-(4, 2, 'Vágás', 4099),
+(1, 3, 'Gazdi fotózás', 2500),
+(2, 3, 'Szülinapi fotózás', 1000),
+(3, 3, 'Pajti fotózás', 2500),
+(4, 2, 'Eü nyírás', 4250),
 (5, 2, 'Fürdetés', 2000),
-(6, 1, 'Napközi', 50000),
-(7, 1, 'Éjszakai', 100000);
+(6, 1, 'Pajti Napközi', 2500),
+(7, 1, 'Pajti Panzió', 10000),
+(8, 2, 'Fürdetés + Szárítás + Eü Nyírás', 9800),
+(9, 2, 'Komplett kozmetikai kezelés (Fésülés, Nyírás)', 12900),
+(10, 2, 'Komplett kozmetikai kezelés (Trimmelés)', 14000);
 
 -- --------------------------------------------------------
 
@@ -124,76 +150,32 @@ ALTER TABLE `animals`
   ADD UNIQUE KEY `owner_id` (`owner_id`);
 
 --
+-- A tábla indexei `gallery`
+--
+ALTER TABLE `gallery`
+  ADD PRIMARY KEY (`id`);
+
+--
 -- A tábla indexei `prices`
 --
 ALTER TABLE `prices`
   ADD PRIMARY KEY (`id`);
 
 --
--- A tábla indexei `schedule`
---
-ALTER TABLE `schedule`
-  ADD PRIMARY KEY (`id`),
-  ADD UNIQUE KEY `animal_id` (`animal_id`),
-  ADD KEY `services_id` (`services_id`);
-
---
--- A tábla indexei `services`
---
-ALTER TABLE `services`
-  ADD PRIMARY KEY (`id`);
-
---
--- A tábla indexei `users`
---
-ALTER TABLE `users`
-  ADD PRIMARY KEY (`id`),
-  ADD UNIQUE KEY `email` (`email`);
-
---
 -- A kiírt táblák AUTO_INCREMENT értéke
 --
 
 --
--- AUTO_INCREMENT a táblához `animals`
+-- AUTO_INCREMENT a táblához `gallery`
 --
-ALTER TABLE `animals`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+ALTER TABLE `gallery`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
 
 --
 -- AUTO_INCREMENT a táblához `prices`
 --
 ALTER TABLE `prices`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
-
---
--- AUTO_INCREMENT a táblához `schedule`
---
-ALTER TABLE `schedule`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
-
---
--- AUTO_INCREMENT a táblához `services`
---
-ALTER TABLE `services`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
-
---
--- AUTO_INCREMENT a táblához `users`
---
-ALTER TABLE `users`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
-
---
--- Megkötések a kiírt táblákhoz
---
-
---
--- Megkötések a táblához `schedule`
---
-ALTER TABLE `schedule`
-  ADD CONSTRAINT `animal_id` FOREIGN KEY (`animal_id`) REFERENCES `animals` (`id`),
-  ADD CONSTRAINT `services_id` FOREIGN KEY (`services_id`) REFERENCES `services` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

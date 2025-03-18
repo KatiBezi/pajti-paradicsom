@@ -1,72 +1,63 @@
 <div class="container">
     <div class="row justify-content-center mt-5">
-        <h2 class="text-center"> Pajti Panzió Árak</h2>
-        <table class="table table-bordered w-auto">
-            <thead>
-                <th>Név</th>
-                <th>Napi Ár (HUF)</th>
+        <h2 class="text-center mb-4">Díjtáblázat</h2>
+        <h2 class="text-center mb-3">Pajti Panzió</h2>
+        <table class="table table-bordered table-striped w-100">
+            <thead class="thead-dark">
+                <tr>
+                    <th class="text-start col-6">Szolgáltatás megnevezése</th>
+                    <th class="text-start col-6">Ár(/megkezdett óra) (HUF)</th>
+                </tr>
             </thead>
             <tbody>
-                <tr ng-repeat="row in prices"
-                    ng-if="row.service_id==1">
-                    <!-- <td class="text-center">{{row.id}}</td> -->
-                    <td class="text-center">{{row.type}}</td>
-                    <td class="text-end">{{row.price}}</td>
+                <tr ng-repeat="row in prices" ng-if="row.service_id==1">
+                    <td class="text-start">{{row.type}}</td>
+                    <td class="text-start">{{row.price}}</td>
                 </tr>
             </tbody>
         </table>
     </div>
 
-    <div class="container">
-        <div class="row justify-content-center mt-5">
-            <h2 class="text-center"> Pajti Kozmetika Árlista</h2>
-            <table class="table table-bordered w-auto">
-                <thead>
-                    <th>Név</th>
-                    <!-- <th>Szolgáltatás</th> -->
-                    <th>Ár (HUF)</th>
-                </thead>
-                <tbody>
-                    <tr ng-repeat="row in prices"
-                        ng-if="row.service_id==2">
-                        <!-- <td class="text-center">{{row.id}}</td> -->
-                        <td class="text-center">{{row.type}}</td>
-                        <td class="text-end">{{row.price}}</td>
+    <div class="row justify-content-center mt-5">
+        <h2 class="text-center mb-3">Pajti Kozmetika</h2>
+        <table class="table table-bordered table-striped w-100">
+            <thead class="thead-dark">
+                <tr>
+                    <th class="text-start col-6">Szolgáltatás megnevezése</th>
+                    <th class="text-start col-6">Ár (HUF)</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr ng-repeat="row in prices" ng-if="row.service_id==2">
+                    <td class="text-start">{{row.type}}</td>
+                    <td class="text-start">{{row.price}}</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
 
-                    </tr>
-                </tbody>
-            </table>
-        </div>
-
-        <div class="container">
-            <div class="row justify-content-center mt-5">
-                <h2 class="text-center"> Pajti Fotózás Árlista</h2>
-                <table class="table table-bordered w-auto">
-                    <thead>
-                        <!-- <th>Név</th> -->
-                        <th>Fotózás témája </th>
-                        <th>Napi Ár (HUF)</th>
-                    </thead>
-                    <tbody>
-                        <tr ng-repeat="row in prices"
-                            ng-if="row.service_id==3">
-                            <!-- <td class="text-center">{{row.id}}</td> -->
-                            <td class="text-end">{{row.type}}</td>
-                            <td class="text-end">{{row.price}}</td>
-    
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
+    <div class="row justify-content-center mt-5">
+        <h2 class="text-center mb-3">Pajti Fotózás</h2>
+        <table class="table table-bordered table-striped w-100">
+            <thead class="thead-dark">
+                <tr>
+                    <th class="text-start col-6">Szolgáltatás megnevezése</th>
+                    <th class="text-start col-6">Ár (HUF)</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr ng-repeat="row in prices" ng-if="row.service_id==3">
+                    <td class="text-start">{{row.type}}</td>
+                    <td class="text-start">{{row.price}}</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
 
     <div class="row justify-content-center my-5">
-        <h3 class="text-center">
-            Válaszd ki a kedvenc csomagodat, és örökítsd meg kedvenced legszebb pillanatait!
-        </h3>
+        <h3 class="text-center">Válaszd ki a kedvenc csomagodat, és örökítsd meg kedvenced legszebb pillanatait!</h3>
         <h6 class="text-center mt-3">
-            <a class="nav-link" ui-sref="schedule">
-                📩 Foglalj időpontot most! ✨
-            </a>
+            <a class="nav-link" ui-sref="schedule"> Foglalj időpontot most! ✨</a>
         </h6>
     </div>
 </div>

@@ -54,13 +54,14 @@
       .state('gallery', {
         url: '/gallery',
         parent: 'root',
-        templateUrl: './html/gallery.html'
+        templateUrl: './html/gallery.html',
+        controller: 'galleryController'
       })
       .state('contact', {
         url: '/contact',
         parent: 'root',
         templateUrl: './html/contact.html',
-        controller: 'ContactController'
+        controller: 'contactController'
       })
       .state('policies', {
         url: '/policies',
@@ -70,12 +71,12 @@
       .state('login', {
         url: '/login',
         templateUrl: 'login.html', // A login.html fájl
-        controller: 'LoginController'
+        controller: 'loginController'
       })
       .state('register', {
         url: '/register',
         templateUrl: 'register.html', // A register.html fájl
-        controller: 'RegisterController'
+        controller: 'registerController'
       });
 
       $urlRouterProvider.otherwise('/');
@@ -101,6 +102,19 @@
       .catch(e => console.log(e));
     }
   ])
+  .controller('galleryController', [
+    '$scope',
+    'http',
+    function($scope, http) {
+      http.request('./php/getGallery.php')
+      .then(response => {
+        $scope.gallery = response;
+        $scope.$applyAsync();
+      })
+      .catch(e => console.log(e));
+    }
+  ])
+
   
   .controller('loginController', [
     '$scope',
@@ -132,7 +146,7 @@
     }
   ])
   
-  .controller('ContactController', [
+  .controller('contactController', [
     '$scope',
     'http',
     function($scope, http) {
