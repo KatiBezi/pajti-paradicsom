@@ -2,25 +2,61 @@
     <div class="row justify-content-center mt-5">
         <h1 class="text-center mb-3">Kapcsolatfelvételi Űrlap</h1>
     </div>
-    <div class="row justify-content-center mt-5">
-        <form class="col-md-8 col-lg-6"> 
+    <div class="row justify-content-center mt-5" ng-app="contactApp" ng-controller="ContactController">
+        <form class="col-md-8 col-lg-6" ng-submit="submitForm()"> 
             <div class="mb-3">
-                <label for="name" class="form-label">Név:</label>
-                <input type="text" class="form-control" id="name"> 
+                <label for="name" 
+                class="form-label">Név:</label>
+                <input type="text" 
+                class="form-control" 
+                id="name" 
+                ng-model="contact.name" required> 
             </div>
             <div class="mb-3">
-                <label for="email" class="form-label">Email:</label>
-                <input type="email" class="form-control" id="email">
+                <label for="email" 
+                class="form-label">Email:</label>
+                <input type="email" 
+                class="form-control" 
+                id="email" 
+                ng-model="contact.email" required>
             </div>
             <div class="mb-3">
-                <label for="message" class="form-label">Üzenet:</label>
-                <textarea class="form-control" id="message" rows="5"></textarea> 
+                <label for="message" 
+                class="form-label">Üzenet:</label>
+                <textarea class="form-control" 
+                id="message" 
+                ng-model="contact.message" 
+                rows="5" required></textarea> 
             </div>
             <div class="mb-3">
-                <button type="button" class="btn btn-success">Küldés</button>
+                <button type="submit" 
+                class="btn btn-success">Küldés</button>
             </div>
         </form>
     </div>
+        </form>
+    </div>
+    <div id="carouselExampleAutoplaying" class="carousel slide" data-bs-ride="carousel">  
+      <div class="carousel-inner">
+        <div class="carousel-item active">
+          <img src="./media/image/slide_dog1.jpg" class="cover-photo"  alt="dog_1">
+        </div>
+        <div class="carousel-item">
+          <img src="./media/image/slide_cat1.jpg" class="cover-photo" alt="cat_1">
+        </div>
+        <div class="carousel-item">
+          <img src="./media/image/slide_dog2.jpg" class="cover-photo" alt="dog_2">
+        </div>
+      </div>
+      <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleAutoplaying" data-bs-slide="prev">
+        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+        <span class="visually-hidden">Előző</span>
+      </button>
+      <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleAutoplaying" data-bs-slide="next">
+        <span class="carousel-control-next-icon" aria-hidden="true"></span>
+        <span class="visually-hidden">Következő</span>
+      </button>
+    </div>  
 </div>
 
 
