@@ -3,30 +3,16 @@
         <a class="navbar-brand" ui-sref="home">
             <img src="./media/image/logo.jpg" alt="Pajti Paradicsom Logó" class="img-fluid" style="max-height: 100px;">
         </a>
-        <button
-            class="navbar-toggler"
-            type="button"
-            data-bs-toggle="collapse"
-            data-bs-target="#navbarScroll"
-            aria-controls="navbarScroll"
-            aria-expanded="false"
-            aria-label="Toggle navigation"
-        >
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarScroll" aria-controls="navbarScroll" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>
         <div class="collapse navbar-collapse" id="navbarScroll">
-            <ul
-                class="navbar-nav me-auto my-2 my-lg-0 navbar-nav-scroll"
-                style="--bs-scroll-height: 100px"
-            >
+            <ul class="navbar-nav me-auto my-2 my-lg-0 navbar-nav-scroll" style="--bs-scroll-height: 100px">
                 <li class="nav-item">
                     <a class="nav-link" ui-sref="services" ui-sref-active="active">Szolgáltatásaink</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" ui-sref="prices" ui-sref-active="active">Áraink</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" ui-sref="schedule" ui-sref-active="active">Időpontfoglalás</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" ui-sref="gallery" ui-sref-active="active">Galéria</a>
@@ -37,7 +23,21 @@
                 <li class="nav-item">
                     <a class="nav-link" ui-sref="contact" ui-sref-active="active">Kapcsolat</a>
                 </li>
+                <li class="nav-item">
+                    <a class="nav-link" ui-sref="schedule" ng-if="headerController.authService.isLoggedIn()" ui-sref-active="active">Időpontfoglalás</a>
+                </li>
             </ul>
+            <div class="d-flex">
+                <a class="btn btn-dark text-white me-2" ui-sref="login" ng-if="!headerController.authService.isLoggedIn()" ui-sref-active="active">
+                    <strong>Bejelentkezés</strong>
+                </a>
+                <a class="btn btn-info text-dark" ui-sref="register" ng-if="!headerController.authService.isLoggedIn()" ui-sref-active="active">
+                    <strong>Regisztráció</strong>
+                </a>
+                <a class="btn btn-danger text-white" ng-click="headerController.authService.logout()" ng-if="headerController.authService.isLoggedIn()">
+                    <strong>Kijelentkezés</strong>
+                </a>
+            </div>
         </div>
     </div>
 </nav>

@@ -1,47 +1,31 @@
 <?php
-declare(strict_types=1);
+// Adatbázis-kapcsolat létrehozása
+$conn = new mysqli('localhost', 'root', '', 'pajti-paradicsom');
 
-// Include environment
-require_once("./environment.php");
+// Hibakezelés
+if ($conn->connect_error) {
+    die(json_encode(['success' => false, 'error' => 'Adatbázis kapcsolat hiba: ' . $conn->connect_error]));
+}
 
-// Get arguments
-$args = Util::getArgs();
+// Adatok fogadása JSON formátumban
+$data = json_decode(file_get_contents('php://input'), true);
 
-// Set SQL command
-$query = "SELECT 	`id`,
-									`type`,
-									`first_name`,
-									`middle_name`,
-									`last_name`,
-									`gender`,
-									`password` 
-						 FROM `users` 
-						WHERE `email` = ? AND
-									`valid` = 1
-						LIMIT 1";
+if ($data) {
+    // Felhasználónév és jelszó ellenőrzése
+    $sql = "SELECT * FROM users WHERE username = ? AND password = ?"; // Jelszó ellenőrzés
+    $stmt = $conn->prepare($sql);
+    $stmt->bind_param("ss", $data['username'], $data['password']);
+    $stmt->execute();
+    $result = $stmt->get_result();
 
-// Connect to MySQL server
-$db = new Database();
+    if ($result->num_rows > 0) {
+        echo json_encode(['success' => true]); // Sikeres bejelentkezés
+    } else {
+        echo json_encode(['success' => false, 'error' => 'Hibás felhasználónév vagy jelszó!']);
+    }
 
-// Execute SQL command
-$result = $db->execute($query, array($args['email']));
+    $stmt->close();
+}
 
-// Close connection
-$db = null;
-
-// Check result
-if (is_null($result))
-	Util::setError("A felhasználó nem létezik ezen az e-mail címen!");
-
-// Simplifying the result
-$result = $result[0];
-
-// Check password
-if ($result['password'] !== $args['password'])
-	Util::setError("Helytelen jelszó!");
-
-// Remove password property
-unset($result['password']);
-
-// Ser response
-Util::setResponse($result);
+$conn->close();
+?>

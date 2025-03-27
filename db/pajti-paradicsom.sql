@@ -27,12 +27,14 @@ SET time_zone = "+00:00";
 -- Tábla szerkezet ehhez a táblához `animals`
 --
 
-CREATE TABLE `animals` (
-  `id` int(11) NOT NULL,
-  `name` varchar(255) NOT NULL,
-  `type` varchar(255) NOT NULL,
-  `date_of_birth` date NOT NULL,
-  `owner_id` int(11) NOT NULL
+CREATE TABLE `pets` (
+    `id` INT AUTO_INCREMENT PRIMARY KEY,
+    `user_id` INT NOT NULL,
+    `name` VARCHAR(50) NOT NULL,
+    `type` VARCHAR(50) NOT NULL,
+    `age` INT NOT NULL,
+    `description` TEXT,
+    FOREIGN KEY (`user_id`) REFERENCES `users`(`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
@@ -129,15 +131,14 @@ INSERT INTO `services` (`id`, `name`, `description`, `img`) VALUES
 --
 -- Tábla szerkezet ehhez a táblához `users`
 --
-
 CREATE TABLE `users` (
-  `id` int(11) NOT NULL,
-  `name` varchar(255) NOT NULL,
-  `email` varchar(255) NOT NULL,
-  `phone_number` varchar(20) NOT NULL,
-  `cim` varchar(255) NOT NULL
+    `id` INT AUTO_INCREMENT PRIMARY KEY,
+    `username` VARCHAR(50) NOT NULL,
+    `email` VARCHAR(100) NOT NULL UNIQUE,
+    `password` VARCHAR(255) NOT NULL, -- Hash-elt jelszó
+    `phone` VARCHAR(20)
+  
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
 --
 -- Indexek a kiírt táblákhoz
 --

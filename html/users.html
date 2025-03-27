@@ -1,0 +1,77 @@
+<div class="container mt-5">
+    <div class="row">
+        <div class="col-md-6">
+            
+
+            <div class="card mb-4">
+                <div class="card-body">
+                    <h5 class="card-title">Felhasználói adatok</h5>
+                    <p class="card-text"><strong>Felhasználónév:</strong> {{ user.username }}</p>
+                    <p class="card-text"><strong>Email cím:</strong> {{ user.email }}</p>
+                    <p class="card-text"><strong>Telefonszám:</strong> {{ user.phone }}</p>
+                </div>
+            </div>
+
+            <div class="card mb-4">
+                <div class="card-body">
+                    <h5 class="card-title">Regisztrált kisállatok</h5>
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th>Név</th>
+                                <th>Típus</th>
+                                <th>Kor</th>
+                                <th>Leírás</th>
+                                <th>Műveletek</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr ng-repeat="pet in registeredPets">
+                                <td>{{ pet.name }}</td>
+                                <td>{{ pet.type }}</td>
+                                <td>{{ pet.age }}</td>
+                                <td>{{ pet.description }}</td>
+                                <td>
+                                    <button class="btn btn-sm btn-primary" ng-click="editPet(pet)">Szerkesztés</button>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+      <div class="col-md-6">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">Kisállat regisztráció</h5>
+                    <form name="petForm" ng-submit="submitPetForm()" novalidate>
+                        <div class="mb-3">
+                            <label for="petName" class="form-label">Kisállat neve</label>
+                            <input type="text" class="form-control" id="petName" ng-model="pet.name" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="petType" class="form-label">Kisállat típusa</label>
+                            <select class="form-control" id="petType" ng-model="pet.type" required>
+                                <option value="kutya">Kutya</option>
+                                <option value="macska">Macska</option>
+                                <option value="egyéb">Egyéb</option>
+                            </select>
+                        </div>
+                        <div class="mb-3">
+                            <label for="petAge" class="form-label">Kisállat kora</label>
+                            <input type="number" class="form-control" id="petAge" ng-model="pet.age" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="petDescription" class="form-label">Leírás</label>
+                            <textarea class="form-control" id="petDescription" ng-model="pet.description" rows="3" placeholder="pl. Kisállat fajtája, egyéb fontos tudnivalók"></textarea>
+                        </div>
+                        <div class="d-grid">
+                            <button type="submit" class="btn btn-primary" ng-disabled="petForm.$invalid">Kisállat regisztrálása</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

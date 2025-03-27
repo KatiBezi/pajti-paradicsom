@@ -2,29 +2,13 @@
 declare(strict_types=1);
 
 // Include environment
-require_once("./environment.php");
+require_once("./common/php/environment.php");
 
 // Get arguments
 $args = Util::getArgs();
 
 // Set SQL command
-$query ="SELECT `born`, 
-								BASE64_ENCODE(`img`) AS `img`,
-								`img_type`,
-								`country`, 
-								`country_code`, 
-								`phone`, 
-								`city`, 
-								`postcode`, 
-								`address`, 
-								`year`, 
-								`profession`, 
-								`class`
-					 FROM `users` 
-					WHERE `id` = :id AND
-								`valid` = 1
-					LIMIT 1";
-
+$query ="SELECT username, email, phone FROM users WHERE id = ?";
 // Connect to MySQL server
 $db = new Database();
 
