@@ -12,17 +12,30 @@ $data = json_decode(file_get_contents('php://input'), true);
 
 if ($data) {
     // Felhasználónév és jelszó ellenőrzése
-    $sql = "SELECT * FROM users WHERE username = ? AND password = ?"; // Jelszó ellenőrzés
+    $sql = "SELECT id, username FROM users WHERE username = ? AND password = ?"; // Jelszó ellenőrzés
     $stmt = $conn->prepare($sql);
     $stmt->bind_param("ss", $data['username'], $data['password']);
     $stmt->execute();
     $result = $stmt->get_result();
 
-    if ($result->num_rows > 0) {
-        echo json_encode(['success' => true]); // Sikeres bejelentkezés
-    } else {
-        echo json_encode(['success' => false, 'error' => 'Hibás felhasználónév vagy jelszó!']);
-    }
+ 
+if ($result->num_rows > 0) {
+    $user = $result->fetch_assoc();
+
+    // Session indítása
+    session_start();
+
+    // Session változók beállítása
+    $_SESSION['user_id'] = $user['id'];
+    $_SESSION['username'] = $user['username'];
+
+    // Ide kell beilleszteni a kódrészletet
+    $response = array('success' => true, 'user_id' => $user['id']);
+
+    echo json_encode($response); // Sikeres bejelentkezés
+} else {
+    echo json_encode(['success' => false, 'error' => 'Hibás felhasználónév vagy jelszó!']);
+}
 
     $stmt->close();
 }

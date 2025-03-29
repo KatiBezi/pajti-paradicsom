@@ -1,9 +1,8 @@
 <?php
-session_start(); // Session indítása
-
-// Session törlése
-session_unset();
+session_start();
+unset($_SESSION['user_id']);
+unset($_SESSION['username']);
 session_destroy();
-
-echo json_encode(['success' => true]);
+header("Location: index.php");
+exit; // Hozzáadva az exit utasítás
 ?>

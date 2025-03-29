@@ -15,11 +15,15 @@ if ($conn->connect_error) {
     exit;
 }
 
-$stmt = $conn->prepare("INSERT INTO pets (name, type, age, description, user_id) VALUES (?, ?, ?, ?, ?)");
-$stmt->bind_param("ssisi", $data->name, $data->type, $data->age, $data->description, $_SESSION['user_id']);
+$stmt = $conn->prepare("UPDATE pets SET name = ?, type = ?, age = ?, description = ? WHERE id = ? AND user_id = ?");
+$stmt->bind_param("ssisii", $data->name, $data->type, $data->age, $data->description, $data->id, $_SESSION['user_id']);
 
 if ($stmt->execute()) {
-    echo json_encode(['success' => true]);
+    if ($stmt->affected_rows > 0) {
+        echo json_encode(['success' => true]);
+    } else {
+        echo json_encode(['success' => false, 'error' => 'A kisállat nem található, vagy nem a felhasználóhoz tartozik!']);
+    }
 } else {
     echo json_encode(['success' => false, 'error' => 'Adatbázis hiba: ' . $stmt->error]);
 }

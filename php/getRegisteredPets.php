@@ -13,17 +13,17 @@ if ($conn->connect_error) {
     exit;
 }
 
-$stmt = $conn->prepare("SELECT username, email, phone FROM users WHERE id = ?");
+$stmt = $conn->prepare("SELECT id, name, type, age, description FROM pets WHERE user_id = ?");
 $stmt->bind_param("i", $_SESSION['user_id']);
 $stmt->execute();
 $result = $stmt->get_result();
 
-if ($result->num_rows > 0) {
-    $user = $result->fetch_assoc();
-    echo json_encode(['success' => true, 'user' => $user]);
-} else {
-    echo json_encode(['success' => false, 'error' => 'Felhasználó nem található!']);
+$pets = [];
+while ($row = $result->fetch_assoc()) {
+    $pets[] = $row;
 }
+
+echo json_encode(['success' => true, 'pets' => $pets]);
 
 $stmt->close();
 $conn->close();

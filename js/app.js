@@ -106,31 +106,55 @@
   
     .factory('authService', ['$http', '$state', function($http, $state) {
         var isLoggedIn = false;
-        var userId = null; // Felhasználó azonosítója
+        var userId = null;
     
         return {
             isLoggedIn: function() {
                 return isLoggedIn;
             },
-            login: function(userId) {
+            login: function(id) { // paraméterként átvesszük az id-t
                 isLoggedIn = true;
-                this.userId = userId; // Felhasználó azonosítójának tárolása
+                userId = id;
             },
             logout: function() {
                 isLoggedIn = false;
-                this.userId = null; // Felhasználó azonosítójának törlése
+                userId = null;
                 $state.go('home');
+                return;
             },
             getUserId: function() {
-                return this.userId; // Felhasználó azonosítójának visszaadása
+                return userId;
             }
         };
     }])
-    .controller('headerController', ['authService', function(authService) {
-      var vm = this;
-      vm.authService = authService;
-  }])
-
+    .controller('headerController', ['authService', '$scope', '$http', function(authService, $scope, $http) {
+        var vm = this;
+        vm.authService = authService;
+        $scope.isLoggedIn = authService.isLoggedIn();
+        $scope.successMessage = '';
+    
+        $scope.$watch(function() {
+            return authService.isLoggedIn();
+        }, function(newValue, oldValue) {
+            if (newValue !== oldValue) {
+                $scope.isLoggedIn = newValue;
+            }
+        })
+    
+        $scope.logout = function() {
+            $http.get('./php/logout.php') // logout.php hívása
+                .then(function(response) {
+                    authService.logout();
+                    $scope.successMessage = 'Sikeres kijelentkezés!';
+                    setTimeout(function() {
+                        $scope.successMessage = '';
+                    }, 3000);
+                })
+                .catch(function(error) {
+                    console.error('Hiba a kijelentkezés során:', error);
+                });
+        };
+    }])
   .controller('serviceController', [
       '$scope',
       'http',
@@ -212,9 +236,9 @@
                 .then(function(response) {
                     if (response.data.success) {
                         $scope.successMessage = 'Sikeres bejelentkezés!';
-                        authService.login(); // authService login meghívása
+                        authService.login(response.data.user_id); // Felhasználó azonosító átadása
                         setTimeout(function() {
-                            $state.go('users'); // átirányítás
+                            $state.go('users');
                         }, 500);
                     } else {
                         $scope.errorMessage = response.data.error;
@@ -230,68 +254,180 @@
 }])
 
 .controller('usersController', ['$scope', '$http', '$state', 'authService', function($scope, $http, $state, authService) {
-    // Felhasználói adatok lekérése
+    $scope.user = {};
+    $scope.registeredPets = [];
+    $scope.errorMessage = '';
+    $scope.successMessage = '';
+    $scope.editPetData = {};
+    $scope.isEditing = false;
+
     $scope.loadUserData = function() {
         $http.get('./php/getUserData.php', {
             params: {
-                user_id: authService.getUserId() // Felhasználó azonosítója
+                user_id: authService.getUserId()
             }
         })
         .then(function(response) {
             if (response.data.success) {
                 $scope.user = response.data.user;
+                $scope.errorMessage = '';
             } else {
-                alert('Hiba történt az adatok lekérése során: ' + response.data.error);
+                $scope.errorMessage = 'Hiba történt az adatok lekérése során: ' + response.data.error;
             }
         })
         .catch(function(error) {
-            alert('Hiba történt az adatok lekérése során.');
+            $scope.errorMessage = 'Hiba történt az adatok lekérése során.';
         });
     };
 
-    // Felhasználói adatok frissítése
+    $scope.loadRegisteredPets = function() {
+        $http.get('./php/getRegisteredPets.php', {
+            params: {
+                user_id: authService.getUserId()
+            }
+        })
+        .then(function(response) {
+            if (response.data.success) {
+                $scope.registeredPets = response.data.pets;
+                $scope.errorMessage = '';
+            } else {
+                $scope.errorMessage = 'Hiba történt a kisállatok lekérése során: ' + response.data.error;
+            }
+        })
+        .catch(function(error) {
+            $scope.errorMessage = 'Hiba történt a kisállatok lekérése során.';
+        });
+    };
     $scope.updateUser = function() {
         if ($scope.userForm.$valid) {
-            $http.post('./php/updateUser.php', $scope.user)
-                .then(function(response) {
-                    if (response.data.success) {
-                        alert('Felhasználói adatok sikeresen frissítve!');
-                    } else {
-                        alert('Hiba történt a frissítés során: ' + response.data.error);
-                    }
-                })
-                .catch(function(error) {
-                    alert('Hiba történt a frissítés során.');
-                });
-        } else {
-            alert('Kérjük, töltsd ki az összes mezőt helyesen!');
-        }
-    };
-
-    // Felhasználó törlése
-    $scope.deleteUser = function() {
-        if (confirm('Biztosan törölni szeretnéd a felhasználói fiókod?')) {
-            $http.post('./php/deleteUser.php', {
-                user_id: authService.getUserId() // Felhasználó azonosítója
+            $http.post('./php/updateUserData.php', {
+                username: $scope.user.username,
+                email: $scope.user.email,
+                phone: $scope.user.phone
             })
             .then(function(response) {
                 if (response.data.success) {
-                    authService.logout(); // Kijelentkeztetés
-                    $state.go('home'); // Átirányítás a kezdőlapra
+                    console.log('Felhasználói adatok sikeresen frissítve!');
+                    $scope.successMessage = 'Felhasználói adatok sikeresen frissítve!'; // Visszajelzés a felhasználónak
+                    $scope.errorMessage = ''; // Hibaüzenet törlése
                 } else {
-                    alert('Hiba történt a törlés során: ' + response.data.error);
+                    console.error('Hiba a frissítés során:', response.data.error);
+                    $scope.errorMessage = 'Hiba történt a frissítés során: ' + response.data.error; // Hibaüzenet megjelenítése a felhasználónak
+                    $scope.successMessage = ''; // Sikeres üzenet törlése
                 }
             })
             .catch(function(error) {
-                alert('Hiba történt a törlés során.');
+                console.error('Hiba a frissítés során:', error);
+                $scope.errorMessage = 'Hiba történt a frissítés során.'; // Hibaüzenet megjelenítése a felhasználónak
+                $scope.successMessage = ''; // Sikeres üzenet törlése
+            });
+        } else {
+            $scope.errorMessage = 'Kérjük, töltsd ki az összes mezőt helyesen!'; // Hibaüzenet megjelenítése a felhasználónak
+            $scope.successMessage = ''; // Sikeres üzenet törlése
+        }
+    };
+
+    $scope.deleteUser = function() {
+        if (!authService.isLoggedIn()) {
+            $scope.errorMessage = 'Nem vagy bejelentkezve. Kérlek, jelentkezz be a fiók törléséhez.';
+            return;
+        }
+
+        if (confirm('Biztosan törölni szeretnéd a felhasználói fiókod? Ez a művelet a regisztrált kisállataidat is törölni fogja.')) {
+            $http.post('./php/deleteUser.php', {
+                user_id: authService.getUserId()
+            })
+            .then(function(response) {
+                if (response.data.success) {
+                    authService.logout();
+                    $state.go('home');
+                } else {
+                    $scope.errorMessage = 'Hiba történt a törlés során: ' + response.data.error;
+                }
+            })
+            .catch(function(error) {
+                $scope.errorMessage = 'Hiba történt a törlés során.';
             });
         }
     };
 
-    // Felhasználói adatok betöltése
+    $scope.enableEdit = function() {
+        $scope.isEditing = true;
+    };
+
+    $scope.disableEdit = function() {
+        $scope.isEditing = false;
+    };
+
+    $scope.editPet = function(pet) {
+        $scope.editPetData = angular.copy(pet);
+        $scope.isEditing = true;
+    };
+
+    $scope.saveEditPet = function() {
+        $http.post('./php/updatePetData.php', $scope.editPetData)
+            .then(function(response) {
+                if (response.data.success) {
+                    $scope.successMessage = 'Kisállat adatai sikeresen frissítve!';
+                    $scope.errorMessage = '';
+                    $scope.loadRegisteredPets();
+                    $scope.isEditing = false;
+                } else {
+                    $scope.errorMessage = 'Hiba történt a frissítés során: ' + response.data.error;
+                    $scope.successMessage = '';
+                }
+            })
+            .catch(function(error) {
+                $scope.errorMessage = 'Hiba történt a frissítés során.';
+                $scope.successMessage = '';
+            });
+    };
+
+    $scope.deletePet = function(petId) {
+        $http.delete('./php/deletePet.php?id=' + petId)
+            .then(function(response) {
+                if (response.data.success) {
+                    $scope.successMessage = 'Kisállat sikeresen törölve!';
+                    $scope.errorMessage = '';
+                    $scope.loadRegisteredPets(); // Kisállatok lista frissítése
+                } else {
+                    $scope.errorMessage = 'Hiba történt a törlés során: ' + response.data.error;
+                    $scope.successMessage = '';
+                }
+            })
+            .catch(function(error) {
+                $scope.errorMessage = 'Hiba történt a törlés során.';
+                $scope.successMessage = '';
+            });
+    };
+    $scope.newPet = {};
+         $scope.registrationSuccess = false; // Új változó a sikeres regisztráció jelzésére
+
+        $scope.registerPet = function() {
+        $http.post('./php/registerPet.php', $scope.newPet)
+        .then(function(response) {
+            if (response.data.success) {
+                $scope.successMessage = '';
+                $scope.errorMessage = '';
+                $scope.loadRegisteredPets();
+                $scope.newPet = {};
+                $scope.registrationSuccess = true; // Sikeres regisztráció jelzése
+                // Sikeres regisztráció üzenet eltüntetése 3 másodperc után
+                setTimeout(function() {
+                    $scope.registrationSuccess = false;
+                }, 3000);
+            } else {
+                $scope.errorMessage = 'Hiba történt a regisztráció során: ' + response.data.error;
+                $scope.successMessage = '';
+            }
+        })
+        .catch(function(error) {
+            $scope.errorMessage = 'Hiba történt a regisztráció során.';
+            $scope.successMessage = '';
+        });
+    };
+
     $scope.loadUserData();
-}])
-
-
-
+    $scope.loadRegisteredPets();
+}]);
 })(window, angular);
