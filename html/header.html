@@ -1,4 +1,4 @@
-<nav class="navbar navbar-expand-lg bg-body-tertiary">
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top"> <!-- Added fixed-top and changed to dark -->
     <div class="container-fluid">
         <a class="navbar-brand" ui-sref="home">
             <img src="./media/image/logo.jpg" alt="Pajti Paradicsom Logó" class="img-fluid" style="max-height: 100px;">
@@ -26,26 +26,21 @@
                 <li class="nav-item">
                     <a class="nav-link" ui-sref="schedule" ng-if="isLoggedIn" ui-sref-active="active">Időpontfoglalás</a>
                 </li>
-                </ul>
-                <div class="d-flex">
-                    <a class="btn btn-dark text-white me-2" ui-sref="login" ng-if="!isLoggedIn" ui-sref-active="active">
-                        <strong>Bejelentkezés</strong>
-                    </a>
-                    <a class="btn btn-info text-dark" ui-sref="register" ng-if="!isLoggedIn" ui-sref-active="active">
-                        <strong>Regisztráció</strong>
-                    </a>
-                    <a class="btn btn-primary text-white me-2" ui-sref="users" ng-if="isLoggedIn" ui-sref-active="active">
-                        <strong>Felhasználó</strong>
-                    </a>
-                    <a class="btn btn-danger text-white" ng-if="isLoggedIn" ng-click="logout()">
+            </ul>
+            <div class="d-flex">
+                <a class="btn btn-warning text-dark me-2" ui-sref="login" ng-if="!isLoggedIn" ui-sref-active="active">
+                    <strong>Bejelentkezés</strong>
+                </a>
+                <a class="btn btn-dark text-white" ui-sref="register" ng-if="!isLoggedIn" ui-sref-active="active">
+                    <strong>Regisztráció</strong>
+                </a>
+                <a class="btn btn-primary text-white me-2" ui-sref="users" ng-if="isLoggedIn" ui-sref-active="active">
+                    <strong>Felhasználó</strong>
+                </a>
+                <a class="btn btn-danger text-white" ng-if="isLoggedIn" ng-click="logout()">
                     <strong>Kijelentkezés</strong>
                     <p ng-if="successMessage">{{ successMessage }}</p>
-                    </a>
-                 
-								</span>
-							</a>
-						</li>
-                </div>
+                </a>
             </div>
         </div>
     </div>

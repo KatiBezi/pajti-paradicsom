@@ -1,27 +1,40 @@
 <?php
-// Ellenőrizzük, hogy a kérés POST módszerrel érkezett-e
-if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    // Az űrlap mezőiből származó adatok ellenőrzése és tisztítása
-    // htmlspecialchars: megakadályozza a HTML kódok végrehajtását az adatokban
-    // trim: eltávolítja a felesleges szóközöket a mezők elejéről és végéről
-    $name = htmlspecialchars(trim($_POST['name'])); // Név
-    $email = htmlspecialchars(trim($_POST['email'])); // Email cím
-    $message = htmlspecialchars(trim($_POST['message'])); // Üzenet
+declare(strict_types=1);
 
-    // Itt lehetne az üzenet küldése (pl. email) vagy adatbázisba mentés
-    // Például a mail() függvény használatával:
-    // $to = "recipient@example.com"; // Címzett email címe
-    // $subject = "Új üzenet a kapcsolatfelvételi űrlapról"; // Tárgy
-    // $headers = "From: " . $email; // Fejlécek, például a feladó email címe
-    // mail($to, $subject, $message, $headers); // Az email küldése
+// Include environment
+require_once("../../common/php/environment.php");
 
-    // Sikeres üzenetküldés üzenet
-    // JavaScript alert() függvény: felugró ablakot jelenít meg a felhasználónak
-    // window.location.href: átirányítja a felhasználót az index.html oldalra
-    echo "<script>alert('Sikeres üzenetküldés!'); window.location.href='index.html';</script>";
+// Get data from POST request (assuming JSON format)
+$data = json_decode(file_get_contents('php://input'), true);
+
+// Check if data is valid
+if (!isset($data['name']) || !isset($data['email']) || !isset($data['message'])) {
+    Util::setResponse(['success' => false, 'error' => 'Hiányzó adatok.']);
+    exit;
+}
+
+// Sanitize data
+$name = $data['name'];
+$email = $data['email'];
+$message = $data['message'];
+$submission_date = date('Y-m-d H:i:s'); // Aktuális időpont formázva
+
+// Set SQL command
+$query = "INSERT INTO `contact` (`name`, `email`, `message`, `submission_date`) VALUES (?, ?, ?, ?);";
+
+// Connect to MySQL server
+$db = new Database();
+
+// Execute SQL command with prepared statement
+$result = $db->execute($query, [$name, $email, $message, $submission_date]);
+
+// Close connection
+$db = null;
+
+// Set response
+if ($result) {
+    Util::setResponse(['success' => true]); // Javítás: mindig adjuk vissza a success tulajdonságot
 } else {
-    // Ha a kérés nem POST módszerrel érkezett, irányítsuk vissza az űrlapra
-    header("Location: index.html"); // Átirányítás az index.html oldalra
-    exit(); // Megakadályozza a további kód végrehajtását
+    Util::setResponse(['success' => false, 'error' => 'Hiba az adatbázisba írás során.']);
 }
 ?>

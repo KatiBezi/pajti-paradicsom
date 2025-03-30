@@ -21,11 +21,14 @@ SET time_zone = "+00:00";
 -- Adatbázis: `pajti-paradicsom`
 --
 
--- --------------------------------------------------------
-
 --
--- Tábla szerkezet ehhez a táblához `animals`
---
+CREATE TABLE `users` (
+    `id` INT AUTO_INCREMENT PRIMARY KEY,
+    `username` VARCHAR(50) NOT NULL,
+    `email` VARCHAR(100) NOT NULL UNIQUE,
+    `password` VARCHAR(255) NOT NULL,
+    `phone` VARCHAR(20)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 CREATE TABLE `pets` (
     `id` INT AUTO_INCREMENT PRIMARY KEY,
@@ -126,31 +129,14 @@ INSERT INTO `services` (`id`, `name`, `description`, `img`) VALUES
 (2, 'Pajti kozmetika', 'Az okosság és intelligencia, illedelmesség, kedvesség, szófogadóság, szeretőképesség már-már minden olyan kvalitás, amivel rendelkezhet négylábú társunk! Mindezek mellett azonban nem szabad megfeledkeznünk szépségükről, ápoltságukról sem – ami nekünk első ránézésére talán csak esztétika, kutyusunknak jóérzés és egészség!', 'foto1.jpg'),
 (3, 'Pajti fotózás', 'Nálunk a fotózás nem csak a gép kattintásairól szól, hanem sokkal inkább egy közös alkotásról, egy felejthetetlen élményről, érzékeny lelkű kutyáknak és gazdáiknak. Egy letisztult stílusú, élményorientált fotózáson várunk rád, ahol nincs helye a kényszernek, nincsenek megjátszott Instagram-képek, és nincsenek elvárások sem a gazditól, sem a kutyától.', 'foto.jpg');
 
--- --------------------------------------------------------
+CREATE TABLE contact (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    name VARCHAR(255) NOT NULL,
+    email VARCHAR(255) NOT NULL,
+    message TEXT NOT NULL,
+    submission_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
 
---
--- Tábla szerkezet ehhez a táblához `users`
---
-CREATE TABLE `users` (
-    `id` INT AUTO_INCREMENT PRIMARY KEY,
-    `username` VARCHAR(50) NOT NULL,
-    `email` VARCHAR(100) NOT NULL UNIQUE,
-    `password` VARCHAR(255) NOT NULL, -- Hash-elt jelszó
-    `phone` VARCHAR(20)
-  
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
---
--- Indexek a kiírt táblákhoz
---
-
---
--- A tábla indexei `animals`
---
-ALTER TABLE `animals`
-  ADD PRIMARY KEY (`id`),
-  ADD UNIQUE KEY `owner_id` (`owner_id`);
-
---
 -- A tábla indexei `gallery`
 --
 ALTER TABLE `gallery`
@@ -178,6 +164,7 @@ ALTER TABLE `gallery`
 ALTER TABLE `prices`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
 COMMIT;
+
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;

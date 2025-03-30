@@ -1,3 +1,36 @@
 .contact-form form {
 	min-width: 400px;
 }
+/* app.css */
+body {
+	position: relative; /* Szükséges a pszeudo-elem pozicionálásához */
+	min-height: 100vh;
+	margin: 0;
+	padding: 0;
+  }
+  
+  /* Pszeudo-elem a háttérkép és az átlátszó réteg számára */
+  body::before {
+	content: "";
+	position: absolute;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+	background-image: url('../media/image/background.jpg');
+	background-size: cover;
+	background-position: center;
+	background-repeat: no-repeat;
+	background-attachment: fixed;
+	opacity: 0.1; /* Átlátszóság: 0.1 = 10% (0-1 között állítható) */
+	z-index: -1; /* Háttérbe helyezzük */
+  }
+  
+  /* Tartalom konténer (átlátszó háttérrel) */
+  .app-container {
+	background-color: rgba(255, 255, 255, 0.8); /* Fehér háttér kissé átlátszóan */
+	padding: 20px;
+	border-radius: 8px;
+	box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+	min-height: calc(100vh - 40px);
+  }

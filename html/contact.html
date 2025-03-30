@@ -1,77 +1,50 @@
 <div class="container contact-form">
-    <div class="row justify-content-center mt-5">
-        <h1 class="text-center mb-3">Kapcsolatfelvételi Űrlap</h1>
-    </div>
-    <div class="row justify-content-center mt-5" ng-app="contactApp" ng-controller="ContactController">
-        <form class="col-md-8 col-lg-6" ng-submit="submitForm()"> 
-            <div class="mb-3">
-                <label for="name" 
-                class="form-label">Név:</label>
-                <input type="text" 
-                class="form-control" 
-                id="name" 
-                ng-model="contact.name" required> 
-            </div>
-            <div class="mb-3">
-                <label for="email" 
-                class="form-label">Email:</label>
-                <input type="email" 
-                class="form-control" 
-                id="email" 
-                ng-model="contact.email" required>
-            </div>
-            <div class="mb-3">
-                <label for="message" 
-                class="form-label">Üzenet:</label>
-                <textarea class="form-control" 
-                id="message" 
-                ng-model="contact.message" 
-                rows="5" required></textarea> 
-            </div>
-            <div class="mb-3">
-                <button type="submit" 
-                class="btn btn-success">Küldés</button>
-            </div>
-        </form>
-    </div>
-        </form>
-    </div>
-    
-    <div id="carouselExampleAutoplaying" class="carousel slide" data-bs-ride="carousel">  
-      <div class="carousel-inner">
-        <div class="carousel-item active">
-          <img src="./media/image/slide_dog1.jpg" class="cover-photo"  alt="dog_1">
-        </div>
-        <div class="carousel-item">
-          <img src="./media/image/slide_cat1.jpg" class="cover-photo" alt="cat_1">
-        </div>
-        <div class="carousel-item">
-          <img src="./media/image/slide_dog2.jpg" class="cover-photo" alt="dog_2">
-        </div>
+  <div class="row justify-content-center mt-5">
+      <h1 class="text-center mb-3">Kapcsolatfelvételi Űrlap</h1>
+  </div>
+  <div class="row justify-content-center mt-5">
+      <div class="col-md-3 d-none d-md-block">
+          <div class="row">
+              <div class="col-12 mb-2">
+                  <img src="./media/image/kutyak2.jpg" class="img-fluid rounded" style="object-fit: cover; width: 100%; height: 200px;" alt="Dog 1">
+              </div>
+              <div class="col-12 mb-2">
+                  <img src="./media/image/kutyak2.jpg" class="img-fluid rounded" style="object-fit: cover; width: 100%; height: 200px;" alt="Dog 2">
+              </div>
+              <div class="col-12 mb-2">
+                  <img src="./media/image/kutya1.jpg" class="img-fluid rounded" style="object-fit: cover; width: 100%; height: 200px;" alt="Dog 3">
+              </div>
+          </div>
       </div>
-      <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleAutoplaying" data-bs-slide="prev">
-        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-        <span class="visually-hidden">Előző</span>
-      </button>
-      <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleAutoplaying" data-bs-slide="next">
-        <span class="carousel-control-next-icon" aria-hidden="true"></span>
-        <span class="visually-hidden">Következő</span>
-      </button>
-    </div>  
+      <form class="col-md-6 col-lg-6" ng-submit="submitForm()">
+          <div class="mb-3">
+              <label for="name" class="form-label">Név:</label>
+              <input type="text" class="form-control" id="name" ng-model="contact.name" required>
+          </div>
+          <div class="mb-3">
+              <label for="email" class="form-label">Email:</label>
+              <input type="email" class="form-control" id="email" ng-model="contact.email" required>
+          </div>
+          <div class="mb-3">
+              <label for="message" class="form-label">Üzenet:</label>
+              <textarea class="form-control" id="message" ng-model="contact.message" rows="5" required></textarea>
+          </div>
+          <div class="mb-3">
+              <button type="submit" class="btn btn-success">Küldés</button>
+          </div>
+      </form>
+      <div class="col-md-3 d-none d-md-block">
+          <div class="row">
+              <div class="col-12 mb-2">
+                  <img src="./media/image/4.jpg" class="img-fluid rounded" style="object-fit: cover; width: 100%; height: 200px;" alt="Dog 4">
+              </div>
+              <div class="col-12 mb-2">
+                  <img src="./media/image/5.jpg" class="img-fluid rounded" style="object-fit: cover; width: 100%; height: 200px;" alt="Dog 5">
+              </div>
+              <div class="col-12 mb-2">
+                  <img src="./media/image/6.jpg" class="img-fluid rounded" style="object-fit: cover; width: 100%; height: 200px;" alt="Dog 6">
+              </div>
+          </div>
+      </div>
+  </div>
 </div>
-
-
-    <!-- <form action="contact.php" method="post">
-        <label for="name">Név:</label>
-        <input type="text" id="name" name="name" required>
-        
-        <label for="email">Email:</label>
-        <input type="email" id="email" name="email" required>
-        
-        <label for="message">Üzenet:</label>
-        <textarea id="message" name="message" required></textarea>
-        
-        <input type="submit" value="Küldés">
-    </form> -->
-	<!-- </div>
-</div> -->
