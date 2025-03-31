@@ -1,6 +1,10 @@
 .contact-form form {
 	min-width: 400px;
+	max-width: 1000px;
+
 }
+
+
 /* app.css */
 body {
 	position: relative; /* Szükséges a pszeudo-elem pozicionálásához */

@@ -446,5 +446,6 @@
 
         $scope.loadUserData();
         $scope.loadRegisteredPets();
-    }]);
+    }])
+  
 })(window, angular);

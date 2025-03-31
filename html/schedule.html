@@ -1,46 +1,61 @@
 <div class="container">
-	<div class="row">
-		<h1>Foglalási Űrlap</h1>
-		<form id="bookingForm" ng-submit="submitBooking()">
-				<!-- Szolgáltatás kiválasztása -->
-				<label for="service">Szolgáltatás:</label>
-				<select id="service" ng-model="selectedService" ng-change="updateTimes()" required>
-						<option value="daycare">Napközi (max 30 állat)</option>
-						<option value="overnight">Éjszakai szállás (max 15 kutya)</option>
-				</select>
-
-				<!-- Állatok számának megadása -->
-				<label for="pets">Állatok száma:</label>
-				<input type="number" id="pets" ng-model="numberOfPets" min="1" max="30" required>
-
-				<!-- Dátum kiválasztása -->
-				<label for="date">Dátum kiválasztása:</label>
-				<input type="date" id="date" ng-model="bookingDate" required>
-
-				<!-- Érkezési időpont kiválasztása -->
-				<label for="arrival">Érkezés időpontja:</label>
-				<select id="arrival" ng-model="arrivalTime" ng-options="time for time in availableArrivalTimes" required>
-						<option value="">Válasszon időpontot</option>
-				</select>
-
-				<!-- Dátum kiválasztása -->
-				<label for="date">Dátum kiválasztása:</label>
-				<input type="date" id="date" ng-model="bookingDate" required>
-
-				<!-- Távozási időpont kiválasztása  -->
-				<label for="departure">Távozás időpontja:</label>
-				<select id="departure" ng-model="departureTime" ng-options="time for time in availableDepartureTimesOvernight" ng-if="selectedService === 'overnight'" >
-						<option value="">Válasszon időpontot</option>
-				</select>
-
-				<!-- Foglalás gomb -->
-				<button type="submit">Foglalás</button>
-				
-				<!-- Sikeres foglalás üzenete -->
-				<div class="success-message" ng-show="successMessage">{{ successMessage }}</div>
-				
-				<!-- Hibaüzenet megjelenítése -->
-				<div class="error-message" ng-show="errorMessage">{{ errorMessage }}</div>
-		</form>
-	</div>
+    <div class="row justify-content-center">
+        <div class="col-md-8 col-lg-6 mt-5 bg-light p-4 rounded">
+            <h1 class="text-center mb-4">Pajti Paradicsom Időpontfoglalás</h1>
+            <form id="appointmentForm">
+                <div class="form-group">
+                    <label for="petId">Kisállat kiválasztása:</label>
+                    <select class="form-control" id="petId" name="petId" required>
+                        <option value="">Válasszon kisállatot</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="appointmentDate">Időpont (Dátum):</label>
+                    <input type="date" class="form-control" id="appointmentDate" name="appointmentDate" required>
+                </div>
+                <div class="form-group">
+                    <label for="appointmentTime">Időpont (Óra):</label>
+                    <select class="form-control" id="appointmentTime" name="appointmentTime" required>
+                        <option value="">Válasszon időpontot</option>
+                        <option value="09:00">09:00</option>
+                        <option value="10:00">10:00</option>
+                        <option value="11:00">11:00</option>
+                        <option value="12:00">12:00</option>
+                        <option value="13:00">13:00</option>
+                        <option value="14:00">14:00</option>
+                        <option value="15:00">15:00</option>
+                        <option value="16:00">16:00</option>
+                        <option value="17:00">17:00</option>
+                    </select>
+                </div>
+                <fieldset class="form-group">
+                    <legend>Szolgáltatások:</legend>
+                    <div class="form-check">
+                        <input class="form-check-input" type="checkbox" name="services[]" id="bath" value="bath">
+                        <label class="form-check-label" for="bath">Fürdetés</label>
+                    </div>
+                    <div class="form-check">
+                        <input class="form-check-input" type="checkbox" name="services[]" id="treatment" value="treatment">
+                        <label class="form-check-label" for="treatment">Kezelés</label>
+                    </div>
+                    <div class="form-check">
+                        <input class="form-check-input" type="checkbox" name="services[]" id="grooming" value="grooming">
+                        <label class="form-check-label" for="grooming">Teljes kozmetika</label>
+                    </div>
+                    <div class="form-check">
+                        <input class="form-check-input" type="checkbox" name="services[]" id="spa" value="spa">
+                        <label class="form-check-label" for="spa">Teljes spa szolgáltatás</label>
+                    </div>
+                </fieldset>
+                <div class="form-group">
+                    <label for="additionalDetails">További részletek:</label>
+                    <textarea class="form-control" id="additionalDetails" name="additionalDetails" rows="3"></textarea>
+                </div>
+                <div class="form-group">
+                    <div class="g-recaptcha" data-sitekey="YOUR_RECAPTCHA_SITE_KEY"></div>
+                </div>
+                <button type="submit" class="btn btn-primary btn-block">Időpontfoglalás</button>
+            </form>
+        </div>
+    </div>
 </div>
