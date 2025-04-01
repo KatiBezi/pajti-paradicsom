@@ -1,6 +1,7 @@
 <?php
 // Adatbázis-kapcsolat létrehozása
 $conn = new mysqli('localhost', 'root', '', 'pajti-paradicsom');
+$conn->set_charset("utf8mb4");
 
 // Hibakezelés
 if ($conn->connect_error) {
@@ -9,6 +10,11 @@ if ($conn->connect_error) {
 
 // Adatok fogadása JSON formátumban
 $data = json_decode(file_get_contents('php://input'), true);
+
+$data = [
+    "username" => "Kovács Péter",
+    "password" => "1234Aa"
+];
 
 if ($data) {
     // Felhasználónév és jelszó ellenőrzése
