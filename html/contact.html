@@ -1,50 +1,65 @@
 <div class="container contact-form">
-  <div class="row justify-content-center mt-5">
+    <div class="row justify-content-center mt-5">
       <h1 class="text-center mb-3">Kapcsolatfelvételi Űrlap</h1>
-  </div>
-  <div class="row justify-content-center mt-5">
+    </div>
+    <div class="row justify-content-center mt-5">
+      <!-- Bal oldali képek -->
       <div class="col-md-3 d-none d-md-block">
-          <div class="row">
-              <div class="col-12 mb-2">
-                  <img src="./media/image/contactdog1.jpg" class="img-fluid rounded" style="object-fit: cover; width: 100%; height: 350px;" alt="Dog 1">
-              </div>
-              <div class="col-12 mb-2">
-                  <img src="./media/image/contactdog2.jpg" class="img-fluid rounded" style="object-fit: cover; width: 100%; height: 350px;" alt="Dog 2">
-              </div>
-              <div class="col-12 mb-2">
-                  <img src="./media/image/contactdog3.jpg" class="img-fluid rounded" style="object-fit: cover; width: 100%; height: 350px;" alt="Dog 3">
-              </div>
+        <div class="row">
+          <div class="col-12 mb-2">
+            <img src="./media/image/contactdog1.jpg" class="img-fluid rounded" style="object-fit: cover; width: 100%; height: 350px;" alt="Dog 1">
           </div>
+          <div class="col-12 mb-2">
+            <img src="./media/image/contactdog2.jpg" class="img-fluid rounded" style="object-fit: cover; width: 100%; height: 350px;" alt="Dog 2">
+          </div>
+          <div class="col-12 mb-2">
+            <img src="./media/image/contactdog3.jpg" class="img-fluid rounded" style="object-fit: cover; width: 100%; height: 350px;" alt="Dog 3">
+          </div>
+        </div>
       </div>
-      <form class="col-md-6 col-lg-6" ng-submit="submitForm()">
+      <!-- Középső oszlop az űrlappal és a tájékoztató szöveggel -->
+      <div class="col-md-6 col-lg-6">
+        <!-- Kapcsolatfelvételi űrlap -->
+        <form ng-submit="submitForm()">
           <div class="mb-3">
-              <label for="name" class="form-label">Név:</label>
-              <input type="text" class="form-control" id="name" ng-model="contact.name" required>
+            <label for="name" class="form-label">Név:</label>
+            <input type="text" class="form-control" id="name" ng-model="contact.name" required>
           </div>
           <div class="mb-3">
-              <label for="email" class="form-label">Email:</label>
-              <input type="email" class="form-control" id="email" ng-model="contact.email" required>
+            <label for="email" class="form-label">Email:</label>
+            <input type="email" class="form-control" id="email" ng-model="contact.email" required>
           </div>
           <div class="mb-3">
-              <label for="message" class="form-label">Üzenet:</label>
-              <textarea class="form-control" id="message" ng-model="contact.message" rows="5" required></textarea>
+            <label for="message" class="form-label">Üzenet:</label>
+            <textarea class="form-control" id="message" ng-model="contact.message" rows="5" required></textarea>
           </div>
           <div class="mb-3">
-              <button type="submit" class="btn btn-success">Küldés</button>
+            <button type="submit" class="btn btn-success">Küldés</button>
           </div>
-      </form>
+        </form>
+        <!-- Tájékoztató szöveg -->
+        <div class="alert alert-info mt-4" role="alert">
+          <p>Köszönjük, hogy érdeklődsz szolgáltatásaink iránt! Az alábbi űrlap kitöltésével könnyedén felveheted velünk a kapcsolatot. Kérjük, adj meg minden szükséges információt kedvencedről, hogy a lehető legpontosabb választ tudjuk adni. Fontos számunkra, hogy a kisállatok egyedi igényeit is figyelembe vegyük. Legyen szó panzióról, kozmetikáról vagy fotózásról, szeretettel várjuk négylábú vendégeinket.</p>
+          <p>Ha panzióba hozod kedvencedet, kérjük, jelezd az esetleges egészségügyi problémákat, szokásokat és a hozott felszerelést is. Kozmetikai szolgáltatás esetén részletesen írd le, milyen típusú ápolást szeretnél. Fotózás előtt érdemes előre egyeztetni az elképzeléseket, kedvenced természetét, és ha van, a kedvenc játékát is hozd magaddal. Minden szolgáltatásunk előzetes időpontfoglaláshoz kötött.</p>
+          <p>Az űrlap elküldése után igyekszünk 24 órán belül válaszolni. Ha sürgős kérdésed van, telefonon is elérsz bennünket. A kisállatok biztonsága és jólléte számunkra elsődleges. Munkatársaink tapasztaltak, türelmesek és állatbarátok. A panzióban csak egészséges, oltott kisállatokat tudunk fogadni. Kérjük, az oltási könyvet érkezéskor hozd magaddal.</p>
+          <p>A szolgáltatásaink árait megtalálod az árlistánkban, de személyre szabott ajánlatot is szívesen készítünk. Hosszabb panziós tartózkodás vagy több kisállat esetén kedvezményeket is biztosítunk. Ha bármilyen különleges kérést vagy kérdést szeretnél jelezni, bátran írd le az üzenet mezőben. Célunk, hogy minden gazdi és kisállat elégedetten távozzon tőlünk.</p>
+          <p>Köszönjük a bizalmadat, és reméljük, hamarosan találkozunk!</p>
+        </div>
+      </div>
+      <!-- Jobb oldali képek -->
       <div class="col-md-3 d-none d-md-block">
-          <div class="row">
-              <div class="col-12 mb-2">
-                  <img src="./media/image/contactcat1.jpg" class="img-fluid rounded" style="object-fit: cover; width: 100%; height: 350px;" alt="Cat 1">
-              </div>
-              <div class="col-12 mb-2">
-                  <img src="./media/image/contactcat2.jpg" class="img-fluid rounded" style="object-fit: cover; width: 100%; height: 350px;" alt="Cat 2">
-              </div>
-              <div class="col-12 mb-2">
-                  <img src="./media/image/contactcat3.jpg" class="img-fluid rounded" style="object-fit: cover; width: 100%; height: 350px;" alt="Cat 3">
-              </div>
+        <div class="row">
+          <div class="col-12 mb-2">
+            <img src="./media/image/contactcat1.jpg" class="img-fluid rounded" style="object-fit: cover; width: 100%; height: 350px;" alt="Cat 1">
           </div>
+          <div class="col-12 mb-2">
+            <img src="./media/image/contactcat2.jpg" class="img-fluid rounded" style="object-fit: cover; width: 100%; height: 350px;" alt="Cat 2">
+          </div>
+          <div class="col-12 mb-2">
+            <img src="./media/image/contactcat3.jpg" class="img-fluid rounded" style="object-fit: cover; width: 100%; height: 350px;" alt="Cat 3">
+          </div>
+        </div>
       </div>
+    </div>
   </div>
-</div>
+  
