@@ -368,17 +368,18 @@
             }
         };
 
-        $scope.enableEdit = function() {
-            $scope.isEditing = true;
+        $scope.enableEditUser = function() {
+            $scope.isEditingUser = true;
         };
 
         $scope.disableEdit = function() {
-            $scope.isEditing = false;
+            $scope.isEditingUser = false;
+            $scope.isEditingPet = false;
         };
 
         $scope.editPet = function(pet) {
             $scope.editPetData = angular.copy(pet);
-            $scope.isEditing = true;
+            $scope.isEditingPet = true;
         };
 
         $scope.saveEditPet = function() {

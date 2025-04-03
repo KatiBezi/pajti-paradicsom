@@ -11,14 +11,14 @@
                     <div ng-if="successMessage" class="alert alert-success">{{ successMessage }}</div>
 
                     <div class="mb-4">
-                        <div ng-if="!isEditing">
+                        <div ng-if="!isEditingUser">
                             <p class="card-text"><strong>Felhasználónév:</strong> {{ user.username }}</p>
                             <p class="card-text"><strong>Email cím:</strong> {{ user.email }}</p>
                             <p class="card-text"><strong>Telefonszám:</strong> {{ user.phone }}</p>
-                            <button class="btn btn-primary" ng-click="enableEdit()">Adatok frissítése</button>
+                            <button class="btn btn-primary" ng-click="enableEditUser()">Adatok frissítése</button>
                             <button class="btn btn-danger" ng-click="deleteUser()">Fiók törlése</button>
                         </div>
-                        <div ng-if="isEditing">
+                        <div ng-if="isEditingUser">
                             <form name="userForm">
                                 <div class="form-group">
                                     <label>Felhasználónév:</label>
@@ -65,7 +65,7 @@
                         </table>
                     </div>
 
-                    <div ng-if="isEditing" class="mt-4">
+                    <div ng-if="isEditingPet" class="mt-4">
                         <h6 class="card-title">Kisállat szerkesztése</h6>
                         <form name="editPetForm">
                             <div class="form-group">
