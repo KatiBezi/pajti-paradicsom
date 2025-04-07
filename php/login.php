@@ -11,10 +11,13 @@ if ($conn->connect_error) {
 // Adatok fogadása JSON formátumban
 $data = json_decode(file_get_contents('php://input'), true);
 
+
+
 $data = [
-    "username" => "Kovács Péter",
-    "password" => "1234Aa"
+    "username" => "",
+    "password" => ""
 ];
+
 
 if ($data) {
     // Felhasználónév és jelszó ellenőrzése

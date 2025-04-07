@@ -6,14 +6,18 @@
                  class="img-fluid" 
                  style="max-height: 100px;">
         </a>
-        <button class="navbar-toggler" type="button" 
-                data-bs-toggle="collapse" data-bs-target="#navbarScroll" 
-                aria-controls="navbarScroll" aria-expanded="false" 
+        <button class="navbar-toggler" 
+                type="button" 
+                data-bs-toggle="collapse" 
+                data-bs-target="#navbarScroll" 
+                aria-controls="navbarScroll" 
+                aria-expanded="false" 
                 aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
+        <span class="navbar-toggler-icon"></span>
         </button>
-        <div class="collapse navbar-collapse" id="navbarScroll" 
-             style="padding-left: 20px;">
+        <div class="collapse navbar-collapse" 
+                id="navbarScroll" 
+                style="padding-left: 20px;">
             <ul class="navbar-nav me-auto my-2 my-lg-0 navbar-nav-scroll" 
                 tyle="--bs-scroll-height: 100px">
                 <li class="nav-item">
@@ -45,7 +49,8 @@
                 <a class="btn btn-primary text-white me-2" ui-sref="users" ng-if="isLoggedIn" ui-sref-active="active">
                     <strong>Felhasználó</strong>
                 </a>
-                <a class="btn btn-danger text-white" ng-if="isLoggedIn" ng-click="logout()">
+                <a class="btn btn-danger text-white" ng-if="isLoggedIn" 
+                ng-click="logout()">
                     <strong>Kijelentkezés</strong>
                     <p ng-if="successMessage">{{ successMessage }}</p>
                 </a>
