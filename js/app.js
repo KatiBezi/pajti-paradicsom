@@ -101,8 +101,9 @@
     ])
 
     .run([
-      function () {
-        console.log("Run...");
+      'trans',
+      function (trans) {
+        trans.events(['users']);
       },
     ])
 
