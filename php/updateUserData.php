@@ -1,7 +1,7 @@
 <?php
 declare(strict_types=1);
 
-// Környezeti beállítások betöltése
+/
 require_once("../../common/php/environment.php");
 
 // Session indítása
