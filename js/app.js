@@ -302,24 +302,36 @@
           username: "",
           password: "",
         };
+        $scope.errorMessage = "";
+        $scope.successMessage = "";
 
+        // Bejelentkezési folyamat
         $scope.submitLoginForm = function () {
           if ($scope.loginForm.$valid) {
             $http
               .post("./php/login.php", $scope.user)
               .then(function (response) {
-                if (response.data.success) {
-                  $scope.successMessage = "Sikeres bejelentkezés!";
-                  authService.login(response.data.user_id);
+                console.log("Szerver válasz a bejelentkezéshez:", response);
+                if (
+                  response.data &&
+                  response.data.data &&
+                  response.data.data.user_id
+                ) {
+                  $scope.successMessage =
+                    response.data.data.message || "Sikeres bejelentkezés!";
+                  authService.login(response.data.data.user_id); // Bejelentkezés
                   setTimeout(function () {
-                    $state.go("users");
+                    $state.go("users"); // Irányítás a felhasználói oldalra
                   }, 500);
                 } else {
-                  $scope.errorMessage = response.data.error;
+                  $scope.errorMessage =
+                    response.data.error || "Hibás felhasználónév vagy jelszó!";
                 }
               })
               .catch(function (error) {
-                $scope.errorMessage = "Hiba történt a bejelentkezés során.";
+                $scope.errorMessage =
+                  "Hiba történt a bejelentkezési kérés során.";
+                console.error("Hiba a bejelentkezési kérés során:", error);
               });
           } else {
             $scope.errorMessage = "Kérjük, töltsd ki az összes mezőt helyesen!";
