@@ -1,53 +1,73 @@
 <?php
-// Adatbázis-kapcsolat létrehozása
-$conn = new mysqli('localhost', 'root', '', 'pajti-paradicsom');
-$conn->set_charset("utf8mb4");
+declare(strict_types=1);
 
-// Hibakezelés
-if ($conn->connect_error) {
-    die(json_encode(['success' => false, 'error' => 'Adatbázis kapcsolat hiba: ' . $conn->connect_error]));
+// Környezeti beállítások betöltése
+require_once("../../common/php/environment.php");
+
+// Beérkező adatok lekérése JSON formátumban
+$args = Util::getArgs();
+
+// Ellenőrzések inicializálása
+$errors = [];
+$valid = true;
+
+// Felhasználónév ellenőrzése
+if (empty($args['username'])) {
+    $valid = false;
+    $errors[] = "A felhasználónév üres!";
 }
 
-// Adatok fogadása JSON formátumban
-$data = json_decode(file_get_contents('php://input'), true);
-
-
-
-$data = [
-    "username" => "",
-    "password" => ""
-];
-
-
-if ($data) {
-    // Felhasználónév és jelszó ellenőrzése
-    $sql = "SELECT id, username FROM users WHERE username = ? AND password = ?"; // Jelszó ellenőrzés
-    $stmt = $conn->prepare($sql);
-    $stmt->bind_param("ss", $data['username'], $data['password']);
-    $stmt->execute();
-    $result = $stmt->get_result();
-
- 
-if ($result->num_rows > 0) {
-    $user = $result->fetch_assoc();
-
-    // Session indítása
-    session_start();
-
-    // Session változók beállítása
-    $_SESSION['user_id'] = $user['id'];
-    $_SESSION['username'] = $user['username'];
-
-    // Ide kell beilleszteni a kódrészletet
-    $response = array('success' => true, 'user_id' => $user['id']);
-
-    echo json_encode($response); // Sikeres bejelentkezés
-} else {
-    echo json_encode(['success' => false, 'error' => 'Hibás felhasználónév vagy jelszó!']);
+// Jelszó ellenőrzése
+if (empty($args['password'])) {
+    $valid = false;
+    $errors[] = "A jelszó üres!";
 }
 
-    $stmt->close();
+// Ha vannak hibák, állítsuk be a hibaüzeneteket
+if (!$valid) {
+    Util::setError(implode(" ", $errors)); // Hibaüzenetek összefűzése
+    exit; // Kilépés
 }
 
-$conn->close();
-?>
+// Adatbázis kapcsolat létrehozása
+$db = new Database();
+
+// SQL lekérdezés a felhasználónév ellenőrzésére
+$query = "SELECT `id`, 
+                `username`,
+                `password` 
+        FROM `users` 
+        WHERE `username` = ? 
+        LIMIT 1";
+
+// SQL parancs végrehajtása
+$result = $db->execute($query, [$args['username']]);
+
+// Ellenőrizzük, hogy a felhasználónév létezik-e
+if (empty($result)) {
+    Util::setError("Hibás felhasználónév vagy jelszó!");
+    exit; // Kilépés
+}
+
+// Felhasználó adatainak lekérése
+$user = $result[0];
+
+// Jelszó ellenőrzése (hash-elés nélkül)
+if ($args['password'] !== $user['password']) {
+    Util::setError("Hibás felhasználónév vagy jelszó!");
+    exit; // Kilépés
+}
+
+// Session indítása
+session_start();
+
+// Session változók beállítása
+$_SESSION['user_id'] = $user['id'];
+$_SESSION['username'] = $user['username'];
+
+// Kapcsolat lezárása
+$db = null;
+
+// Válasz beállítása
+Util::setResponse(['success' => true, 'user_id' => $user['id'], 'message' => 'Sikeres bejelentkezés!']);
+

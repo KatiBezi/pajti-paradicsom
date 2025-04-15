@@ -1,52 +1,111 @@
 <div class="container mt-5">
   <div class="row justify-content-center">
-      <div class="col-md-8 col-lg-6">
-          <div class="card shadow">
-              <div class="card-body p-4">
-                  <h2 class="card-title text-center mb-4">Regisztráció</h2>
-                  <form name="registerForm" ng-submit="submitForm()" novalidate>
-                      <div class="mb-3">
-                          <label for="username" class="form-label">Felhasználónév</label>
-                          <input type="text" class="form-control" id="username" ng-model="user.username" placeholder="pl. felhasznalo123" required>
-                          <div class="invalid-feedback">Kérjük, add meg a felhasználóneved!</div>
-                      </div>
-
-                      <div class="mb-3">
-                          <label for="phone" class="form-label">Telefonszám</label>
-                          <input type="tel" class="form-control" id="phone" ng-model="user.phone" placeholder="pl. +36301234567">
-                          <div class="invalid-feedback">Kérjük, adj meg egy telefonszámot!</div>
-                      </div>
-
-                      <div class="mb-3">
-                          <label for="email" class="form-label">Email cím</label>
-                          <input type="email" class="form-control" id="email" ng-model="user.email" placeholder="pl. pelda@email.com" required>
-                          <div class="invalid-feedback">Kérjük, adj meg egy érvényes email címet!</div>
-                      </div>
-
-                      <div class="mb-3">
-                          <label for="confirmEmail" class="form-label">Email cím megerősítése</label>
-                          <input type="email" class="form-control" id="confirmEmail" ng-model="user.confirmEmail" placeholder="pl. pelda@email.com" required>
-                          <div class="invalid-feedback">Kérjük, erősítsd meg az email címed!</div>
-                      </div>
-
-                      <div class="mb-3">
-                          <label for="password" class="form-label">Jelszó</label>
-                          <input type="password" class="form-control" id="password" ng-model="user.password" placeholder="pl. Jelszo123!" required>
-                          <div class="invalid-feedback">Kérjük, adj meg egy jelszót!</div>
-                      </div>
-
-                      <div class="mb-3">
-                          <label for="confirmPassword" class="form-label">Jelszó megerősítése</label>
-                          <input type="password" class="form-control" id="confirmPassword" ng-model="user.confirmPassword" placeholder="pl. Jelszo123!" required>
-                          <div class="invalid-feedback">Kérjük, erősítsd meg a jelszavad!</div>
-                      </div>
-
-                      <div class="d-grid">
-                          <button type="submit" class="btn btn-primary btn-lg" ng-disabled="registerForm.$invalid">Regisztráció</button>
-                      </div>
-                  </form>
+    <div class="col-md-8 col-lg-6">
+      <div class="card shadow">
+        <div class="card-body p-4">
+          <h2 class="card-title text-center mb-4">Regisztráció</h2>
+          <form name="registerForm" ng-submit="submitRegisterForm()" novalidate>
+            <div class="mb-3">
+              <label for="username" class="form-label">Felhasználónév</label>
+              <input
+                type="text"
+                class="form-control"
+                id="username"
+                ng-model="user.username"
+                placeholder="pl. felhasznalo123"
+                required
+              />
+              <div class="invalid-feedback" ng-show="registerForm.username.$touched && registerForm.username.$invalid">
+                Kérjük, add meg a felhasználóneved!
               </div>
-          </div>
+            </div>
+
+            <div class="mb-3">
+              <label for="phone" class="form-label">Telefonszám</label>
+              <input
+                type="tel"
+                class="form-control"
+                id="phone"
+                ng-model="user.phone"
+                placeholder="pl. +36301234567"
+              />
+              <div class="invalid-feedback" ng-show="registerForm.phone.$touched && registerForm.phone.$invalid">
+                Kérjük, adj meg egy telefonszámot!
+              </div>
+            </div>
+
+            <div class="mb-3">
+              <label for="email" class="form-label">Email cím</label>
+              <input
+                type="email"
+                class="form-control"
+                id="email"
+                ng-model="user.email"
+                placeholder="pl. pelda@email.com"
+                required
+              />
+              <div class="invalid-feedback" ng-show="registerForm.email.$touched && registerForm.email.$invalid">
+                Kérjük, adj meg egy érvényes email címet!
+              </div>
+            </div>
+
+            <div class="mb-3">
+              <label for="confirmEmail" class="form-label">Email cím megerősítése</label>
+              <input
+                type="email"
+                class="form-control"
+                id="confirmEmail"
+                ng-model="user.confirmEmail"
+                placeholder="pl. pelda@email.com"
+                required
+              />
+              <div class="invalid-feedback" ng-show="registerForm.confirmEmail.$touched && registerForm.confirmEmail.$invalid">
+                Kérjük, erősítsd meg az email címed!
+              </div>
+            </div>
+
+            <div class="mb-3">
+              <label for="password" class="form-label">Jelszó</label>
+              <input
+                type="password"
+                class="form-control"
+                id="password"
+                ng-model="user.password"
+                placeholder="pl. Jelszo123!"
+                required
+              />
+              <div class="invalid-feedback" ng-show="registerForm.password.$touched && registerForm.password.$invalid">
+                Kérjük, adj meg egy jelszót!
+              </div>
+            </div>
+
+            <div class="mb-3">
+              <label for="confirmPassword" class="form-label">Jelszó megerősítése</label>
+              <input
+                type="password"
+                class="form-control"
+                id="confirmPassword"
+                ng-model="user.confirmPassword"
+                placeholder="pl. Jelszo123!"
+                required
+              />
+              <div class="invalid-feedback" ng-show="registerForm.confirmPassword.$touched && registerForm.confirmPassword.$invalid">
+                Kérjük, erősítsd meg a jelszavad!
+              </div>
+            </div>
+
+            <div class="d-grid">
+              <button
+                type="submit"
+                class="btn btn-primary btn-lg"
+                ng-disabled="registerForm.$invalid"
+              >
+                Regisztráció
+              </button>
+            </div>
+          </form>
+        </div>
       </div>
+    </div>
   </div>
 </div>

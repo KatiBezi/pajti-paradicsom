@@ -1,29 +1,60 @@
 <?php
+declare(strict_types=1);
+
+// Környezeti beállítások betöltése
+require_once("../..common/php/environment.php");
+
+// Session indítása
 session_start();
-header('Content-Type: application/json');
 
+// Ellenőrizzük, hogy a felhasználó be van-e jelentkezve
 if (!isset($_SESSION['user_id'])) {
-    echo json_encode(['success' => false, 'error' => 'Nincs bejelentkezve!']);
-    exit;
+    Util::setError("Kérjük, jelentkezzen be a kisállat regisztrálásához!");
+    exit; // Kilépés
 }
 
-$data = json_decode(file_get_contents("php://input"));
+// Beérkező adatok lekérése JSON formátumban
+$args = Util::getArgs();
 
-$conn = new mysqli('localhost', 'root', '', 'pajti-paradicsom');
-if ($conn->connect_error) {
-    echo json_encode(['success' => false, 'error' => 'Adatbázis hiba: ' . $conn->connect_error]);
-    exit;
+// Ellenőrzések inicializálása
+$errors = [];
+$valid = true;
+
+// Kisállat neve ellenőrzése
+if (empty($args['pet_name'])) {
+    $valid = false;
+    $errors[] = "A kisállat neve üres!";
 }
 
-$stmt = $conn->prepare("INSERT INTO pets (name, type, age, description, user_id) VALUES (?, ?, ?, ?, ?)");
-$stmt->bind_param("ssisi", $data->name, $data->type, $data->age, $data->description, $_SESSION['user_id']);
+// Kisállat típusa ellenőrzése
+if (empty($args['pet_type'])) {
+    $valid = false;
+    $errors[] = "A kisállat típusa üres!";
+}
 
-if ($stmt->execute()) {
-    echo json_encode(['success' => true]);
+// Ha vannak hibák, állítsuk be a hibaüzeneteket
+if (!$valid) {
+    Util::setError(implode(" ", $errors)); // Hibaüzenetek összefűzése
+    exit; // Kilépés
+}
+
+// Adatbázis kapcsolat létrehozása
+$db = new Database();
+
+// SQL lekérdezés a kisállat regisztrálására
+$query = "INSERT INTO `pets` (`user_id`, `name`, `type`) VALUES (?, ?, ?)";
+
+// SQL parancs végrehajtása
+$result = $db->execute($query, [$_SESSION['user_id'], $args['pet_name'], $args['pet_type']]);
+
+// Ellenőrizzük, hogy a beszúrás sikeres volt-e
+if ($result) {
+    // Válasz beállítása
+    Util::setResponse(['success' => true, 'message' => 'Kisállat sikeresen regisztrálva!']);
 } else {
-    echo json_encode(['success' => false, 'error' => 'Adatbázis hiba: ' . $stmt->error]);
+    Util::setError("Hiba történt a kisállat regisztrálása során!");
 }
 
-$stmt->close();
-$conn->close();
-?>
+// Kapcsolat lezárása
+$db = null;
+

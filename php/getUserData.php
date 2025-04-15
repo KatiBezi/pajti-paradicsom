@@ -1,31 +1,29 @@
 <?php
-session_start();
-header('Content-Type: application/json');
+declare(strict_types=1);
 
-if (!isset($_SESSION['user_id'])) {
-    echo json_encode(['success' => false, 'error' => 'Nincs bejelentkezve!']);
-    exit;
-}
+// Include environment
+require_once("../../common/php/environment.php");
 
-$conn = new mysqli('localhost', 'root', '', 'pajti-paradicsom');
-if ($conn->connect_error) {
-    echo json_encode(['success' => false, 'error' => 'Adatbázis hiba: ' . $conn->connect_error]);
-    exit;
-}
+// Get arguments
+$args = Util::getArgs();
 
-$stmt = $conn->prepare("SELECT username, email, phone FROM users WHERE id = ?");
-$stmt->bind_param("i", $_SESSION['user_id']);
-$stmt->execute();
-$result = $stmt->get_result();
+// Set SQL command
+$query ="SELECT username, email, phone FROM users WHERE id = ?";
+// Connect to MySQL server
+$db = new Database();
 
-if ($result->num_rows > 0) {
-    $user = $result->fetch_assoc();
-    echo json_encode(['success' => true, 'user' => $user]);
-} else {
-    echo json_encode(['success' => false, 'error' => 'Felhasználó nem található!']);
-}
+// Execute SQL command
+$result = $db->execute($query, $args);
 
-$stmt->close();
-$conn->close();
-?>
+// Close connection
+$db = null;
 
+// Check result
+if (is_null($result))
+	Util::setError("A felhasználó nem létezik!");
+
+// Simplifying the result
+$result = $result[0];
+
+// Ser response
+Util::setResponse($result);

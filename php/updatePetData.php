@@ -1,33 +1,44 @@
 <?php
+declare(strict_types=1);
+
+// Környezeti beállítások betöltése
+require_once("../..common/php/environment.php");
+
+// Session indítása
 session_start();
-header('Content-Type: application/json');
 
+// Ellenőrizzük, hogy a felhasználó be van-e jelentkezve
 if (!isset($_SESSION['user_id'])) {
-    echo json_encode(['success' => false, 'error' => 'Nincs bejelentkezve!']);
-    exit;
+    Util::setError("Kérjük, jelentkezzen be a kisállat adatainak frissítéséhez!");
+    exit; // Kilépés
 }
 
-$data = json_decode(file_get_contents("php://input"));
+// Beérkező adatok lekérése JSON formátumban
+$args = Util::getArgs();
 
-$conn = new mysqli('localhost', 'root', '', 'pajti-paradicsom');
-if ($conn->connect_error) {
-    echo json_encode(['success' => false, 'error' => 'Adatbázis hiba: ' . $conn->connect_error]);
-    exit;
+// Ellenőrizzük, hogy a pet_id és a frissítendő adatok meg vannak-e adva
+if (empty($args['pet_id']) || empty($args['name']) || empty($args['age']) || empty($args['type'])) {
+    Util::setError("Kérjük, adja meg a kisállat azonosítóját és a frissítendő adatokat!");
+    exit; // Kilépés
 }
 
-$stmt = $conn->prepare("UPDATE pets SET name = ?, type = ?, age = ?, description = ? WHERE id = ? AND user_id = ?");
-$stmt->bind_param("ssisii", $data->name, $data->type, $data->age, $data->description, $data->id, $_SESSION['user_id']);
+// Adatbázis kapcsolat létrehozása
+$db = new Database();
 
-if ($stmt->execute()) {
-    if ($stmt->affected_rows > 0) {
-        echo json_encode(['success' => true]);
-    } else {
-        echo json_encode(['success' => false, 'error' => 'A kisállat nem található, vagy nem a felhasználóhoz tartozik!']);
-    }
+// SQL lekérdezés a kisállat adatainak frissítésére
+$query = "UPDATE `pets` SET `name` = ?, `age` = ?, `type` = ? WHERE `id` = ? AND `user_id` = ?";
+
+// SQL parancs végrehajtása
+$result = $db->execute($query, [$args['name'], $args['age'], $args['type'], $args['pet_id'], $_SESSION['user_id']]);
+
+// Ellenőrizzük, hogy a frissítés sikeres volt-e
+if ($result) {
+    // Válasz beállítása
+    Util::setResponse(['success' => true, 'message' => 'Kisállat adatai sikeresen frissítve!']);
 } else {
-    echo json_encode(['success' => false, 'error' => 'Adatbázis hiba: ' . $stmt->error]);
+    Util::setError("Hiba történt a kisállat adatainak frissítése során, vagy a kisállat nem található!");
 }
 
-$stmt->close();
-$conn->close();
-?>
+// Kapcsolat lezárása
+$db = null;
+

@@ -1,30 +1,30 @@
+
 <?php
-session_start();
-header('Content-Type: application/json');
+declare(strict_types=1);
 
-if (!isset($_SESSION['user_id'])) {
-    echo json_encode(['success' => false, 'error' => 'Nincs bejelentkezve!']);
-    exit;
-}
+// Include environment
+require_once("../../common/php/environment.php");
 
-$conn = new mysqli('localhost', 'root', '', 'pajti-paradicsom');
-if ($conn->connect_error) {
-    echo json_encode(['success' => false, 'error' => 'Adatbázis hiba: ' . $conn->connect_error]);
-    exit;
-}
+// Get arguments
+$args = Util::getArgs();
 
-$stmt = $conn->prepare("SELECT id, name, type, age, description FROM pets WHERE user_id = ?");
-$stmt->bind_param("i", $_SESSION['user_id']);
-$stmt->execute();
-$result = $stmt->get_result();
+// Set SQL command
+$query ="SELECT id, name, type, age, description FROM pets WHERE user_id = ?";
+// Connect to MySQL server
+$db = new Database();
 
-$pets = [];
-while ($row = $result->fetch_assoc()) {
-    $pets[] = $row;
-}
+// Execute SQL command
+$result = $db->execute($query, $args);
 
-echo json_encode(['success' => true, 'pets' => $pets]);
+// Close connection
+$db = null;
 
-$stmt->close();
-$conn->close();
-?>
+// Check result
+if (is_null($result))
+	Util::setError("A kisállat nem létezik!");
+
+// Simplifying the result
+$result = $result[0];
+
+// Ser response
+Util::setResponse($result);

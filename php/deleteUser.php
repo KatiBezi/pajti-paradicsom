@@ -1,46 +1,37 @@
 <?php
-// Adatbázis-kapcsolat létrehozása
-$conn = new mysqli('localhost', 'root', '', 'pajti-paradicsom');
+declare(strict_types=1);
 
-// Hibakezelés
-if ($conn->connect_error) {
-    die(json_encode(['success' => false, 'error' => 'Adatbázis kapcsolat hiba: ' . $conn->connect_error]));
+// Környezeti beállítások betöltése
+require_once("../../common/php/environment.php");
+
+// Session indítása
+session_start();
+
+// Ellenőrizzük, hogy a felhasználó be van-e jelentkezve
+if (!isset($_SESSION['user_id'])) {
+    Util::setError("Kérjük, jelentkezzen be a fiókja törléséhez!");
+    exit; // Kilépés
 }
 
-// Adatok fogadása JSON formátumban
-$data = json_decode(file_get_contents('php://input'), true);
+// Adatbázis kapcsolat létrehozása
+$db = new Database();
 
-if ($data && isset($data['user_id'])) {
-    $userId = $data['user_id'];
+// SQL lekérdezés a felhasználó törlésére
+$query = "DELETE FROM `users` WHERE `id` = ?";
 
-    // Kisállatok törlése
-    $deletePetsSql = "DELETE FROM pets WHERE user_id = ?";
-    $deletePetsStmt = $conn->prepare($deletePetsSql);
-    $deletePetsStmt->bind_param("i", $userId);
+// SQL parancs végrehajtása
+$result = $db->execute($query, [$_SESSION['user_id']]);
 
-    if ($deletePetsStmt->execute()) {
-        // Kisállatok sikeresen törölve, folytatjuk a felhasználó törlésével
-
-        // Felhasználó törlése
-        $deleteUserSql = "DELETE FROM users WHERE id = ?";
-        $deleteUserStmt = $conn->prepare($deleteUserSql);
-        $deleteUserStmt->bind_param("i", $userId);
-
-        if ($deleteUserStmt->execute()) {
-            echo json_encode(['success' => true]); // Sikeres törlés
-        } else {
-            echo json_encode(['success' => false, 'error' => 'Hiba történt a felhasználó törlése során: ' . $deleteUserStmt->error]);
-        }
-
-        $deleteUserStmt->close();
-    } else {
-        echo json_encode(['success' => false, 'error' => 'Hiba történt a kisállatok törlése során: ' . $deletePetsStmt->error]);
-    }
-
-    $deletePetsStmt->close();
+// Ellenőrizzük, hogy a törlés sikeres volt-e
+if ($result) {
+    // Session változók törlése
+    session_destroy();
+    // Válasz beállítása
+    Util::setResponse(['success' => true, 'message' => 'Felhasználói fiók sikeresen törölve!']);
 } else {
-    echo json_encode(['success' => false, 'error' => 'Hiányzó felhasználói azonosító.']);
+    Util::setError("Hiba történt a felhasználói fiók törlése során!");
 }
 
-$conn->close();
-?>
+// Kapcsolat lezárása
+$db = null;
+

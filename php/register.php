@@ -1,77 +1,61 @@
 <?php
-// Adatbázis-kapcsolat létrehozása
-$conn = new mysqli('localhost', 'root', '', 'pajti-paradicsom');
+declare(strict_types=1);
 
-// Adatok fogadása JSON formátumban
-$data = json_decode(file_get_contents('php://input'), true);
+// Környezeti beállítások betöltése
+require_once("../../common/php/environment.php");
+// Beérkező adatok lekérése JSON formátumban
+$args = Util::getArgs();
 
-if ($data) { // Ellenőrizzük, hogy érkezett-e adat
-    $errors = array();
-    $true = true;
+// Ellenőrzések inicializálása
+$errors = [];
+$valid = true;
 
-    // Felhasználónév ellenőrzése
-    if (empty($data['username'])) {
-        $true = false;
-        array_push($errors, "A felhasználónév üres!");
-    }
-
-    // Telefonszám ellenőrzése
-    if (empty($data['phone'])) {
-        $true = false;
-        array_push($errors, "A telefonszám üres!");
-    }
-
-    // Email cím ellenőrzése
-    if (empty($data['email'])) {
-        $true = false;
-        array_push($errors, "Az email cím üres!");
-    }
-
-    // Email cím megerősítés ellenőrzése
-    if (empty($data['confirmEmail'])) {
-        $true = false;
-        array_push($errors, "Az email cím megerősítése üres!");
-    }
-
-    // Jelszó ellenőrzése
-    if (empty($data['password'])) {
-        $true = false;
-        array_push($errors, "A jelszó üres!");
-    }
-
-    // Jelszó megerősítés ellenőrzése
-    if (empty($data['confirmPassword'])) {
-        $true = false;
-        array_push($errors, "A jelszó megerősítése üres!");
-    }
-
-    // Email címek egyezésének ellenőrzése
-    if ($data['email'] !== $data['confirmEmail']) {
-        $true = false;
-        array_push($errors, "Az email címek nem egyeznek!");
-    }
-
-    // Jelszavak egyezésének ellenőrzése
-    if ($data['password'] !== $data['confirmPassword']) {
-        $true = false;
-        array_push($errors, "A jelszavak nem egyeznek!");
-    }
-
-    if ($true) {
-        // Adatbázis beszúrás
-        $sql = "INSERT INTO users (username, phone, email, password) VALUES (?, ?, ?, ?)";
-        $stmt = $conn->prepare($sql);
-        $stmt->bind_param("ssss", $data['username'], $data['phone'], $data['email'], $data['password']);
-
-		if ($stmt->execute()) {
-			echo json_encode(['success' => true]); // Sikeres regisztráció
-		} else {
-			echo json_encode(['success' => false, 'error' => $stmt->error]); // Hiba
-		}
-
-        $stmt->close();
-	}
+// Email cím ellenőrzése
+if (empty($args['email'])) {
+    $valid = false;
+    $errors[] = "Az email cím üres!";
 }
 
-$conn->close();
-?>
+// Jelszó ellenőrzése
+if (empty($args['password'])) {
+    $valid = false;
+    $errors[] = "A jelszó üres!";
+}
+
+// Ha vannak hibák, állítsuk be a hibaüzeneteket
+if (!$valid) {
+    Util::setError(implode(" ", $errors)); // Hibaüzenetek összefűzése
+    exit; // Kilépés
+}
+
+// Adatbázis kapcsolat létrehozása
+$db = new Database();
+
+// SQL lekérdezés az email cím ellenőrzésére
+$query = "SELECT `id` FROM `users` WHERE `email` = ? LIMIT 1";
+
+// SQL parancs végrehajtása
+$result = $db->execute($query, [$args['email']]);
+
+// Ellenőrizzük, hogy az email cím már létezik-e
+if (!empty($result)) {
+    Util::setError("Felhasználó már létezik ezen az e-mail címen!");
+    exit; // Kilépés
+}
+
+// SQL parancs az új felhasználó beszúrására
+$query = $db->preparateInsert("users", $args);
+
+// SQL parancs végrehajtása
+$result = $db->execute($query, array_values($args));
+
+// Kapcsolat lezárása
+$db = null;
+
+// Válasz beállítása
+if ($result) {
+    Util::setResponse(['success' => true, 'message' => 'Sikeres regisztráció!']);
+} else {
+    Util::setError("Hiba a regisztráció során!");
+}
+

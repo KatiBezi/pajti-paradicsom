@@ -1,106 +1,133 @@
 <div class="container">
-    <div class="row justify-content-center mt-5">
-        <h2 class="text-center mb-4">Díjtáblázat</h2>
-        <h2 class="text-center mb-3">Pajti Panzió</h2>
+  <div class="row justify-content-center mt-5">
+    <h2 class="text-center mb-4">Díjtáblázat</h2>
+    <h2 class="text-center mb-3">Pajti Panzió</h2>
 
-        <div class="row align-items-center">
-            <!-- Bal oldali kép -->
-            <div class="col-md-3 text-center">
-                <img src="media/image/prices_html/napkozi3.jpg" alt="Panzió" class="img-fluid rounded shadow">
-            </div>
+    <div class="row align-items-center">
+      <!-- Bal oldali kép -->
+      <div class="col-md-3 text-center">
+        <img
+          src="media/image/prices_html/napkozi3.jpg"
+          alt="Panzió"
+          class="img-fluid rounded shadow"
+        />
+      </div>
 
-            <!-- Középső oszlop - Árlista -->
-            <div class="col-md-6">
-                <table class="table table-bordered table-striped w-100">
-                    <thead class="thead-dark">
-                        <tr>
-                            <th class="text-start col-6">Szolgáltatás megnevezése</th>
-                            <th class="text-start col-6">Ár(/megkezdett óra) (HUF)</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr ng-repeat="row in prices" ng-if="row.service_id==1">
-                            <td class="text-start">{{row.type}}</td>
-                            <td class="text-start">{{row.price}}</td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
+      <!-- Középső oszlop - Árlista -->
+      <div class="col-md-6">
+        <table class="table table-bordered table-striped w-100">
+          <thead class="thead-dark">
+            <tr>
+              <th class="text-start col-6">Szolgáltatás megnevezése</th>
+              <th class="text-start col-6">Ár(/megkezdett óra) (HUF)</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr ng-repeat="row in prices" ng-if="row.service_id==1">
+              <td class="text-start">{{row.type}}</td>
+              <td class="text-start">{{row.price}}</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
 
-            <!-- Jobb oldali kép -->
-            <div class="col-md-3 text-center">
-                <img src="media/image/prices_html/napkozi1.jpg" alt="Panzió" class="img-fluid rounded shadow">
-            </div>
-        </div>
+      <!-- Jobb oldali kép -->
+      <div class="col-md-3 text-center">
+        <img
+          src="media/image/prices_html/napkozi1.jpg"
+          alt="Panzió"
+          class="img-fluid rounded shadow"
+        />
+      </div>
     </div>
+  </div>
 
-    <!-- Ugyanígy a többi szekcióhoz is hozzáadhatod -->
-    <div class="row justify-content-center mt-5">
-        <h2 class="text-center mb-3">Pajti Kozmetika</h2>
+  <!-- Ugyanígy a többi szekcióhoz is hozzáadhatod -->
+  <div class="row justify-content-center mt-5">
+    <h2 class="text-center mb-3">Pajti Kozmetika</h2>
 
-        <div class="row align-items-center">
-            <div class="col-md-3 text-center">
-                <img src="media\image\prices_html\kozmetika1.jpg" alt="Kozmetika" class="img-fluid rounded shadow">
-            </div>
+    <div class="row align-items-center">
+      <div class="col-md-3 text-center">
+        <img
+          src="media\image\prices_html\kozmetika1.jpg"
+          alt="Kozmetika"
+          class="img-fluid rounded shadow"
+        />
+      </div>
 
-            <div class="col-md-6">
-                <table class="table table-bordered table-striped w-100">
-                    <thead class="thead-dark">
-                        <tr>
-                            <th class="text-start col-6">Szolgáltatás megnevezése</th>
-                            <th class="text-start col-6">Ár (HUF)</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr ng-repeat="row in prices" ng-if="row.service_id==2">
-                            <td class="text-start">{{row.type}}</td>
-                            <td class="text-start">{{row.price}}</td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
+      <div class="col-md-6">
+        <table class="table table-bordered table-striped w-100">
+          <thead class="thead-dark">
+            <tr>
+              <th class="text-start col-6">Szolgáltatás megnevezése</th>
+              <th class="text-start col-6">Ár (HUF)</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr ng-repeat="row in prices" ng-if="row.service_id==2">
+              <td class="text-start">{{row.type}}</td>
+              <td class="text-start">{{row.price}}</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
 
-            <div class="col-md-3 text-center">
-                <img src="media/image/prices_html/kozmetika2.jpg" alt="Kozmetika" class="img-fluid rounded shadow">
-            </div>
-        </div>
+      <div class="col-md-3 text-center">
+        <img
+          src="media/image/prices_html/kozmetika2.jpg"
+          alt="Kozmetika"
+          class="img-fluid rounded shadow"
+        />
+      </div>
     </div>
+  </div>
 
-    <div class="row justify-content-center mt-5">
-        <h2 class="text-center mb-3">Pajti Fotózás</h2>
+  <div class="row justify-content-center mt-5">
+    <h2 class="text-center mb-3">Pajti Fotózás</h2>
 
-        <div class="row align-items-center">
-            <div class="col-md-3 text-center">
-                <img src="media\image\prices_html\fotozas1.jpg" alt="Fotózás" class="img-fluid rounded shadow">
-            </div>
+    <div class="row align-items-center">
+      <div class="col-md-3 text-center">
+        <img
+          src="media\image\prices_html\fotozas1.jpg"
+          alt="Fotózás"
+          class="img-fluid rounded shadow"
+        />
+      </div>
 
-            <div class="col-md-6">
-                <table class="table table-bordered table-striped w-100">
-                    <thead class="thead-dark">
-                        <tr>
-                            <th class="text-start col-6">Szolgáltatás megnevezése</th>
-                            <th class="text-start col-6">Ár (HUF)</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr ng-repeat="row in prices" ng-if="row.service_id==3">
-                            <td class="text-start">{{row.type}}</td>
-                            <td class="text-start">{{row.price}}</td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
+      <div class="col-md-6">
+        <table class="table table-bordered table-striped w-100">
+          <thead class="thead-dark">
+            <tr>
+              <th class="text-start col-6">Szolgáltatás megnevezése</th>
+              <th class="text-start col-6">Ár (HUF)</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr ng-repeat="row in prices" ng-if="row.service_id==3">
+              <td class="text-start">{{row.type}}</td>
+              <td class="text-start">{{row.price}}</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
 
-            <div class="col-md-3 text-center">
-                <img src="media\image\prices_html\fotozas2.jpg" alt="Fotózás" class="img-fluid rounded shadow">
-            </div>
-        </div>
+      <div class="col-md-3 text-center">
+        <img
+          src="media\image\prices_html\fotozas2.jpg"
+          alt="Fotózás"
+          class="img-fluid rounded shadow"
+        />
+      </div>
     </div>
+  </div>
 
-    <div class="row justify-content-center my-5">
-        <h3 class="text-center">Válaszd ki a kedvenc csomagodat, és örökítsd meg kedvenced legszebb pillanatait!</h3>
-        <h6 class="text-center mt-3">
-            <a class="nav-link" ui-sref="schedule">Foglalj időpontot most! ✨</a>
-        </h6>
-    </div>
+  <div class="row justify-content-center my-5">
+    <h3 class="text-center">
+      Válaszd ki a kedvenc csomagodat, és örökítsd meg kedvenced legszebb
+      pillanatait!
+    </h3>
+    <h6 class="text-center mt-3">
+      <a class="nav-link" ui-sref="schedule">Foglalj időpontot most! ✨</a>
+    </h6>
+  </div>
 </div>

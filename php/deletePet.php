@@ -1,38 +1,44 @@
 <?php
+declare(strict_types=1);
+
+// Környezeti beállítások betöltése
+require_once("../../common/php/environment.php");
+
+// Session indítása
 session_start();
-header('Content-Type: application/json');
 
+// Ellenőrizzük, hogy a felhasználó be van-e jelentkezve
 if (!isset($_SESSION['user_id'])) {
-    echo json_encode(['success' => false, 'error' => 'Nincs bejelentkezve!']);
-    exit;
+    Util::setError("Kérjük, jelentkezzen be a kisállat törléséhez!");
+    exit; // Kilépés
 }
 
-if (!isset($_GET['id'])) {
-    echo json_encode(['success' => false, 'error' => 'Hiányzó kisállat azonosító!']);
-    exit;
+// Beérkező adatok lekérése JSON formátumban
+$args = Util::getArgs();
+
+// Ellenőrizzük, hogy a pet_id meg van-e adva
+if (empty($args['pet_id'])) {
+    Util::setError("Kérjük, adja meg a törölni kívánt kisállat azonosítóját!");
+    exit; // Kilépés
 }
 
-$petId = $_GET['id'];
+// Adatbázis kapcsolat létrehozása
+$db = new Database();
 
-$conn = new mysqli('localhost', 'root', '', 'pajti-paradicsom');
-if ($conn->connect_error) {
-    echo json_encode(['success' => false, 'error' => 'Adatbázis hiba: ' . $conn->connect_error]);
-    exit;
-}
+// SQL lekérdezés a kisállat törlésére
+$query = "DELETE FROM `pets` WHERE `id` = ? AND `user_id` = ?";
 
-$stmt = $conn->prepare("DELETE FROM pets WHERE id = ? AND user_id = ?");
-$stmt->bind_param("ii", $petId, $_SESSION['user_id']);
+// SQL parancs végrehajtása
+$result = $db->execute($query, [$args['pet_id'], $_SESSION['user_id']]);
 
-if ($stmt->execute()) {
-    if ($stmt->affected_rows > 0) {
-        echo json_encode(['success' => true]);
-    } else {
-        echo json_encode(['success' => false, 'error' => 'A kisállat nem található, vagy nem a felhasználóhoz tartozik!']);
-    }
+// Ellenőrizzük, hogy a törlés sikeres volt-e
+if ($result) {
+    // Válasz beállítása
+    Util::setResponse(['success' => true, 'message' => 'Kisállat sikeresen törölve!']);
 } else {
-    echo json_encode(['success' => false, 'error' => 'Adatbázis hiba: ' . $stmt->error]);
+    Util::setError("Hiba történt a kisállat törlése során, vagy a kisállat nem található!");
 }
 
-$stmt->close();
-$conn->close();
+// Kapcsolat lezárása
+$db = null;
 ?>

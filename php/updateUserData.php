@@ -1,50 +1,64 @@
 <?php
+declare(strict_types=1);
+
+// Környezeti beállítások betöltése
+require_once("../../common/php/environment.php");
+
+// Session indítása
 session_start();
-header('Content-Type: application/json');
 
+// Ellenőrizzük, hogy a felhasználó be van-e jelentkezve
 if (!isset($_SESSION['user_id'])) {
-    echo json_encode(['success' => false, 'error' => 'Nincs bejelentkezve!']);
-    exit;
+    Util::setError("Kérjük, jelentkezzen be a felhasználói adatok frissítéséhez!");
+    exit; // Kilépés
 }
 
-$conn = new mysqli('localhost', 'root', '', 'pajti-paradicsom');
-if ($conn->connect_error) {
-    echo json_encode(['success' => false, 'error' => 'Adatbázis hiba: ' . $conn->connect_error]);
-    exit;
+// Beérkező adatok lekérése JSON formátumban
+$args = Util::getArgs();
+
+// Ellenőrizzük, hogy a frissítendő adatok meg vannak-e adva
+if (empty($args['name']) && empty($args['email']) && empty($args['password'])) {
+    Util::setError("Kérjük, adja meg a frissítendő adatokat!");
+    exit; // Kilépés
 }
 
-$input = file_get_contents("php://input");
-$data = json_decode($input);
+// Adatbázis kapcsolat létrehozása
+$db = new Database();
 
-if ($data === null && json_last_error() !== JSON_ERROR_NONE) {
-    echo json_encode(['success' => false, 'error' => 'Hibás JSON formátum: ' . json_last_error_msg()]);
-    exit;
+// SQL lekérdezés a felhasználói adatok frissítésére
+$query = "UPDATE `users` SET ";
+$parameters = [];
+$updates = [];
+
+// Dinamikusan építjük fel a frissítési lekérdezést
+if (!empty($args['name'])) {
+    $updates[] = "`name` = ?";
+    $parameters[] = $args['name'];
+}
+if (!empty($args['email'])) {
+    $updates[] = "`email` = ?";
+    $parameters[] = $args['email'];
+}
+if (!empty($args['password'])) {
+    // Jelszó frissítése 
+    $updates[] = "`password` = ?";
+    $parameters[] = $args['password'];
 }
 
-if (!isset($data->username) || !isset($data->email) || !isset($data->phone)) {
-    echo json_encode(['success' => false, 'error' => 'Hiányzó adatok!']);
-    exit;
-}
+// A lekérdezés befejezése
+$query .= implode(", ", $updates) . " WHERE `id` = ?";
+$parameters[] = $_SESSION['user_id'];
 
-$stmt = $conn->prepare("UPDATE users SET username = ?, email = ?, phone = ? WHERE id = ?");
-if (!$stmt) {
-    echo json_encode(['success' => false, 'error' => 'Előkészítési hiba: ' . $conn->error]);
-    exit;
-}
+// SQL parancs végrehajtása
+$result = $db->execute($query, $parameters);
 
-$stmt->bind_param("sssi", $data->username, $data->email, $data->phone, $_SESSION['user_id']);
-
-if ($stmt->execute()) {
-    if ($stmt->affected_rows > 0) {
-        echo json_encode(['success' => true]);
-    } else {
-        echo json_encode(['success' => false, 'error' => 'Nincs frissíthető adat!']);
-    }
-
+// Ellenőrizzük, hogy a frissítés sikeres volt-e
+if ($result) {
+    Util::setResponse(['success' => true, 'message' => 'Felhasználói adatok sikeresen frissítve!']);
 } else {
-    echo json_encode(['success' => false, 'error' => 'Végrehajtási hiba: ' . $stmt->error]);
+    Util::setError("Hiba történt a felhasználói adatok frissítése során!");
 }
 
-$stmt->close();
-$conn->close();
-?>
+// Kapcsolat lezárása
+$db = null;
+

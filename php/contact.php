@@ -1,40 +1,56 @@
 <?php
 declare(strict_types=1);
 
-// Include environment
+// Környezeti beállítások betöltése
 require_once("../../common/php/environment.php");
 
-// Get data from POST request (assuming JSON format)
-$data = json_decode(file_get_contents('php://input'), true);
+// Session indítása
+session_start();
 
-// Check if data is valid
-if (!isset($data['name']) || !isset($data['email']) || !isset($data['message'])) {
-    Util::setResponse(['success' => false, 'error' => 'Hiányzó adatok.']);
-    exit;
+// Ellenőrizzük, hogy a felhasználó be van-e jelentkezve (opcionális, ha szükséges)
+if (!isset($_SESSION['user_id'])) {
+    Util::setError("Kérjük, jelentkezzen be a fiókjába a kapcsolatfelvételi űrlap elküldéséhez!");
+    exit; // Kilépés
 }
 
-// Sanitize data
-$name = $data['name'];
-$email = $data['email'];
-$message = $data['message'];
-$submission_date = date('Y-m-d H:i:s'); // Aktuális időpont formázva
+// Ellenőrizzük, hogy a kérés POST módszerrel érkezett-e
+if ($_SERVER["REQUEST_METHOD"] === "POST") {
+    // Beviteli értékek lekérése és tisztítása
+    $name = isset($_POST['name']) ? trim($_POST['name']) : '';
+    $email = isset($_POST['email']) ? trim($_POST['email']) : '';
+    $message = isset($_POST['message']) ? trim($_POST['message']) : '';
 
-// Set SQL command
-$query = "INSERT INTO `contact` (`name`, `email`, `message`, `submission_date`) VALUES (?, ?, ?, ?);";
+    // Ellenőrzés: minden mező kitöltése kötelező
+    if (empty($name) || empty($email) || empty($message)) {
+        Util::setError("Minden mezőt ki kell tölteni.");
+        exit;
+    }
 
-// Connect to MySQL server
-$db = new Database();
+    // Ellenőrzés: érvényes email formátum
+    if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
+        Util::setError("Érvénytelen email cím formátum.");
+        exit;
+    }
 
-// Execute SQL command with prepared statement
-$result = $db->execute($query, [$name, $email, $message, $submission_date]);
+    // Adatbázis kapcsolat létrehozása
+    $db = new Database();
 
-// Close connection
-$db = null;
+    // SQL parancs előkészítése
+    $query = "INSERT INTO `contact` (`name`, `email`, `message`) VALUES (?, ?, ?)";
+    
+    // SQL parancs végrehajtása
+    $result = $db->execute($query, [$name, $email, $message]);
 
-// Set response
-if ($result) {
-    Util::setResponse(['success' => true]); // Javítás: mindig adjuk vissza a success tulajdonságot
+    // Ellenőrizzük, hogy a beszúrás sikeres volt-e
+    if ($result) {
+        Util::setResponse(['success' => true, 'message' => 'Az üzenet sikeresen elküldve!']);
+    } else {
+        Util::setError("Hiba történt az üzenet elküldése során!");
+    }
+
+    // Kapcsolat lezárása
+    $db = null;
 } else {
-    Util::setResponse(['success' => false, 'error' => 'Hiba az adatbázisba írás során.']);
+    Util::setError("Érvénytelen kérés módszer.");
 }
 ?>

@@ -1,106 +1,101 @@
 (function(window, angular) {
-  'use strict';
+    'use strict';
 
-  // Application module
-  angular.module('app', [
-      'ui.router',
-      'app.common',
-  ])
-  
+    // Application module
+    angular.module('app', [
+        'ui.router',
+        'app.common',
+    ])
 
-  // Application config
-  .config([
-      '$stateProvider',
-      '$urlRouterProvider',
-      function($stateProvider, $urlRouterProvider) {
-
-          $stateProvider
-              .state('root', {
-                  views: {
-                      '': { 
-                          templateUrl: './html/root.html'
-                      },
-                      'header@root': {
-                          templateUrl: './html/header.html',
-                          controller: 'headerController'
-                      },
-                      'footer@root': {
-                          templateUrl: './html/footer.html'
-                      }
-                  }
-              })
-              .state('home', {
-                  url: '/',
-                  parent: 'root',
-                  templateUrl: './html/home.html'
-              })
-              .state('services', {
-                  url: '/services',
-                  parent: 'root',
-                  templateUrl: './html/services.html',
-                  controller: 'serviceController'
-              })
-              .state('schedule', {
-                url: '/schedule',
-                parent: 'root',
-                templateUrl: './html/schedule.html',
-                controller: 'scheduleController',
-                
-              })
-              
-              .state('prices', {
-                  url: '/prices',
-                  parent: 'root',
-                  templateUrl: './html/prices.html',
-                  controller: 'pricesController'
-              })
-              .state('gallery', {
-                  url: '/gallery',
-                  parent: 'root',
-                  templateUrl: './html/gallery.html',
-                  controller: 'galleryController'
-              })
-              .state('contact', {
-                  url: '/contact',
-                  parent: 'root',
-                  templateUrl: './html/contact.html',
-                  controller: 'contactController'
-              })
-              .state('policies', {
-                  url: '/policies',
-                  parent: 'root',
-                  templateUrl: './html/policies.html'
-              })
-              .state('login', {
-                  url: '/login',
-                  parent:'root',
-                  templateUrl: './html/login.html',
-                  controller: 'loginController'
-              })
-              .state('register', {
-                  url: '/register',
-                  parent: 'root',
-                  templateUrl: './html/register.html',
-                  controller: 'registerController'
-              })
-              .state('users', {
-                url: '/users',
-                parent: 'root',
-                templateUrl: './html/users.html',
-                controller: 'usersController',
-                resolve: {
-                    loggedIn: ['authService', '$state', '$http', function(authService, $state, $http) {
-                      
-                        if (!authService.isLoggedIn()) {
-                            $state.go('login');
-                            return; // Fontos a return, hogy ne fusson tovább a kód
+    // Application config
+    .config([
+        '$stateProvider',
+        '$urlRouterProvider',
+        function($stateProvider, $urlRouterProvider) {
+            $stateProvider
+                .state('root', {
+                    views: {
+                        '': { 
+                            templateUrl: './html/root.html'
+                        },
+                        'header@root': {
+                            templateUrl: './html/header.html',
+                            controller: 'headerController'
+                        },
+                        'footer@root': {
+                            templateUrl: './html/footer.html'
                         }
-                    }]
-                }
-            })
+                    }
+                })
+                .state('home', {
+                    url: '/',
+                    parent: 'root',
+                    templateUrl: './html/home.html'
+                })
+                .state('services', {
+                    url: '/services',
+                    parent: 'root',
+                    templateUrl: './html/services.html',
+                    controller: 'serviceController'
+                })
+                .state('schedule', {
+                    url: '/schedule',
+                    parent: 'root',
+                    templateUrl: './html/schedule.html',
+                    controller: 'scheduleController',
+                })
+                .state('prices', {
+                    url: '/prices',
+                    parent: 'root',
+                    templateUrl: './html/prices.html',
+                    controller: 'pricesController'
+                })
+                .state('gallery', {
+                    url: '/gallery',
+                    parent: 'root',
+                    templateUrl: './html/gallery.html',
+                    controller: 'galleryController'
+                })
+                .state('contact', {
+                    url: '/contact',
+                    parent: 'root',
+                    templateUrl: './html/contact.html',
+                    controller: 'contactController'
+                })
+                .state('policies', {
+                    url: '/policies',
+                    parent: 'root',
+                    templateUrl: './html/policies.html'
+                })
+                .state('login', {
+                    url: '/login',
+                    parent:'root',
+                    templateUrl: './html/login.html',
+                    controller: 'loginController'
+                })
+                .state('register', {
+                    url: '/register',
+                    parent: 'root',
+                    templateUrl: './html/register.html',
+                    controller: 'registerController'
+                })
+                .state('users', {
+                    url: '/users',
+                    parent: 'root',
+                    templateUrl: './html/users.html',
+                    controller: 'usersController',
+                    resolve: {
+                        loggedIn: ['authService', '$state', function(authService, $state) {
+                            if (!authService.isLoggedIn()) {
+                                $state.go('login');
+                            }
+                        }]
+                    }
+                });
 
-        $urlRouterProvider.otherwise('/');
-    }])
+            $urlRouterProvider.otherwise('/');
+        }
+    ])
   
     .run([function() { console.log("Run..."); }])
   
@@ -112,7 +107,7 @@
             isLoggedIn: function() {
                 return isLoggedIn;
             },
-            login: function(id) { // paraméterként átvesszük az id-t
+            login: function(id) {
                 isLoggedIn = true;
                 userId = id;
             },
@@ -120,13 +115,13 @@
                 isLoggedIn = false;
                 userId = null;
                 $state.go('home');
-                return;
             },
             getUserId: function() {
                 return userId;
             }
         };
     }])
+  
     .controller('headerController', ['authService', '$scope', '$http', function(authService, $scope, $http) {
         var vm = this;
         vm.authService = authService;
@@ -139,10 +134,10 @@
             if (newValue !== oldValue) {
                 $scope.isLoggedIn = newValue;
             }
-        })
+        });
     
         $scope.logout = function() {
-            $http.get('./php/logout.php') // logout.php hívása
+            $http.get('./php/logout.php')
                 .then(function(response) {
                     authService.logout();
                     $scope.successMessage = 'Sikeres kijelentkezés!';
@@ -155,46 +150,43 @@
                 });
         };
     }])
-    .controller('serviceController', [
-      '$scope',
-      'http',
-      function($scope, http) {
-          http.request('./php/getServices.php')
-              .then(response => {
-                  $scope.services = response;
-                  $scope.$applyAsync();
-              })
-              .catch(e => console.log(e));
+  
+    .controller('serviceController', ['$scope', '$http', function($scope, $http) {
+        $http.get('./php/getServices.php')
+            .then(function(response) {
+                $scope.services = response.data;
+            })
+            .catch(function(e) {
+                console.log(e);
+            });
     }])
-  .controller('galleryController', [
-      '$scope',
-      'http',
-      function($scope, http) {
-          http.request('./php/getGallery.php')
-              .then(response => {
-                  $scope.gallery = response;
-                  $scope.$applyAsync();
-              })
-              .catch(e => console.log(e));
+  
+    .controller('galleryController', ['$scope', '$http', function($scope, $http) {
+        $http.get('./php/getGallery.php')
+            .then(function(response) {
+                $scope.gallery = response.data;
+            })
+            .catch(function(e) {
+                console.log(e);
+            });
     }])
-  .controller('pricesController', [
-      '$scope',
-      'http',
-      function($scope, http) {
-          http.request('./php/getprices.php')
-              .then(response => {
-                  $scope.prices = response;
-                  $scope.$applyAsync();
-              })
-              .catch(e => alert(e));
+  
+    .controller('pricesController', ['$scope', '$http', function($scope, $http) {
+        $http.get('./php/getPrices.php')
+            .then(function(response) {
+                $scope.prices = response.data;
+            })
+            .catch(function(e) {
+                alert(e);
+            });
     }])
+
     .controller('contactController', ['$scope', '$http', function($scope, $http) {
         $scope.contact = {};
-    
-        $scope.submitForm = function() {
+
+        $scope.submitContactForm = function() {
             $http.post('./php/contact.php', $scope.contact)
                 .then(function(response) {
-                    // If the message is saved (even if response format isn't perfect)
                     alert('Üzenet sikeresen elküldve!');
                     $scope.contact = {};
                 })
@@ -204,7 +196,6 @@
                     } else if (error.status === 500) {
                         alert('Szerver oldali hiba történt.');
                     } else {
-                        // Try to get error message from response if available
                         const errorMsg = error.data && error.data.error 
                             ? error.data.error 
                             : 'Hiba történt az üzenet küldése során.';
@@ -214,63 +205,65 @@
         };
     }])
 
-  .controller('registerController',
-      function($scope, $http, $state) {
-          $scope.user = {
-              username: '',
-              phone: '',
-              email: '',
-              confirmEmail: '',
-              password: '',
-              confirmPassword: ''
-          };
+    .controller('registerController', ['$scope', '$http', '$state', function($scope, $http, $state) {
+        $scope.user = {
+            username: '',
+            phone: '',
+            email: '',
+            confirmEmail: '',
+            password: '',
+            confirmPassword: ''
+        };
 
-          $scope.submitForm = function() {
-              if ($scope.registerForm.$valid) {
-                  $http.post('./php/register.php', $scope.user)
-                      .then(function(response) {
-                          if (response.data.success) {
-                              $state.go('login')
-                          } else {
-                              alert('Hiba történt a regisztráció során: ' + response.data.error);
-                          }
-                      })
-                      .catch(function(error) {
-                          alert('Hiba történt a regisztráció során.');
-                      });
-              } else {
-                  alert('Kérjük, töltsd ki az összes mezőt helyesen!');
-              }
-    }})
-  .controller('loginController', ['$scope', '$http', '$state', 'authService', function($scope, $http, $state, authService) {
-    $scope.user = {
-        username: '',
-        password: ''
-    };
-
-    $scope.submitForm = function() {
-        if ($scope.loginForm.$valid) {
-            $http.post('./php/login.php', $scope.user)
-                .then(function(response) {
-                    if (response.data.success) {
-                        $scope.successMessage = 'Sikeres bejelentkezés!';
-                        authService.login(response.data.user_id); // Felhasználó azonosító átadása
-                        setTimeout(function() {
-                            $state.go('users');
-                        }, 500);
-                    } else {
-                        $scope.errorMessage = response.data.error;
-                    }
-                })
-                .catch(function(error) {
-                    $scope.errorMessage = 'Hiba történt a bejelentkezés során.';
-                });
-        } else {
-            $scope.errorMessage = 'Kérjük, töltsd ki az összes mezőt helyesen!';
-        }
-    }
+        $scope.submitRegisterForm = function() {
+            if ($scope.registerForm.$valid) {
+                $http.post('./php/register.php', $scope.user)
+                    .then(function(response) {
+                        if (response.data.success) {
+                            $state.go('login');
+                        } else {
+                            alert('Hiba történt a regisztráció során: ' + response.data.error);
+                        }
+                    })
+                    .catch(function(error) {
+                        alert('Hiba történt a regisztráció során.');
+                    });
+            } else {
+                alert('Kérjük, töltsd ki az összes mezőt helyesen!');
+            }
+        };
     }])
-  .controller('usersController', ['$scope', '$http', '$state', 'authService', function($scope, $http, $state, authService) {
+
+    .controller('loginController', ['$scope', '$http', '$state', 'authService', function($scope, $http, $state, authService) {
+        $scope.user = {
+            username: '',
+            password: ''
+        };
+
+        $scope.submitLoginForm = function() {
+            if ($scope.loginForm.$valid) {
+                $http.post('./php/login.php', $scope.user)
+                    .then(function(response) {
+                        if (response.data.success) {
+                            $scope.successMessage = 'Sikeres bejelentkezés!';
+                            authService.login(response.data.user_id);
+                            setTimeout(function() {
+                                $state.go('users');
+                            }, 500);
+                        } else {
+                            $scope.errorMessage = response.data.error;
+                        }
+                    })
+                    .catch(function(error) {
+                        $scope.errorMessage = 'Hiba történt a bejelentkezés során.';
+                    });
+            } else {
+                $scope.errorMessage = 'Kérjük, töltsd ki az összes mezőt helyesen!';
+            }
+        };
+    }])
+  
+    .controller('usersController', ['$scope', '$http', '$state', 'authService', function($scope, $http, $state, authService) {
         $scope.user = {};
         $scope.registeredPets = [];
         $scope.errorMessage = '';
@@ -287,7 +280,6 @@
             .then(function(response) {
                 if (response.data.success) {
                     $scope.user = response.data.user;
-                    $scope.errorMessage = '';
                 } else {
                     $scope.errorMessage = 'Hiba történt az adatok lekérése során: ' + response.data.error;
                 }
@@ -306,7 +298,6 @@
             .then(function(response) {
                 if (response.data.success) {
                     $scope.registeredPets = response.data.pets;
-                    $scope.errorMessage = '';
                 } else {
                     $scope.errorMessage = 'Hiba történt a kisállatok lekérése során: ' + response.data.error;
                 }
@@ -315,6 +306,7 @@
                 $scope.errorMessage = 'Hiba történt a kisállatok lekérése során.';
             });
         };
+
         $scope.updateUser = function() {
             if ($scope.userForm.$valid) {
                 $http.post('./php/updateUserData.php', {
@@ -324,23 +316,16 @@
                 })
                 .then(function(response) {
                     if (response.data.success) {
-                        console.log('Felhasználói adatok sikeresen frissítve!');
-                        $scope.successMessage = 'Felhasználói adatok sikeresen frissítve!'; // Visszajelzés a felhasználónak
-                        $scope.errorMessage = ''; // Hibaüzenet törlése
+                        $scope.successMessage = 'Felhasználói adatok sikeresen frissítve!';
                     } else {
-                        console.error('Hiba a frissítés során:', response.data.error);
-                        $scope.errorMessage = 'Hiba történt a frissítés során: ' + response.data.error; // Hibaüzenet megjelenítése a felhasználónak
-                        $scope.successMessage = ''; // Sikeres üzenet törlése
+                        $scope.errorMessage = 'Hiba történt a frissítés során: ' + response.data.error;
                     }
                 })
                 .catch(function(error) {
-                    console.error('Hiba a frissítés során:', error);
-                    $scope.errorMessage = 'Hiba történt a frissítés során.'; // Hibaüzenet megjelenítése a felhasználónak
-                    $scope.successMessage = ''; // Sikeres üzenet törlése
+                    $scope.errorMessage = 'Hiba történt a frissítés során.';
                 });
             } else {
-                $scope.errorMessage = 'Kérjük, töltsd ki az összes mezőt helyesen!'; // Hibaüzenet megjelenítése a felhasználónak
-                $scope.successMessage = ''; // Sikeres üzenet törlése
+                $scope.errorMessage = 'Kérjük, töltsd ki az összes mezőt helyesen!';
             }
         };
 
@@ -387,17 +372,14 @@
                 .then(function(response) {
                     if (response.data.success) {
                         $scope.successMessage = 'Kisállat adatai sikeresen frissítve!';
-                        $scope.errorMessage = '';
                         $scope.loadRegisteredPets();
-                        $scope.isEditing = false;
+                        $scope.isEditingPet = false;
                     } else {
                         $scope.errorMessage = 'Hiba történt a frissítés során: ' + response.data.error;
-                        $scope.successMessage = '';
                     }
                 })
                 .catch(function(error) {
                     $scope.errorMessage = 'Hiba történt a frissítés során.';
-                    $scope.successMessage = '';
                 });
         };
 
@@ -406,47 +388,87 @@
                 .then(function(response) {
                     if (response.data.success) {
                         $scope.successMessage = 'Kisállat sikeresen törölve!';
-                        $scope.errorMessage = '';
-                        $scope.loadRegisteredPets(); // Kisállatok lista frissítése
+                        $scope.loadRegisteredPets();
                     } else {
                         $scope.errorMessage = 'Hiba történt a törlés során: ' + response.data.error;
-                        $scope.successMessage = '';
                     }
                 })
                 .catch(function(error) {
                     $scope.errorMessage = 'Hiba történt a törlés során.';
-                    $scope.successMessage = '';
                 });
         };
-        $scope.newPet = {};
-            $scope.registrationSuccess = false; // Új változó a sikeres regisztráció jelzésére
 
-            $scope.registerPet = function() {
+        $scope.newPet = {};
+        $scope.registrationSuccess = false;
+
+        $scope.registerPet = function() {
             $http.post('./php/registerPet.php', $scope.newPet)
-            .then(function(response) {
-                if (response.data.success) {
-                    $scope.successMessage = '';
-                    $scope.errorMessage = '';
-                    $scope.loadRegisteredPets();
-                    $scope.newPet = {};
-                    $scope.registrationSuccess = true; // Sikeres regisztráció jelzése
-                    // Sikeres regisztráció üzenet eltüntetése 3 másodperc után
-                    setTimeout(function() {
-                        $scope.registrationSuccess = false;
-                    }, 3000);
-                } else {
-                    $scope.errorMessage = 'Hiba történt a regisztráció során: ' + response.data.error;
-                    $scope.successMessage = '';
-                }
-            })
-            .catch(function(error) {
-                $scope.errorMessage = 'Hiba történt a regisztráció során.';
-                $scope.successMessage = '';
-            });
+                .then(function(response) {
+                    if (response.data.success) {
+                        $scope.loadRegisteredPets();
+                        $scope.newPet = {};
+                        $scope.registrationSuccess = true;
+                        setTimeout(function() {
+                            $scope.registrationSuccess = false;
+                        }, 3000);
+                    } else {
+                        $scope.errorMessage = 'Hiba történt a regisztráció során: ' + response.data.error;
+                    }
+                })
+                .catch(function(error) {
+                    $scope.errorMessage = 'Hiba történt a regisztráció során.';
+                });
         };
 
         $scope.loadUserData();
         $scope.loadRegisteredPets();
     }])
-  
+   
+    .controller('scheduleController', ['$scope', '$http', function($scope, $http) {
+        // Inicializáljuk a scheduleData objektumot
+        $scope.scheduleData = {
+            serviceType: '',
+            petId: '',
+            appointmentDate: '',
+            appointmentTime: ''
+        };
+    
+        // Inicializáljuk a pets tömböt
+        $scope.pets = [];
+    
+        // Regisztrált kisállatok betöltése
+        $scope.getRegisteredPets = function() {
+            $http.get('./php/getRegisteredPets.php')
+            .then(function(response) {
+                // A válaszban kapott kisállatok listájának beállítása
+                $scope.pets = response.data;
+            }, function(error) {
+                // Hiba kezelése
+                alert('Hiba történt a kisállatok betöltése során: ' + error.data.message);
+            });
+        };
+    
+        // Hívjuk meg a getRegisteredPets funkciót az oldal betöltésekor
+        $scope.getRegisteredPets();
+    
+        // Űrlap beküldése
+        $scope.submitScheduleForm = function() {
+            if ($scope.scheduleForm.$valid) {
+                // Itt küldjük el az űrlap adatokat a szerverre
+                $http.post('./php/schedule.php', $scope.scheduleData)
+                .then(function(response) {
+                    // Sikeres válasz kezelése
+                    alert('Időpontfoglalás sikeres!');
+                    // Űrlap törlése
+                    $scope.scheduleData = {};
+                }, function(error) {
+                    // Hiba kezelése
+                    alert('Hiba történt az időpontfoglalás során: ' + error.data.message);
+                });
+            } else {
+                alert('Kérjük, töltse ki az összes kötelező mezőt!');
+            }
+        };
+    }]);
+    
 })(window, angular);

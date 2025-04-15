@@ -1,122 +1,180 @@
 <div class="container">
-    <div class="row">
-        <div class="col-12 text-center mb-4">
-            <h1 class="card-title">Regisztrált adatok</h1>
-        </div>
-        <div class="col-md-8 mb-4">
-            <div class="card rounded border p-3 h-100">
-                <div class="card-body">
-                    <h5 class="card-title">Felhasználói adatok</h5>
-                    <div ng-if="errorMessage" class="alert alert-danger">{{ errorMessage }}</div>
-                    <div ng-if="successMessage" class="alert alert-success">{{ successMessage }}</div>
-
-                    <div class="mb-4">
-                        <div ng-if="!isEditingUser">
-                            <p class="card-text"><strong>Felhasználónév:</strong> {{ user.username }}</p>
-                            <p class="card-text"><strong>Email cím:</strong> {{ user.email }}</p>
-                            <p class="card-text"><strong>Telefonszám:</strong> {{ user.phone }}</p>
-                            <button class="btn btn-primary" ng-click="enableEditUser()">Adatok frissítése</button>
-                            <button class="btn btn-danger" ng-click="deleteUser()">Fiók törlése</button>
-                        </div>
-                        <div ng-if="isEditingUser">
-                            <form name="userForm">
-                                <div class="form-group">
-                                    <label>Felhasználónév:</label>
-                                    <input type="text" class="form-control" ng-model="user.username" required>
-                                </div>
-                                <div class="form-group">
-                                    <label>Email cím:</label>
-                                    <input type="email" class="form-control" ng-model="user.email" required>
-                                </div>
-                                <div class="form-group">
-                                    <label>Telefonszám:</label>
-                                    <input type="text" class="form-control" ng-model="user.phone" required>
-                                </div>
-                                <button type="button" class="btn btn-success" ng-click="updateUser()">Mentés</button>
-                                <button type="button" class="btn btn-secondary" ng-click="disableEdit()">Mégse</button>
-                            </form>
-                        </div>
-                    </div>
-
-                    <div>
-                        <h6 class="card-title">Regisztrált kisállatok</h6>
-                        <table class="table">
-                            <thead>
-                                <tr>
-                                    <th>Név</th>
-                                    <th>Típus</th>
-                                    <th>Kor</th>
-                                    <th>Leírás</th>
-                                    <th>Műveletek</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr ng-repeat="pet in registeredPets">
-                                    <td>{{ pet.name }}</td>
-                                    <td>{{ pet.type }}</td>
-                                    <td>{{ pet.age }}</td>
-                                    <td>{{ pet.description }}</td>
-                                    <td>
-                                        <button class="btn btn-sm btn-primary" ng-click="editPet(pet)">Szerkesztés</button>
-                                        <button class="btn btn-sm btn-danger" ng-click="deletePet(pet.id)">Törlés</button>
-                                    </td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
-
-                    <div ng-if="isEditingPet" class="mt-4">
-                        <h6 class="card-title">Kisállat szerkesztése</h6>
-                        <form name="editPetForm">
-                            <div class="form-group">
-                                <label>Név:</label>
-                                <input type="text" class="form-control" ng-model="editPetData.name">
-                            </div>
-                            <div class="form-group">
-                                <label>Típus:</label>
-                                <input type="text" class="form-control" ng-model="editPetData.type">
-                            </div>
-                            <div class="form-group">
-                                <label>Kor:</label>
-                                <input type="number" class="form-control" ng-model="editPetData.age">
-                            </div>
-                            <div class="form-group">
-                                <label>Leírás:</label>
-                                <textarea class="form-control" ng-model="editPetData.description"></textarea>
-                            </div>
-                            <button type="button" class="btn btn-success" ng-click="saveEditPet()">Mentés</button>
-                            <button type="button" class="btn btn-secondary" ng-click="disableEdit()">Mégse</button>
-                        </form>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="col-md-4 mb-4">
-            <div class="card rounded border p-3 h-100">
-                <div class="card-body">
-                    <h5 class="card-title">Kisállat regisztráció</h5>
-                    <div ng-if="registrationSuccess" class="alert alert-success">Sikeres regisztráció!</div>
-                    <form ng-submit="registerPet()">
-                        <div class="form-group">
-                            <label>Név:</label>
-                            <input type="text" class="form-control" ng-model="newPet.name" required>
-                        </div>
-                        <div class="form-group">
-                            <label>Típus:</label>
-                            <input type="text" class="form-control" ng-model="newPet.type" required>
-                        </div>
-                        <div class="form-group">
-                            <label>Kor:</label>
-                            <input type="number" class="form-control" ng-model="newPet.age" required>
-                        </div>
-                        <div class="form-group">
-                            <label>Leírás:</label>
-                            <textarea class="form-control" ng-model="newPet.description"></textarea>
-                        </div>
-                        <button type="submit" class="btn btn-primary">Regisztráció</button>
-                    </form>
-                </div>
-            </div>
-        </div>
+  <div class="row">
+    <div class="col-12 text-center mb-4">
+      <h1 class="card-title">Regisztrált adatok</h1>
     </div>
+    <div class="col-md-8 mb-4">
+      <div class="card rounded border p-3 h-100">
+        <div class="card-body">
+          <h5 class="card-title">Felhasználói adatok</h5>
+          <div ng-if="errorMessage" class="alert alert-danger">
+            {{ errorMessage }}
+          </div>
+          <div ng-if="successMessage" class="alert alert-success">
+            {{ successMessage }}
+          </div>
+
+          <div class="mb-4">
+            <div ng-if="!isEditingUser">
+              <p class="card-text">
+                <strong>Felhasználónév:</strong> {{ user.username }}
+              </p>
+              <p class="card-text">
+                <strong>Email cím:</strong> {{ user.email }}
+              </p>
+              <p class="card-text">
+                <strong>Telefonszám:</strong> {{ user.phone }}
+              </p>
+              <button class="btn btn-primary" ng-click="enableEditUser()">
+                Adatok frissítése
+              </button>
+              <button class="btn btn-danger" ng-click="deleteUser()">
+                Fiók törlése
+              </button>
+            </div>
+            <div ng-if="isEditingUser">
+              <form name="userForm">
+                <div class="form-group">
+                  <label>Felhasználónév:</label>
+                  <input
+                    type="text"
+                    class="form-control"
+                    ng-model="user.username"
+                    required
+                  />
+                </div>
+                <div class="form-group">
+                  <label>Email cím:</label>
+                  <input
+                    type="email"
+                    class="form-control"
+                    ng-model="user.email"
+                    required
+                  />
+                </div>
+                <div class="form-group">
+                  <label>Telefonszám:</label>
+                  <input
+                    type="text"
+                    class="form-control"
+                    ng-model="user.phone"
+                    required
+                  />
+                </div>
+                <button
+                  type="button"
+                  class="btn btn-success"
+                  ng-click="updateUser()"
+                >
+                  Mentés
+                </button>
+                <button
+                  type="button"
+                  class="btn btn-secondary"
+                  ng-click="disableEdit()"
+                >
+                  Mégse
+                </button>
+              </form>
+            </div>
+          </div>
+
+          <div>
+            <h6 class="card-title">Regisztrált kisállatok</h6>
+            <table class="table">
+              <thead>
+                <tr>
+                  <th>Név</th>
+                  <th>Típus</th>
+                  <th>Kor</th>
+                  <th>Leírás</th>
+                  <th>Műveletek</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr ng-repeat="pet in registeredPets">
+                  <td>{{ pet.name }}</td>
+                  <td>{{ pet.type }}</td>
+                  <td>{{ pet.age }}</td>
+                  <td>{{ pet.description }}</td>
+                  <td>
+                    <button
+                      class="btn btn-sm btn-primary"
+                      ng-click="editPet(pet)"
+                    >
+                      Szerkesztés
+                    </button>
+                    <button
+                      class="btn btn-sm btn-danger"
+                      ng-click="deletePet(pet.id)"
+                    >
+                      Törlés
+                    </button>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+
+          <div ng-if="isEditingPet" class="mt-4">
+            <h6 class="card-title">Kisállat szerkesztése</h6>
+            <form name="editPetForm">
+              <div class="form-group">
+                <label>Név:</label>
+                <input
+                  type="text"
+                  class="form-control"
+                  ng-model="editPetData.name"
+                />
+              </div>
+              <div class="form-group">
+                <label>Típus:</label>
+                <input
+                  type="text"
+                  class="form-control"
+                  ng-model="editPetData.type"
+                />
+              </div>
+              <div class="form-group">
+                <label>Kor:</label>
+                <input
+                  type="number"
+                  class="form-control"
+                  ng-model="editPetData.age"
+                />
+              </div>
+              <div class="form-group">
+                <label>Leírás:</label>
+                <textarea
+                  class="form-control"
+                  ng-model="editPetData.description"
+                ></textarea>
+              </div>
+              <button
+                type="button"
+                class="btn btn-success"
+                ng-click="saveEditPet()"
+              >
+                Mentés
+              </button>
+              <button
+                type="button"
+                class="btn btn-secondary"
+                ng-click="disableEdit()"
+              >
+                Mégse
+              </button>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-4 mb-4">
+      <div class="card rounded border p-3 h-100">
+        <div class="card-body">
+          <h5 class="card-title">Kis</h5>
+        </div>
+      </div>
+    </div>
+  </div>
 </div>
