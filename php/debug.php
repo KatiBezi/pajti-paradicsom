@@ -1,9 +1,6 @@
 <?php
 declare(strict_types=1);
 
-$_POST['data'] = '{
-    "username": "Eszti",
-    "password": "Pajti2025"
-}';
+$_POST['data'] = '{"user_id": 3}';
 
-require_once('./login.php');
+require_once('./getRegisteredPets.php');

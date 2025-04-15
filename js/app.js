@@ -82,17 +82,18 @@
             parent: "root",
             templateUrl: "./html/users.html",
             controller: "usersController",
-            resolve: {
-              loggedIn: [
-                "authService",
-                "$state",
-                function (authService, $state) {
-                  if (!authService.isLoggedIn()) {
-                    $state.go("login");
-                  }
-                },
-              ],
-            },
+
+            // resolve: {
+            //   loggedIn: [
+            //     "authService",
+            //     "$state",
+            //     function (authService, $state) {
+            //       if (!authService.isLoggedIn()) {
+            //         $state.go("login");
+            //       }
+            //     },
+            //   ],
+            // },
           });
 
         $urlRouterProvider.otherwise("/");
@@ -315,8 +316,11 @@
             data: $scope.user
           })
           .then(response => {
-            console.log(response);
-            alert("Sikeres bejelenkezés!");
+            authService.login(response.user_id);
+            setTimeout(function () {
+              alert("Sikeres bejelenkezés!");
+            }, 500);
+            $state.go("users");
           })
           .catch(e => alert(e));
 
@@ -359,7 +363,8 @@
       "$http",
       "$state",
       "authService",
-      function ($scope, $http, $state, authService) {
+      'http',
+      function ($scope, $http, $state, authService, http) {
         $scope.user = {};
         $scope.registeredPets = [];
         $scope.errorMessage = "";
@@ -368,45 +373,69 @@
         $scope.isEditing = false;
 
         $scope.loadUserData = function () {
-          $http
-            .get("./php/getUserData.php", {
-              params: {
-                user_id: authService.getUserId(),
-              },
-            })
-            .then(function (response) {
-              if (response.data.success) {
-                $scope.user = response.data.user;
-              } else {
-                $scope.errorMessage =
-                  "Hiba történt az adatok lekérése során: " +
-                  response.data.error;
-              }
-            })
-            .catch(function (error) {
-              $scope.errorMessage = "Hiba történt az adatok lekérése során.";
-            });
+
+          http.request({
+            url: './php/getUserData.php',
+            data: {user_id: authService.getUserId()}
+          })
+          .then(response => {
+            console.log(response);
+            $scope.user = response;
+            $scope.$applyAsync();
+          })
+          .catch(error => console.log(error));
+
+          // $http
+          //   .get("./php/getUserData.php", {
+          //     params: {
+          //       user_id: authService.getUserId(),
+          //     },
+          //   })
+          //   .then(function (response) {
+          //     if (response.data.success) {
+          //       $scope.user = response.data.user;
+          //     } else {
+          //       $scope.errorMessage =
+          //         "Hiba történt az adatok lekérése során: " +
+          //         response.data.error;
+          //     }
+          //   })
+          //   .catch(function (error) {
+          //     $scope.errorMessage = "Hiba történt az adatok lekérése során.";
+          //   });
         };
 
         $scope.loadRegisteredPets = function () {
-          $http
-            .get("./php/getRegisteredPets.php", {
-              params: {
-                user_id: authService.getUserId(),
-              },
-            })
-            .then(function (response) {
-              if (response.data.success) {
-                $scope.registeredPets = response.data.pets;
-              } else {
-                $scope.errorMessage =
-                  "Hiba történt a kisállatok lekérése során: " +
-                  response.data.error;
-              }
-            })
-            .catch(function (error) {
-              $scope.errorMessage = "Hiba történt a kisállatok lekérése során.";
-            });
+
+          http.request({
+            url: './php/getRegisteredPets.php',
+            data: {user_id: authService.getUserId()}
+          })
+          .then(response => {
+            console.log(response);
+            $scope.registeredPets = response;
+            $scope.$applyAsync();
+          })
+          .catch(error => console.log(error));
+
+          // $http
+          //   .get("./php/getRegisteredPets.php", {
+          //     params: {
+          //       user_id: authService.getUserId(),
+          //     },
+          //   })
+          //   .then(function (response) {
+          //     if (response.data.success) {
+          //       $scope.registeredPets = response.data.pets;
+          //     } else {
+          //       $scope.errorMessage =
+          //         "Hiba történt a kisállatok lekérése során: " +
+          //         response.data.error;
+          //     }
+          //   })
+          //   .catch(function (error) {
+          //     $scope.errorMessage = "Hiba történt a kisállatok lekérése során.";
+          //   });
         };
 
         $scope.updateUser = function () {

@@ -8,7 +8,7 @@ require_once("../../common/php/environment.php");
 $args = Util::getArgs();
 
 // Set SQL command
-$query ="SELECT username, email, phone FROM users WHERE id = ?";
+$query ="SELECT username, email, phone FROM users WHERE id = :user_id";
 // Connect to MySQL server
 $db = new Database();
 

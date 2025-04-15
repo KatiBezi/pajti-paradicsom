@@ -1,4 +1,3 @@
-
 <?php
 declare(strict_types=1);
 
@@ -9,7 +8,8 @@ require_once("../../common/php/environment.php");
 $args = Util::getArgs();
 
 // Set SQL command
-$query ="SELECT id, name, type, age, description FROM pets WHERE user_id = ?";
+$query ="SELECT id, name, type, age, description FROM pets WHERE user_id = :user_id";
+
 // Connect to MySQL server
 $db = new Database();
 
@@ -22,9 +22,6 @@ $db = null;
 // Check result
 if (is_null($result))
 	Util::setError("A kisállat nem létezik!");
-
-// Simplifying the result
-$result = $result[0];
 
 // Ser response
 Util::setResponse($result);
