@@ -1,6 +1,5 @@
 <?php
-declare(strict_types=1);
-session_start();
+
 require_once("../../common/php/environment.php");
 
 $args = Util::getArgs();
@@ -16,21 +15,12 @@ $result = $db->execute($query, ['username' => $args['username']]);
 
 $db = null;
 
-if (empty($result)) {
+if (is_null($result))
     Util::setError('Hibás felhasználónév!');
-} else {
-    $user = $result[0];
 
-    if ($args['password'] === $user['password']) {
-        // Mentjük a felhasználói ID-t session-be
-        $_SESSION['user_id'] = $user['id'];
+$user = $result[0];
+if ($args['password'] !== $user['password'])
+    Util::setError('Hibás jelszó!');
 
-        Util::setResponse([
-            'user_id' => $user['id'],
-            'message' => 'Sikeres bejelentkezés!'
-        ]);
-    } else {
-        Util::setError('Hibás jelszó!');
-    }
-}
+Util::setResponse(['user_id' => $user['id']]);
 ?>
