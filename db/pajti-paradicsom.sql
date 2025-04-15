@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Gép: 127.0.0.1
--- Létrehozás ideje: 2025. Ápr 02. 17:45
+-- Létrehozás ideje: 2025. Ápr 15. 16:54
 -- Kiszolgáló verziója: 10.4.32-MariaDB
 -- PHP verzió: 8.2.12
 
@@ -34,6 +34,13 @@ CREATE TABLE `contact` (
   `message` text NOT NULL,
   `submission_date` timestamp NOT NULL DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
+
+--
+-- A tábla adatainak kiíratása `contact`
+--
+
+INSERT INTO `contact` (`id`, `name`, `email`, `message`, `submission_date`) VALUES
+(1, 'Bézi Katalin', 'bezi.katalin@gmail.com', 'Jó napot!', '2025-04-12 11:42:17');
 
 -- --------------------------------------------------------
 
@@ -72,6 +79,22 @@ CREATE TABLE `pets` (
   `age` int(11) NOT NULL,
   `description` text DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- A tábla adatainak kiíratása `pets`
+--
+
+INSERT INTO `pets` (`id`, `user_id`, `name`, `type`, `age`, `description`) VALUES
+(9, 3, 'Szimba', 'Macska', 8, 'harapós'),
+(10, 3, 'Mulan', 'kutya', 8, 'PITBULL'),
+(11, 3, 'Szása', 'Kutya', 5, 'juhász'),
+(13, 3, 'Rozi', 'Macska', 14, 'fekete feher'),
+(14, 3, 'Hugo', 'kutya', 3, 'fehér'),
+(18, 3, 'Lilás', 'kutya', 3, 'német juhász'),
+(19, 3, 'Gigi', 'macska', 4, 'szép'),
+(20, 3, 'Gigi', 'macska', 4, 'szép'),
+(21, 3, 'Nono', 'macsska', 5, 'vörös'),
+(22, 3, 'Kiki', 'kutya', 2, 'border collie');
 
 -- --------------------------------------------------------
 
@@ -199,7 +222,24 @@ CREATE TABLE `users` (
 --
 
 INSERT INTO `users` (`id`, `username`, `email`, `password`, `phone`) VALUES
-(1, 'Eszti', 'szjuheszti@gmail.com', 'Pajti2025', '306757818');
+(1, 'Eszti', 'szjuheszti@gmail.com', 'Pajti2025', '306757818'),
+(3, 'bezik', 'bezi.katalin@gmail.com', 'Abcd123#', '+36202456782'),
+(4, 'Kis István', 'kispista@gmail.com', 'Abcd123#', '+36203698741'),
+(5, 'Nagy Cecília', 'nagy.cili@gmail.com', 'Abcd123#', '+36542874562'),
+(6, 'Kimér Őrs', 'kimerors@gmail.com', 'Abcd123#', '+36526894371'),
+(7, 'Kovács Aladár', 'kovacsaladar@gmail.com', 'Abcd123#', '+36857412369'),
+(11, 'Katona Gina', 'katona.gina@gmail.com', 'Abcd123#', '+36549876320'),
+(12, 'Varga Etelka', 'vargaetelka@gmail.com', 'Abcd123#', '+36985147236'),
+(13, 'Kiss Péter', 'kisspeter@gmail.com', 'Abcd123#', '+36623596781'),
+(14, 'Magyar Oleg', 'magyar.oleg@gmail.com', 'Abcd123#', '+36202456780'),
+(15, 'Magyar Jázmin', 'magyar.jazmin@gmail.com', 'Abcd123#', '+36202456784'),
+(16, 'Magyar Amadeus', 'magyar.amadeus@gmail.com', 'Abcd123#', '+36202456787'),
+(17, 'Nagy Sándor', 'saci@gmail.com', 'Abcd123#', '+36203658945'),
+(18, 'Mekk Elek', 'mekkelek@gmail.com', 'Abcd123#', '+36253698741'),
+(19, 'Lakatos Olivia', 'olivia@gmail.com', 'Abcd123#', '+36205896733'),
+(20, 'Szondi Ilona', 'icuka@gmail.com', 'Abcd123#', '+36306895733'),
+(21, 'Ikaf Lajos', 'ikaf@gmail.com', 'Abcd123#', '+36502937486'),
+(22, 'Karimás Frigyes', 'frici@gmail.com', 'Abcd123#', '+36609872546');
 
 --
 -- Indexek a kiírt táblákhoz
@@ -245,7 +285,7 @@ ALTER TABLE `users`
 -- AUTO_INCREMENT a táblához `contact`
 --
 ALTER TABLE `contact`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT a táblához `gallery`
@@ -257,7 +297,7 @@ ALTER TABLE `gallery`
 -- AUTO_INCREMENT a táblához `pets`
 --
 ALTER TABLE `pets`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=23;
 
 --
 -- AUTO_INCREMENT a táblához `prices`
@@ -269,7 +309,7 @@ ALTER TABLE `prices`
 -- AUTO_INCREMENT a táblához `users`
 --
 ALTER TABLE `users`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=23;
 
 --
 -- Megkötések a kiírt táblákhoz
