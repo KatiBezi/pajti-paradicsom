@@ -1,56 +1,45 @@
 <?php
+// EZ KÉSZ
 declare(strict_types=1);
 
-// Környezeti beállítások betöltése
 require_once("../../common/php/environment.php");
 
-// Session indítása
-session_start();
+$args = Util::getArgs(); 
 
-// Ellenőrizzük, hogy a felhasználó be van-e jelentkezve (opcionális, ha szükséges)
-if (!isset($_SESSION['user_id'])) {
-    Util::setError("Kérjük, jelentkezzen be a fiókjába a kapcsolatfelvételi űrlap elküldéséhez!");
-    exit; // Kilépés
+// Alap ellenőrzés: kötelező mezők
+$name = isset($args['name']) ? trim($args['name']) : '';
+$email = isset($args['email']) ? trim($args['email']) : '';
+$message = isset($args['message']) ? trim($args['message']) : '';
+
+if ($name === '' || $email === '' || $message === '') {
+    Util::setError("Minden mező kitöltése kötelező!");
+    exit;
 }
 
-// Ellenőrizzük, hogy a kérés POST módszerrel érkezett-e
-if ($_SERVER["REQUEST_METHOD"] === "POST") {
-    // Beviteli értékek lekérése és tisztítása
-    $name = isset($_POST['name']) ? trim($_POST['name']) : '';
-    $email = isset($_POST['email']) ? trim($_POST['email']) : '';
-    $message = isset($_POST['message']) ? trim($_POST['message']) : '';
-
-    // Ellenőrzés: minden mező kitöltése kötelező
-    if (empty($name) || empty($email) || empty($message)) {
-        Util::setError("Minden mezőt ki kell tölteni.");
-        exit;
-    }
-
-    // Ellenőrzés: érvényes email formátum
-    if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
-        Util::setError("Érvénytelen email cím formátum.");
-        exit;
-    }
-
-    // Adatbázis kapcsolat létrehozása
-    $db = new Database();
-
-    // SQL parancs előkészítése
-    $query = "INSERT INTO `contact` (`name`, `email`, `message`) VALUES (?, ?, ?)";
-    
-    // SQL parancs végrehajtása
-    $result = $db->execute($query, [$name, $email, $message]);
-
-    // Ellenőrizzük, hogy a beszúrás sikeres volt-e
-    if ($result) {
-        Util::setResponse(['success' => true, 'message' => 'Az üzenet sikeresen elküldve!']);
-    } else {
-        Util::setError("Hiba történt az üzenet elküldése során!");
-    }
-
-    // Kapcsolat lezárása
-    $db = null;
-} else {
-    Util::setError("Érvénytelen kérés módszer.");
+if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
+    Util::setError("Érvénytelen e-mail cím.");
+    exit;
 }
-?>
+
+$db = new Database();
+
+// SQL beszúrás a contact táblába
+$query = $db->preparateInsert("contact", $args);
+$result = $db->execute($query, array_values($args));
+
+// Kapcsolat lezárása
+$db = null;
+
+// Beszúrás eredményének ellenőrzése
+if (!$result["affectedRows"]) {
+    Util::setError("Az üzenet elküldése nem sikerült!");
+}
+
+// Sikeres válasz visszaadása
+Util::setResponse([
+    'success' => true,
+    'message' => 'Üzenet sikeresen elküldve!',
+    'insertedId' => $result["lastInsertId"]
+]);
+
+

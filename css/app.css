@@ -1,8 +1,3 @@
-.contact-form form {
-	min-width: 400px;
-	max-width: 1000px;
-
-}
 
 
 /* app.css */
@@ -33,7 +28,7 @@ body {
   /* Tartalom konténer (átlátszó háttérrel) */
   .app-container {
 	background-color: rgba(255, 255, 255, 0.8); /* Fehér háttér kissé átlátszóan */
-	/* padding: 20px; */
+	
 	border-radius: 8px;
 	box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
 	min-height: calc(100vh - 40px);

@@ -1,10 +1,9 @@
 <?php
+//Ez KÉSZ
 declare(strict_types=1);
 
-// Include environment
 require_once("../../common/php/environment.php");
 
-// Set SQL command
 $queries = [
     "prices_panzio" => "SELECT  `id`, 
                                 `services` AS `name`, 
@@ -39,18 +38,11 @@ $query =  "SELECT   `prices`.`id`,
          INNER JOIN `services`
                  ON `services`.`id` = `prices`.`service_id`;";
 
-// Connect to MySQL server
-$db = new Database();
 
-// Execute SQL command
-//foreach($queries as $k => $v) {
-//    $result[$k] = $db->execute($v);
-//}
+$db = new Database();
 
 $result = $db->execute($query);
 
-// Close connection
 $db = null;
 
-// Ser response
 Util::setResponse($result);

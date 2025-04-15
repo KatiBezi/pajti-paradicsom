@@ -1,5 +1,7 @@
 <?php
 
+// EZ KÉSZ
+
 require_once("../../common/php/environment.php");
 
 $args = Util::getArgs();

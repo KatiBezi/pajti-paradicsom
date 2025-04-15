@@ -82,18 +82,6 @@
             parent: "root",
             templateUrl: "./html/users.html",
             controller: "usersController",
-
-            // resolve: {
-            //   loggedIn: [
-            //     "authService",
-            //     "$state",
-            //     function (authService, $state) {
-            //       if (!authService.isLoggedIn()) {
-            //         $state.go("login");
-            //       }
-            //     },
-            //   ],
-            // },
           });
 
         $urlRouterProvider.otherwise("/");
@@ -101,9 +89,9 @@
     ])
 
     .run([
-      'trans',
+      "trans",
       function (trans) {
-        trans.events(['users']);
+        trans.events(["users"]);
       },
     ])
 
@@ -171,92 +159,65 @@
         };
       },
     ])
-
+    //OK
     .controller("serviceController", [
+      "$scope",
+      "http",
+      function ($scope, http) {
+        http
+          .request("./php/getServices.php")
+          .then((response) => {
+            $scope.services = response;
+            $scope.$applyAsync();
+          })
+          .catch((e) => console.log(e));
+      },
+    ])
+    //OK
+    .controller("galleryController", [
+      "$scope",
+      "http",
+      function ($scope, http) {
+        http
+          .request("./php/getGallery.php")
+          .then((response) => {
+            $scope.gallery = response;
+            $scope.$applyAsync();
+          })
+          .catch((e) => console.log(e));
+      },
+    ])
+    //OK
+    .controller("pricesController", [
+      "$scope",
+      "http",
+      function ($scope, http) {
+        http
+          .request("./php/getprices.php")
+          .then((response) => {
+            $scope.prices = response;
+            $scope.$applyAsync();
+          })
+          .catch((e) => alert(e));
+      },
+    ])
+    //OK
+    .controller("contactController", [
       "$scope",
       "$http",
       function ($scope, $http) {
-        $http
-          .get("./php/getServices.php")
-          .then(function (response) {
-            $scope.services = response.data;
-          })
-          .catch(function (e) {
-            console.log(e);
-          });
+        $scope.contact = {};
+        $scope.submitContactForm = function () {
+          $http
+            .post("./php/contact.php", $scope.contact)
+            .then((response) => {
+              alert("Üzenet sikeresen elküldve!");
+              $scope.contact = {};
+            })
+            .catch((e) => console.log(e));
+        };
       },
     ])
-
-    .controller("serviceController", [
-        "$scope",
-        "http",
-        function ($scope, http) {
-          http
-            .request("./php/getServices.php")
-            .then((response) => {
-              $scope.services = response;
-              $scope.$applyAsync();
-            })
-            .catch((e) => console.log(e));
-        },
-      ])
-      .controller("galleryController", [
-        "$scope",
-        "http",
-        function ($scope, http) {
-          http
-            .request("./php/getGallery.php")
-            .then((response) => {
-              $scope.gallery = response;
-              $scope.$applyAsync();
-            })
-            .catch((e) => console.log(e));
-        },
-      ])
-      .controller("pricesController", [
-        "$scope",
-        "http",
-        function ($scope, http) {
-          http
-            .request("./php/getprices.php")
-            .then((response) => {
-              $scope.prices = response;
-              $scope.$applyAsync();
-            })
-            .catch((e) => alert(e));
-        },
-      ])
-      .controller("contactController", [
-        "$scope",
-        "$http",
-        function ($scope, $http) {
-          $scope.contact = {};
-  
-          $scope.submitForm = function () {
-            $http
-              .post("./php/contact.php", $scope.contact)
-              .then(function (response) {
-                // If the message is saved (even if response format isn't perfect)
-                alert("Üzenet sikeresen elküldve!");
-                $scope.contact = {};
-              })
-              .catch(function (error) {
-                if (error.status === 404) {
-                  alert("A szerver nem található.");
-                } else if (error.status === 500) {
-                  alert("Szerver oldali hiba történt.");
-                } else {
-                  // Try to get error message from response if available
-                  const errorMsg =
-                    error.data && error.data.error
-                      ? error.data.error
-                      : "Hiba történt az üzenet küldése során.";
-                  alert(errorMsg);
-                }
-              });
-          };
-        },
-      ])
     .controller("registerController", [
       "$scope",
       "$http",
@@ -293,13 +254,13 @@
         };
       },
     ])
-
+    //OK
     .controller("loginController", [
       "$scope",
       "$http",
       "$state",
       "authService",
-      'http',
+      "http",
       function ($scope, $http, $state, authService, http) {
         $scope.user = {
           username: "",
@@ -310,326 +271,253 @@
 
         // Bejelentkezési folyamat
         $scope.submitLoginForm = function () {
-          
-
-          http.request({
-            url: "./php/login.php",
-            data: $scope.user
-          })
-          .then(response => {
-            authService.login(response.user_id);
-            setTimeout(function () {
-              alert("Sikeres bejelenkezés!");
-            }, 500);
-            $state.go("users");
-          })
-          .catch(e => alert(e));
-
-
-          // if ($scope.loginForm.$valid) {
-          //   $http
-          //     .post("./php/login.php", $scope.user)
-          //     .then(function (response) {
-          //       console.log("Szerver válasz a bejelentkezéshez:", response);
-          //       if (
-          //         response.data &&
-          //         response.data.data &&
-          //         response.data.data.user_id
-          //       ) {
-          //         $scope.successMessage =
-          //           response.data.data.message || "Sikeres bejelentkezés!";
-          //         authService.login(response.data.data.user_id); // Bejelentkezés
-          //         setTimeout(function () {
-          //           $state.go("users"); // Irányítás a felhasználói oldalra
-          //         }, 500);
-          //       } else {
-          //         $scope.errorMessage =
-          //           response.data.error || "Hibás felhasználónév vagy jelszó!";
-          //       }
-          //     })
-          //     .catch(function (error) {
-          //       $scope.errorMessage =
-          //         "Hiba történt a bejelentkezési kérés során.";
-          //       console.error("Hiba a bejelentkezési kérés során:", error);
-          //     });
-          // } else {
-          //   $scope.errorMessage = "Kérjük, töltsd ki az összes mezőt helyesen!";
-          // }
+          http
+            .request({
+              url: "./php/login.php",
+              data: $scope.user,
+            })
+            .then((response) => {
+              authService.login(response.user_id);
+              setTimeout(function () {
+                alert("Sikeres bejelenkezés!");
+              }, 500);
+              $state.go("users");
+            })
+            .catch((e) => alert(e));
         };
       },
     ])
-
     .controller("usersController", [
       "$scope",
       "$http",
       "$state",
       "authService",
-      'http',
+      "http",
       function ($scope, $http, $state, authService, http) {
         $scope.user = {};
         $scope.registeredPets = [];
+        // $scope.editPetData = {};
+        // $scope.isEditingUser = false;
+        // $scope.isEditingPet = false;
         $scope.errorMessage = "";
         $scope.successMessage = "";
-        $scope.editPetData = {};
-        $scope.isEditing = false;
-
-        $scope.loadUserData = function () {
-
-          http.request({
-            url: './php/getUserData.php',
-            data: {user_id: authService.getUserId()}
-          })
-          .then(response => {
-            console.log(response);
-            $scope.user = response;
-            $scope.$applyAsync();
-          })
-          .catch(error => console.log(error));
-
-          // $http
-          //   .get("./php/getUserData.php", {
-          //     params: {
-          //       user_id: authService.getUserId(),
-          //     },
-          //   })
-          //   .then(function (response) {
-          //     if (response.data.success) {
-          //       $scope.user = response.data.user;
-          //     } else {
-          //       $scope.errorMessage =
-          //         "Hiba történt az adatok lekérése során: " +
-          //         response.data.error;
-          //     }
-          //   })
-          //   .catch(function (error) {
-          //     $scope.errorMessage = "Hiba történt az adatok lekérése során.";
-          //   });
-        };
-
-        $scope.loadRegisteredPets = function () {
-
-          http.request({
-            url: './php/getRegisteredPets.php',
-            data: {user_id: authService.getUserId()}
-          })
-          .then(response => {
-            console.log(response);
-            $scope.registeredPets = response;
-            $scope.$applyAsync();
-          })
-          .catch(error => console.log(error));
-
-          // $http
-          //   .get("./php/getRegisteredPets.php", {
-          //     params: {
-          //       user_id: authService.getUserId(),
-          //     },
-          //   })
-          //   .then(function (response) {
-          //     if (response.data.success) {
-          //       $scope.registeredPets = response.data.pets;
-          //     } else {
-          //       $scope.errorMessage =
-          //         "Hiba történt a kisállatok lekérése során: " +
-          //         response.data.error;
-          //     }
-          //   })
-          //   .catch(function (error) {
-          //     $scope.errorMessage = "Hiba történt a kisállatok lekérése során.";
-          //   });
-        };
-
-        $scope.updateUser = function () {
-          if ($scope.userForm.$valid) {
-            $http
-              .post("./php/updateUserData.php", {
-                username: $scope.user.username,
-                email: $scope.user.email,
-                phone: $scope.user.phone,
-              })
-              .then(function (response) {
-                if (response.data.success) {
-                  $scope.successMessage =
-                    "Felhasználói adatok sikeresen frissítve!";
-                } else {
-                  $scope.errorMessage =
-                    "Hiba történt a frissítés során: " + response.data.error;
-                }
-              })
-              .catch(function (error) {
-                $scope.errorMessage = "Hiba történt a frissítés során.";
-              });
-          } else {
-            $scope.errorMessage = "Kérjük, töltsd ki az összes mezőt helyesen!";
-          }
-        };
-
-        $scope.deleteUser = function () {
-          if (!authService.isLoggedIn()) {
-            $scope.errorMessage =
-              "Nem vagy bejelentkezve. Kérlek, jelentkezz be a fiók törléséhez.";
-            return;
-          }
-
-          if (
-            confirm(
-              "Biztosan törölni szeretnéd a felhasználói fiókod? Ez a művelet a regisztrált kisállataidat is törölni fogja."
-            )
-          ) {
-            $http
-              .post("./php/deleteUser.php", {
-                user_id: authService.getUserId(),
-              })
-              .then(function (response) {
-                if (response.data.success) {
-                  authService.logout();
-                  $state.go("home");
-                } else {
-                  $scope.errorMessage =
-                    "Hiba történt a törlés során: " + response.data.error;
-                }
-              })
-              .catch(function (error) {
-                $scope.errorMessage = "Hiba történt a törlés során.";
-              });
-          }
-        };
-
-        $scope.enableEditUser = function () {
-          $scope.isEditingUser = true;
-        };
-
-        $scope.disableEdit = function () {
-          $scope.isEditingUser = false;
-          $scope.isEditingPet = false;
-        };
-
-        $scope.editPet = function (pet) {
-          $scope.editPetData = angular.copy(pet);
-          $scope.isEditingPet = true;
-        };
-
-        $scope.saveEditPet = function () {
-          $http
-            .post("./php/updatePetData.php", $scope.editPetData)
-            .then(function (response) {
-              if (response.data.success) {
-                $scope.successMessage = "Kisállat adatai sikeresen frissítve!";
-                $scope.loadRegisteredPets();
-                $scope.isEditingPet = false;
-              } else {
-                $scope.errorMessage =
-                  "Hiba történt a frissítés során: " + response.data.error;
-              }
-            })
-            .catch(function (error) {
-              $scope.errorMessage = "Hiba történt a frissítés során.";
-            });
-        };
-
-        $scope.deletePet = function (petId) {
-          $http
-            .delete("./php/deletePet.php?id=" + petId)
-            .then(function (response) {
-              if (response.data.success) {
-                $scope.successMessage = "Kisállat sikeresen törölve!";
-                $scope.loadRegisteredPets();
-              } else {
-                $scope.errorMessage =
-                  "Hiba történt a törlés során: " + response.data.error;
-              }
-            })
-            .catch(function (error) {
-              $scope.errorMessage = "Hiba történt a törlés során.";
-            });
-        };
-
-        $scope.newPet = {};
         $scope.registrationSuccess = false;
 
+        //ok
+        $scope.loadUserData = function () {
+          http
+            .request({
+              url: "./php/getUserData.php",
+              data: { user_id: authService.getUserId() },
+            })
+            .then((response) => {
+              console.log(response);
+              $scope.user = response;
+              $scope.$applyAsync();
+            })
+            .catch((error) => console.log(error));
+        };
+        //ok
+        $scope.loadRegisteredPets = function () {
+          http
+            .request({
+              url: "./php/getRegisteredPets.php",
+              data: { user_id: authService.getUserId() },
+            })
+            .then((response) => {
+              console.log(response);
+              $scope.registeredPets = response;
+              $scope.$applyAsync();
+            })
+            .catch((error) => console.log(error));
+        };
+
+        // $scope.updateUser = function () {
+        //   if ($scope.userForm.$valid) {
+        //     $http
+        //       .post("./php/updateUserData.php", {
+        //         username: $scope.user.username,
+        //         email: $scope.user.email,
+        //         phone: $scope.user.phone,
+        //       })
+        //       .then(function (response) {
+        //         if (response.data.success) {
+        //           $scope.successMessage =
+        //             "Felhasználói adatok sikeresen frissítve!";
+        //         } else {
+        //           $scope.errorMessage =
+        //             "Hiba történt a frissítés során: " + response.data.error;
+        //         }
+        //       })
+        //       .catch(function (error) {
+        //         $scope.errorMessage = "Hiba történt a frissítés során.";
+        //       });
+        //   } else {
+        //     $scope.errorMessage = "Kérjük, töltsd ki az összes mezőt helyesen!";
+        //   }
+        // };
+
+        // $scope.deleteUser = function () {
+        //   if (!authService.isLoggedIn()) {
+        //     $scope.errorMessage =
+        //       "Nem vagy bejelentkezve. Kérlek, jelentkezz be a fiók törléséhez.";
+        //     return;
+        //   }
+
+        //   if (
+        //     confirm(
+        //       "Biztosan törölni szeretnéd a felhasználói fiókod? Ez a művelet a regisztrált kisállataidat is törölni fogja."
+        //     )
+        //   ) {
+        //     $http
+        //       .post("./php/deleteUser.php", {
+        //         user_id: authService.getUserId(),
+        //       })
+        //       .then(function (response) {
+        //         if (response.data.success) {
+        //           authService.logout();
+        //           $state.go("home");
+        //         } else {
+        //           $scope.errorMessage =
+        //             "Hiba történt a törlés során: " + response.data.error;
+        //         }
+        //       })
+        //       .catch(function (error) {
+        //         $scope.errorMessage = "Hiba történt a törlés során.";
+        //       });
+        //   }
+        // };
+
+        // $scope.enableEditUser = function () {
+        //   $scope.isEditingUser = true;
+        // };
+
+        // $scope.disableEdit = function () {
+        //   $scope.isEditingUser = false;
+        //   $scope.isEditingPet = false;
+        // };
+
+        // $scope.editPet = function (pet) {
+        //   $scope.editPetData = angular.copy(pet);
+        //   $scope.isEditingPet = true;
+        // };
+
+        // $scope.saveEditPet = function () {
+        //   $http
+        //     .post("./php/updatePetData.php", $scope.editPetData)
+        //     .then(function (response) {
+        //       if (response.data.success) {
+        //         $scope.successMessage = "Kisállat adatai sikeresen frissítve!";
+        //         $scope.loadRegisteredPets();
+        //         $scope.isEditingPet = false;
+        //       } else {
+        //         $scope.errorMessage =
+        //           "Hiba történt a frissítés során: " + response.data.error;
+        //       }
+        //     })
+        //     .catch(function (error) {
+        //       $scope.errorMessage = "Hiba történt a frissítés során.";
+        //     });
+        // };
+
+        // $scope.deletePet = function (petId) {
+        //   $http
+        //     .delete("./php/deletePet.php?id=" + petId)
+        //     .then(function (response) {
+        //       if (response.data.success) {
+        //         $scope.successMessage = "Kisállat sikeresen törölve!";
+        //         $scope.loadRegisteredPets();
+        //       } else {
+        //         $scope.errorMessage =
+        //           "Hiba történt a törlés során: " + response.data.error;
+        //       }
+        //     })
+        //     .catch(function (error) {
+        //       $scope.errorMessage = "Hiba történt a törlés során.";
+        //     });
+        // };
+
+
+
+        // OK
         $scope.registerPet = function () {
           $http
-            .post("./php/registerPet.php", $scope.newPet)
-            .then(function (response) {
-              if (response.data.success) {
-                $scope.loadRegisteredPets();
-                $scope.newPet = {};
-                $scope.registrationSuccess = true;
-                setTimeout(function () {
-                  $scope.registrationSuccess = false;
-                }, 3000);
-              } else {
-                $scope.errorMessage =
-                  "Hiba történt a regisztráció során: " + response.data.error;
-              }
+            .post("./php/registerPet.php", {
+              user_id: authService.getUserId(),
+              pet_name: $scope.newPet.name,
+              pet_type: $scope.newPet.type,
+              pet_age: $scope.newPet.age,
+              description: $scope.newPet.description,
             })
-            .catch(function (error) {
-              $scope.errorMessage = "Hiba történt a regisztráció során.";
-            });
+            .then((response) => {
+              alert("Kisállat sikeresen regisztrálva!");
+              $scope.newPet = {};
+              $scope.loadRegisteredPets();
+            })
+            .catch((e) => console.log(e));
         };
-
+        //ok
         $scope.loadUserData();
         $scope.loadRegisteredPets();
-      },
-    ])
+      }
+      // .controller("scheduleController", [
+      //   "$scope",
+      //   "$http",
+      //   function ($scope, $http) {
+      //     // Inicializáljuk a scheduleData objektumot
+      //     $scope.scheduleData = {
+      //       serviceType: "",
+      //       petId: "",
+      //       appointmentDate: "",
+      //       appointmentTime: "",
+      //     };
 
-    .controller("scheduleController", [
-      "$scope",
-      "$http",
-      function ($scope, $http) {
-        // Inicializáljuk a scheduleData objektumot
-        $scope.scheduleData = {
-          serviceType: "",
-          petId: "",
-          appointmentDate: "",
-          appointmentTime: "",
-        };
+      //     // Inicializáljuk a pets tömböt
+      //     $scope.pets = [];
 
-        // Inicializáljuk a pets tömböt
-        $scope.pets = [];
+      //     // Regisztrált kisállatok betöltése
+      //     $scope.getRegisteredPets = function () {
+      //       $http.get("./php/getRegisteredPets.php").then(
+      //         function (response) {
+      //           // A válaszban kapott kisállatok listájának beállítása
+      //           $scope.pets = response.data;
+      //         },
+      //         function (error) {
+      //           // Hiba kezelése
+      //           alert(
+      //             "Hiba történt a kisállatok betöltése során: " +
+      //             error.data.message
+      //           );
+      //         }
+      //       );
+      //     };
 
-        // Regisztrált kisállatok betöltése
-        $scope.getRegisteredPets = function () {
-          $http.get("./php/getRegisteredPets.php").then(
-            function (response) {
-              // A válaszban kapott kisállatok listájának beállítása
-              $scope.pets = response.data;
-            },
-            function (error) {
-              // Hiba kezelése
-              alert(
-                "Hiba történt a kisállatok betöltése során: " +
-                  error.data.message
-              );
-            }
-          );
-        };
+      //     // Hívjuk meg a getRegisteredPets funkciót az oldal betöltésekor
+      //     $scope.getRegisteredPets();
 
-        // Hívjuk meg a getRegisteredPets funkciót az oldal betöltésekor
-        $scope.getRegisteredPets();
-
-        // Űrlap beküldése
-        $scope.submitScheduleForm = function () {
-          if ($scope.scheduleForm.$valid) {
-            // Itt küldjük el az űrlap adatokat a szerverre
-            $http.post("./php/schedule.php", $scope.scheduleData).then(
-              function (response) {
-                // Sikeres válasz kezelése
-                alert("Időpontfoglalás sikeres!");
-                // Űrlap törlése
-                $scope.scheduleData = {};
-              },
-              function (error) {
-                // Hiba kezelése
-                alert(
-                  "Hiba történt az időpontfoglalás során: " + error.data.message
-                );
-              }
-            );
-          } else {
-            alert("Kérjük, töltse ki az összes kötelező mezőt!");
-          }
-        };
-      },
+      //     // Űrlap beküldése
+      //     $scope.submitScheduleForm = function () {
+      //       if ($scope.scheduleForm.$valid) {
+      //         // Itt küldjük el az űrlap adatokat a szerverre
+      //         $http.post("./php/schedule.php", $scope.scheduleData).then(
+      //           function (response) {
+      //             // Sikeres válasz kezelése
+      //             alert("Időpontfoglalás sikeres!");
+      //             // Űrlap törlése
+      //             $scope.scheduleData = {};
+      //           },
+      //           function (error) {
+      //             // Hiba kezelése
+      //             alert(
+      //               "Hiba történt az időpontfoglalás során: " + error.data.message
+      //             );
+      //           }
+      //         );
+      //       } else {
+      //         alert("Kérjük, töltse ki az összes kötelező mezőt!");
+      //       }
+      //     };
+      //   },
+      // ])
     ]);
 })(window, angular);

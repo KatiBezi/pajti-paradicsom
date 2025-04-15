@@ -1,4 +1,5 @@
 <?php
+//Ez KÉSZ
 declare(strict_types=1);
 
 // Include environment
@@ -8,7 +9,13 @@ require_once("../../common/php/environment.php");
 $args = Util::getArgs();
 
 // Set SQL command
-$query ="SELECT id, name, type, age, description FROM pets WHERE user_id = :user_id";
+$query ="SELECT id, 
+				name, 
+				type,
+				age, 
+				description 
+			FROM pets 
+			WHERE user_id = :user_id";
 
 // Connect to MySQL server
 $db = new Database();

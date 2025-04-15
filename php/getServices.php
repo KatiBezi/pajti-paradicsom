@@ -1,4 +1,7 @@
 <?php
+
+// EZ KÉSZ
+
 declare(strict_types=1);
 
 // Include environment
