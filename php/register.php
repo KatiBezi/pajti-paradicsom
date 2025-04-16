@@ -1,11 +1,12 @@
 <?php
+//EZ KÉSZ
 declare(strict_types=1);
 
 require_once("../../common/php/environment.php");
 
 $args = Util::getArgs();
 
-// Alapellenőrzés a felhasználói regisztrációhoz szükséges adatokra
+// Alapellenőrzés
 if (
     empty($args['username']) ||
     empty($args['phone']) ||
@@ -15,53 +16,45 @@ if (
     empty($args['confirmPassword'])
 ) {
     Util::setError("Hiányzó adat a regisztrációhoz.");
-    exit;
 }
-// E-mail címek egyezésének ellenőrzése
+if (!filter_var($args['email'], FILTER_VALIDATE_EMAIL)) {
+    Util::setError("Érvénytelen e-mail cím.");
+}
 if ($args['email'] !== $args['confirmEmail']) {
     Util::setError("Az e-mail címek nem egyeznek.");
-    exit;
 }
 
-// Jelszavak egyezésének ellenőrzése
 if ($args['password'] !== $args['confirmPassword']) {
     Util::setError("A jelszavak nem egyeznek.");
-    exit;
 }
 
-
-// Adatbázis kapcsolat létrehozása
+// Adatbázis kapcsolat
 $db = new Database();
 
-// Ellenőrizzük, hogy létezik-e már felhasználó ezzel az e-mail címmel
-$query = "SELECT `id`
-          FROM `users`
-          WHERE `email` = ? LIMIT 1";
-
+// Email egyediség ellenőrzése
+$query = "SELECT `id` FROM `users` WHERE `email` = ? LIMIT 1";
 $result = $db->execute($query, [$args['email']]);
 
-if (!is_null($result)) {
-    Util::setError("Felhasználó már létezik ezen az e-mail címen!");
-    exit;
+if (!empty($result)) {
+    Util::setError("Létező felhasználó email cím.");
 }
 
+// Felhasználó beszúrása
+$query = "INSERT INTO users (username, phone, email, password) VALUES (?, ?, ?, ?)";
+$result = $db->execute($query, [
+    $args['username'],
+    $args['phone'],
+    $args['email'],
+    $args['password']
+]);
 
-// Adatok előkészítése a beszúráshoz
-$args = [
-    'username' => $args['username'],
-    'phone' => $args['phone'],
-    'email' => $args['email'],
-    'password' => $args['password']
-];
-
-$query = $db->preparateInsert("users", $args);
-
-$result = $db->execute($query, array_values($args));
-
+// Kapcsolat lezárása
 $db = null;
 
-if (!$result["affectedRows"])
-    Util::setError('A regisztráció nem sikerült!');
+// Ellenőrzés
+if (!$result || empty($result['lastInsertId'])) {
+    Util::setError('A felhasználó regisztráció nem sikerült!');
+}
 
-Util::setResponse($result["lastInsertId"]);
-?>
+// Sikeres válasz
+Util::setResponse($result['lastInsertId']);

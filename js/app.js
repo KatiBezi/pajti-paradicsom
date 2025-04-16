@@ -232,18 +232,29 @@
           password: "",
           confirmPassword: "",
         };
-
+    
         $scope.submitRegisterForm = function () {
-            $http
-              .post("./php/register.php", $scope.user)
-              .then((response) => {
-                alert("Felhasználó sikeresen regisztrálva!");
-                $state.go("login");
-              })
-              .catch((e) => console.log(e))
-              };
+          $http
+            .post("./php/register.php", $scope.user)
+            .then(function (response) {
+              const res = response.data;
+    
+              if (res.error) {
+                alert("Hiba: " + res.error);
+                return;
+              }
+    
+              alert("Felhasználó sikeresen regisztrálva!");
+              $scope.user = {}; 
+              $state.go("login");
+            })
+            .catch(function (e) {
+              console.log("Hiba történt:", e);
+            });
+        };
       },
-    ])
+    ])   
+    
     //OK
     .controller("loginController", [
       "$scope",
