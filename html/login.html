@@ -3,7 +3,7 @@
     <div class="col-md-8 col-lg-6">
       <div class="card shadow">
         <div class="card-body p-4">
-          <h2>Bejelentkezés</h2>
+          <h2 class="text-center">Bejelentkezés</h2>
           <div ng-if="successMessage" class="alert alert-success">
             {{ successMessage }}
           </div>
@@ -45,15 +45,17 @@
                 A jelszó megadása kötelező!
               </div>
             </div>
-            <button
-              type="submit"
-              class="btn btn-primary"
-              ng-disabled="loginForm.$invalid"
-            >
-              Bejelentkezés
-            </button>
+            <div class="d-flex justify-content-center mt-3 ">
+              <button
+                type="submit"
+                class="btn btn-primary"
+                ng-disabled="loginForm.$invalid"
+              >
+                Bejelentkezés
+              </button>
+            </div>
           </form>
-          <p>Még nincs fiókod? <a ui-sref="register">Regisztrálj!</a></p>
+          <p class="text-center mt-3"><strong>Még nincs fiókod? <a ui-sref="register">Regisztrálj!</a></strong> </p>
         </div>
       </div>
     </div>

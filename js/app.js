@@ -218,6 +218,7 @@
         };
       },
     ])
+    //OK
     .controller("registerController", [
       "$scope",
       "$http",
@@ -233,25 +234,14 @@
         };
 
         $scope.submitRegisterForm = function () {
-          if ($scope.registerForm.$valid) {
             $http
               .post("./php/register.php", $scope.user)
-              .then(function (response) {
-                if (response.data.success) {
-                  $state.go("login");
-                } else {
-                  alert(
-                    "Hiba történt a regisztráció során: " + response.data.error
-                  );
-                }
+              .then((response) => {
+                alert("Felhasználó sikeresen regisztrálva!");
+                $state.go("login");
               })
-              .catch(function (error) {
-                alert("Hiba történt a regisztráció során.");
-              });
-          } else {
-            alert("Kérjük, töltsd ki az összes mezőt helyesen!");
-          }
-        };
+              .catch((e) => console.log(e))
+              };
       },
     ])
     //OK
