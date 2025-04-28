@@ -1,37 +1,23 @@
 <?php
+//EZ Kész
+
 declare(strict_types=1);
 
-// Környezeti beállítások betöltése
 require_once("../../common/php/environment.php");
 
-// Session indítása
-session_start();
+$args = Util::getArgs();
 
-// Ellenőrizzük, hogy a felhasználó be van-e jelentkezve
-if (!isset($_SESSION['user_id'])) {
-    Util::setError("Kérjük, jelentkezzen be a fiókja törléséhez!");
-    exit; // Kilépés
-}
-
-// Adatbázis kapcsolat létrehozása
 $db = new Database();
 
-// SQL lekérdezés a felhasználó törlésére
-$query = "DELETE FROM `users` WHERE `id` = ?";
+$deleteUserQuery = "DELETE FROM `users` WHERE `id` = ?";
+$result = $db->execute($deleteUserQuery, [$args['user_id']]); 
 
-// SQL parancs végrehajtása
-$result = $db->execute($query, [$_SESSION['user_id']]);
-
-// Ellenőrizzük, hogy a törlés sikeres volt-e
 if ($result) {
-    // Session változók törlése
-    session_destroy();
-    // Válasz beállítása
-    Util::setResponse(['success' => true, 'message' => 'Felhasználói fiók sikeresen törölve!']);
+    Util::setResponse(['success' => true, 'message' => 'Felhasználói fiók és a hozzá tartozó kisállatok törlése sikeresen megtörtént!']);
 } else {
-    Util::setError("Hiba történt a felhasználói fiók törlése során!");
+    Util::setError("Hiba történt a felhasználói fiók törlése során, vagy a felhasználó nem található!");
 }
 
-// Kapcsolat lezárása
 $db = null;
 
+?>

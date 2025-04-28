@@ -1,48 +1,28 @@
 <?php
+//EZ KÉSZ
+
 declare(strict_types=1);
 
-/
 require_once("../../common/php/environment.php");
-
 
 $args = Util::getArgs();
 
 $db = new Database();
 
-// SQL lekérdezés a felhasználói adatok frissítésére
-$query = "UPDATE `users` SET ";
-$parameters = [];
-$updates = [];
+$query = "UPDATE `users` SET `email` = ?, `phone` = ? WHERE `id` = ? ";
 
+$result = $db->execute($query, [
+    $args['email'],
+    $args['phone'],
+    $args['id'],   // Felhasználó ID
+]);
 
-if (!empty($args['name'])) {
-    $updates[] = "`name` = ?";
-    $parameters[] = $args['name'];
-}
-if (!empty($args['email'])) {
-    $updates[] = "`email` = ?";
-    $parameters[] = $args['email'];
-}
-if (!empty($args['password'])) {
-    // Jelszó frissítése 
-    $updates[] = "`password` = ?";
-    $parameters[] = $args['password'];
-}
-
-// A lekérdezés befejezése
-$query .= implode(", ", $updates) . " WHERE `id` = ?";
-$parameters[] = $_SESSION['user_id'];
-
-// SQL parancs végrehajtása
-$result = $db->execute($query, $parameters);
-
-// Ellenőrizzük, hogy a frissítés sikeres volt-e
-if ($result) {
-    Util::setResponse(['success' => true, 'message' => 'Felhasználói adatok sikeresen frissítve!']);
+// Ellenőrizzük
+if ($result && $db->affectedRows() > 0) {
+    Util::setResponse(['success' => true, 'message' => 'Felhasználó adatai sikeresen frissítve!']);
 } else {
-    Util::setError("Hiba történt a felhasználói adatok frissítése során!");
+    Util::setError("Hiba történt a felhasználó adatainak frissítése során");
 }
-
 // Kapcsolat lezárása
 $db = null;
-
+?>

@@ -28,14 +28,10 @@
             </div>
             <div ng-if="isEditingUser">
               <form name="userForm">
+              
                 <div class="form-group">
                   <label>Felhasználónév:</label>
-                  <input
-                    type="text"
-                    class="form-control"
-                    ng-model="user.username"
-                    required
-                  />
+                  <p class="form-control-static">{{ user.username }}</p>
                 </div>
                 <div class="form-group">
                   <label>Email cím:</label>
@@ -163,42 +159,37 @@
         </div>
       </div>
     </div>
-      <!-- Jobb oldal: Kisállat regisztráció -->
-      <div class="col-md-4 mb-4">
-        <div class="card rounded border p-3 h-100">
-            <div class="card-body">
-                <h5 class="card-title">Kisállat regisztráció</h5>
-                
-                <!-- Sikeres regisztrációs üzenet -->
-              
-                          
-                <form name="petForm" ng-submit="registerPet()" novalidate>
-                  <div class="form-group">
-                    <label>Név:</label>
-                    <input type="text" class="form-control" ng-model="newPet.name" required />
-                  </div>
-                  <div class="form-group">
-                    <label>Típus:</label>
-                    <input type="text" class="form-control" ng-model="newPet.type" required />
-                  </div>
-                  <div class="form-group">
-                    <label>Kor:</label>
-                    <input type="number" class="form-control" ng-model="newPet.age" required />
-                  </div>
-                  <div class="form-group">
-                    <label>Leírás:</label>
-                    <textarea class="form-control" ng-model="newPet.description"></textarea>
-                  </div>
-                  <div class="d-flex justify-content-center mt-3 ">
-                    <button type="submit" class="btn btn-primary" ng-disabled="petForm.$invalid">
-                        Regisztráció
-                    </button>
-                </div>
-                </form>
+
+    <!-- Jobb oldal: Kisállat regisztráció -->
+    <div class="col-md-4 mb-4">
+      <div class="card rounded border p-3 h-100">
+        <div class="card-body">
+          <h5 class="card-title">Kisállat regisztráció</h5>
+          <form name="petForm" ng-submit="registerPet()" novalidate>
+            <div class="form-group">
+              <label>Név:</label>
+              <input type="text" class="form-control" ng-model="newPet.name" required />
             </div>
+            <div class="form-group">
+              <label>Típus:</label>
+              <input type="text" class="form-control" ng-model="newPet.type" required />
+            </div>
+            <div class="form-group">
+              <label>Kor:</label>
+              <input type="number" class="form-control" ng-model="newPet.age" required />
+            </div>
+            <div class="form-group">
+              <label>Leírás:</label>
+              <textarea class="form-control" ng-model="newPet.description"></textarea>
+            </div>
+            <div class="d-flex justify-content-center mt-3 ">
+              <button type="submit" class="btn btn-primary" ng-disabled="petForm.$invalid">
+                Regisztráció
+              </button>
+            </div>
+          </form>
         </div>
-    </div>
-  
+      </div>
     </div>
   </div>
-  
+</div>

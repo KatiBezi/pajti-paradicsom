@@ -11,8 +11,8 @@ if (
     empty($args['user_id']) ||
     empty($args['pet_name']) ||
     empty($args['pet_type']) ||
-    empty($args['pet_age']) ||
-    empty($args['description'])
+    empty($args['pet_age'])
+   
 ) {
     Util::setError("Hiányzó adat a regisztrációhoz.");
 }
@@ -27,7 +27,7 @@ $result = $db->execute($query, [
     $args['pet_name'],
     $args['pet_type'],
     $args['pet_age'],
-    $args['description']
+    $args['description'] ?? null
 ]);
 
 $db = null;

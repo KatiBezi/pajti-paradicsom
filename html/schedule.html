@@ -1,57 +1,78 @@
-<
 <div class="container">
   <div class="row justify-content-center">
       <div class="col-md-8 col-lg-6 mt-5 bg-light p-4 rounded">
           <h1 class="text-center mb-4">Pajti Paradicsom Időpontfoglalás</h1>
-          <form
-              id="scheduleForm"
-              name="scheduleForm"
-              ng-submit="submitScheduleForm()">
-              <div class="form-group mb-4">  <fieldset class="form-group">
-                      <legend>Szolgáltatások:</legend>
-                      <div class="form-check mb-2"> 
-                          <input class="form-check-input" 
-                                  type="radio" 
-                                  name="serviceType" 
-                                  id="panzio" 
-                                  value="panzio">
-                          <label class="form-check-label" 
-                                 for="panzio">Panzió</label>
-                      </div>
-                      <div class="form-check mb-2"> 
-                          <input class="form-check-input" 
-                                 type="radio" 
-                                 name="serviceType" 
-                                 id="kozmetika" 
-                                 value="kozmetika">
-                          <label class="form-check-label" 
-                          for="kozmetika">Kozmetika</label>
-                      </div>
-                      <div class="form-check mb-2">
-                          <input class="form-check-input" 
-                                 type="radio" 
-                                 name="serviceType" 
-                                 id="fotozas" 
-                                 value="fotozas">
-                          <label class="form-check-label" 
-                                 for="fotozas">Fotózás</label>
-                      </div>
-                  </fieldset>
-                  <div id="subServices" 
-                       class="form-group mt-3 mb-3"> </div>
-                               
+          <fieldset class="form-group">
+            <legend>Szolgáltatások:</legend>
 
-          <div class="form-group mb-3"> <label for="petId">Kisállat kiválasztása:</label>
-              <select class="form-control" id="petId" name="petId" required>
-                  <option value="">Válasszon kisállatot</option>
+            <div class="form-check mb-2"> 
+              <input class="form-check-input" 
+                     type="radio" 
+                     name="serviceType" 
+                     id="panzio" 
+                     value="panzio"
+                     ng-model="scheduleData.serviceType"
+                     ng-change="loadSubServices()">
+              <label class="form-check-label" for="panzio">Panzió</label>
+            </div>
+            
+            <div class="form-check mb-2"> 
+              <input class="form-check-input" 
+                     type="radio" 
+                     name="serviceType" 
+                     id="kozmetika" 
+                     value="kozmetika"
+                     ng-model="scheduleData.serviceType"
+                     ng-change="loadSubServices()">
+              <label class="form-check-label" for="kozmetika">Kozmetika</label>
+            </div>
+            
+            <div class="form-check mb-2">
+              <input class="form-check-input" 
+                     type="radio" 
+                     name="serviceType" 
+                     id="fotozas" 
+                     value="fotozas"
+                     ng-model="scheduleData.serviceType"
+                     ng-change="loadSubServices()">
+              <label class="form-check-label" for="fotozas">Fotózás</label>
+            </div>
+            
+            <div id="subServices" class="form-group mt-3 mb-3">
+              <label for="subServiceSelect">Válassz alszolgáltatást:</label>
+              <select id="subServiceSelect" 
+                      class="form-select" 
+                      ng-model="scheduleData.subServiceId"
+                      ng-options="price.id as (price.name + (price.type ? ' (' + price.type + ')' : '') + ' - ' + price.price + ' Ft') for price in getFilteredPrices()"
+                      ng-disabled="!scheduleData.serviceType">
+                <option value="">Válassz alszolgáltatást!</option>
               </select>
-          </div>
-          <div class="form-group mb-3"> <label for="appointmentDate">Időpont (Dátum):</label>
-              <input type="date" class="form-control" id="appointmentDate" name="appointmentDate" required>
+            </div>
+            
+        <!-- kisállat kiválasztása-->
+                    <div class="form-group">
+                        <label for="petSelect">Válassz kisállatot:</label>
+                        <select
+                            id="petSelect"
+                            class="form-select"
+                            ng-model="scheduleData.petId"
+                            ng-options="pet.id as pet.name for pet in pets track by pet.id"
+                            required>
+                            <option value="" disabled selected style="display:none;">Válassz egy kisállatot!</option>
+                            
+                        </select>
+                    </div>
+
+          <div class="form-group mb-3"> 
+                <label for="appointmentDate">Időpont (Dátum):</label>
+                <input type="date" class="form-control" id="appointmentDate" name="appointmentDate" required>
           </div>
           <div class="form-group mb-3"> <label for="appointmentTime">Időpont (Óra):</label>
-              <select class="form-control" id="appointmentTime" name="appointmentTime" required>
-                  <option value="">Válasszon időpontot</option>
+              <select  class="form-select"
+                       id="appointmentTime" 
+                       name="appointmentTime" 
+                       required>
+                  <option value="">Válassz időpontot</option>
                   <option value="09:00">09:00</option>
                   <option value="10:00">10:00</option>
                   <option value="11:00">11:00</option>

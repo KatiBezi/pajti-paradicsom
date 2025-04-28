@@ -9,7 +9,8 @@ require_once("../../common/php/environment.php");
 $args = Util::getArgs();
 
 // Set SQL command
-$query ="SELECT username, 
+$query ="SELECT id,
+				username, 
 				email, 
 				phone 
 			FROM users 
