@@ -204,17 +204,19 @@
     //OK
     .controller("contactController", [
       "$scope",
-      "$http",
-      function ($scope, $http) {
+      "http",
+      function ($scope, http) {
         $scope.contact = {};
         $scope.submitContactForm = function () {
-          $http
-            .post("./php/contact.php", $scope.contact)
-            .then((response) => {
-              alert("Üzenet sikeresen elküldve!");
-              $scope.contact = {};
-            })
-            .catch((e) => console.log(e));
+          http.request({
+            url: "./php/contact.php", 
+            data: $scope.contact
+          })
+          .then((response) => {
+            alert("Üzenet sikeresen elküldve!");
+            $scope.contact = {};
+          })
+          .catch((e) => console.log(e));
         };
       },
     ])
@@ -527,7 +529,7 @@
             date: formattedDate,
             time: $scope.scheduleData.appointmentTime,
             comments: $scope.scheduleData.comments || '',
-            user_id: authService.getUserId()
+            //user_id: authService.getUserId()
           };
           
           // Kérés küldése
@@ -537,8 +539,8 @@
             data: requestData,
             headers: {'Content-Type': 'application/json'}
           }).then(function(response) {
-            $scope.successMessage = "Sikeres időpontfoglalás! Azonosító: " + response.appointmentId;
-            
+            $scope.successMessage = "Sikeres időpontfoglalás! Azonosító: " + response.lastInsertId;
+            alert($scope.successMessage);
             // Űrlap reset
             $scope.scheduleData = {
               serviceType: "",

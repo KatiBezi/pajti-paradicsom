@@ -1,6 +1,12 @@
 <?php
 declare(strict_types=1);
 
-$query = "UPDATE `users` SET `email` = 'bezi.katalin@gmail.com', `phone` = '+36202456783' WHERE `id` = 3 AND `user_id` = 3";
+$_POST['data'] = '{
+    "services_id": 14,
+    "animal_id": 14,
+    "date": "2025-05-10",
+    "time": "13:00",
+    "comments": "Valami"
+}';
 
-require_once('./updateUserData.php');
+require_once('./schedule.php');
