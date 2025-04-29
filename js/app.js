@@ -435,35 +435,132 @@
         $scope.loadRegisteredPets();
       },
     ])
-   .controller("scheduleController", [
-  "$scope",
-  "$http",
-  "authService",
-  "http",
-  function ($scope, $http, authService, http) {
-    $scope.scheduleData = {
-      serviceType: "",
-      subServiceId: "",
-      petId: "",
-      appointmentDate: "",
-      appointmentTime: "",
-      user_id: authService.getUserId(),
-    };
-// EZ OK
-    $scope.pets = [];  // Kisállatok listája
-    // Kisállatok betöltése
-    $scope.loadRegisteredPets = function () {
-      http.request({
-        url: "./php/getPetsSchedule.php",
-        data: { user_id: authService.getUserId() },
-      }).then(function(response) {
-        console.log("Kisállatok betöltve:", response);
-        $scope.pets = response;
-      }).catch((e) => console.log(e));
-    };
-    // Betöltéskor automatikusan kérjük le a kisállatokat
-    $scope.loadRegisteredPets();
-  }
-]);
-
+    .controller("scheduleController", [
+      "$scope",
+      "$http",
+      "$state",
+      "authService",
+      "http",
+      "$filter",
+      function ($scope, $http, $state, authService, http, $filter) {
+        // Inicializálás
+        $scope.scheduleData = {
+          serviceType: "",
+          subServiceId: "",
+          petId: "",
+          appointmentDate: "",
+          appointmentTime: "",
+          comments: "",
+          user_id: authService.getUserId()
+        };
+        
+        $scope.pets = [];
+        $scope.allPrices = [];
+        $scope.filteredPrices = [];
+        $scope.successMessage = "";
+        $scope.errorMessage = "";
+    
+        // Szolgáltatás típusokhoz tartozó ID-k
+        $scope.serviceIds = {
+          panzio: 1,
+          kozmetika: 2,
+          fotozas: 3
+        };
+    
+        // Betölti a kisállatokat
+        $scope.loadRegisteredPets = function() {
+          http.request({
+            url: "./php/getPetsSchedule.php",
+            data: { user_id: authService.getUserId() }
+          }).then(function(response) {
+            $scope.pets = response;
+          }).catch(function(e) {
+            console.error("Error loading pets:", e);
+            $scope.errorMessage = "Hiba történt a kisállatok betöltése során.";
+          });
+        };
+        
+        // Betölti az összes árat
+        $scope.loadAllPrices = function() {
+          http
+          .request("./php/getprices.php")
+          .then(function(response) {
+            $scope.allPrices = response;
+          }).catch(function(e) {
+            console.error("Error loading prices:", e);
+            $scope.errorMessage = "Hiba történt a szolgáltatások betöltése során.";
+          });
+        };
+        
+        // Szűri az árakat a kiválasztott szolgáltatás típus alapján
+        $scope.loadSubServices = function() {
+          if (!$scope.scheduleData.serviceType) {
+            $scope.filteredPrices = [];
+            return;
+          }
+          
+          var serviceId = $scope.serviceIds[$scope.scheduleData.serviceType];
+          $scope.filteredPrices = $scope.allPrices.filter(function(price) {
+            return price.service_id == serviceId;
+          });
+          
+          $scope.scheduleData.subServiceId = "";
+        };
+        
+        // Elküldi az időpontfoglalást
+        $scope.submitAppointment = function() {
+          $scope.successMessage = "";
+          $scope.errorMessage = "";
+          
+          // Dátum formátum átalakítása
+          var dateObj = new Date($scope.scheduleData.appointmentDate);
+          if (isNaN(dateObj.getTime())) {
+            $scope.errorMessage = "Érvénytelen dátum formátum!";
+            return;
+          }
+          var formattedDate = $filter('date')(dateObj, 'yyyy-MM-dd');
+          
+          // Adatok összeállítása
+          var requestData = {
+            services_id: $scope.scheduleData.subServiceId,
+            animal_id: $scope.scheduleData.petId,
+            date: formattedDate,
+            time: $scope.scheduleData.appointmentTime,
+            comments: $scope.scheduleData.comments || '',
+            user_id: authService.getUserId()
+          };
+          
+          // Kérés küldése
+          http.request({
+            url: "./php/schedule.php",
+            method: "POST",
+            data: requestData,
+            headers: {'Content-Type': 'application/json'}
+          }).then(function(response) {
+            $scope.successMessage = "Sikeres időpontfoglalás! Azonosító: " + response.appointmentId;
+            
+            // Űrlap reset
+            $scope.scheduleData = {
+              serviceType: "",
+              subServiceId: "",
+              petId: "",
+              appointmentDate: "",
+              appointmentTime: "",
+              comments: "",
+              user_id: authService.getUserId()
+            };
+            
+            // Átirányítás a felhasználói oldalra
+            $state.go('users');
+          }).catch(function(error) {
+            console.error("Error:", error);
+            $scope.errorMessage = error.error || "Hiba történt az időpont foglalása során.";
+          });
+        };
+        
+        // Inicializálás
+        $scope.loadRegisteredPets();
+        $scope.loadAllPrices();
+      }
+    ])
 })(window, angular);
