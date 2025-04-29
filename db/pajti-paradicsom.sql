@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Gép: 127.0.0.1
--- Létrehozás ideje: 2025. Ápr 17. 00:50
+-- Létrehozás ideje: 2025. Ápr 29. 17:48
 -- Kiszolgáló verziója: 10.4.32-MariaDB
 -- PHP verzió: 8.2.12
 
@@ -190,6 +190,16 @@ CREATE TABLE `schedule` (
   `comments` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
+--
+-- A tábla adatainak kiíratása `schedule`
+--
+
+INSERT INTO `schedule` (`id`, `date`, `time`, `animal_id`, `services_id`, `comments`) VALUES
+(0, '2025-05-09', '13:00:00', 10, 11, 0),
+(0, '2025-05-01', '12:00:00', 10, 13, 0),
+(0, '2025-05-09', '13:00:00', 10, 4, 0),
+(0, '2025-04-19', '11:00:00', 10, 50, 0);
+
 -- --------------------------------------------------------
 
 --
@@ -238,7 +248,6 @@ INSERT INTO `users` (`id`, `username`, `email`, `password`, `phone`) VALUES
 (6, 'Kimér Őrs', 'kimerors@gmail.com', 'Abcd123#', '+36526894371'),
 (7, 'Kovács Aladár', 'kovacsaladar@gmail.com', 'Abcd123#', '+36857412369'),
 (11, 'Katona Gina', 'katona.gina@gmail.com', 'Abcd123#', '+36549876320'),
-(12, 'Varga Etelka', 'vargaetelka@gmail.com', 'Abcd123#', '+36985147236'),
 (13, 'Kiss Péter', 'kisspeter@gmail.com', 'Abcd123#', '+36623596781'),
 (14, 'Magyar Oleg', 'magyar.oleg@gmail.com', 'Abcd123#', '+36202456780'),
 (15, 'Magyar Jázmin', 'magyar.jazmin@gmail.com', 'Abcd123#', '+36202456784'),
@@ -311,7 +320,7 @@ ALTER TABLE `gallery`
 -- AUTO_INCREMENT a táblához `pets`
 --
 ALTER TABLE `pets`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=28;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=31;
 
 --
 -- AUTO_INCREMENT a táblához `prices`
@@ -335,7 +344,6 @@ ALTER TABLE `users`
 ALTER TABLE `pets`
   ADD CONSTRAINT `pets_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE CASCADE;
 COMMIT;
-
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
