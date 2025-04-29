@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Gép: 127.0.0.1
--- Létrehozás ideje: 2025. Ápr 29. 17:48
+-- Létrehozás ideje: 2025. Ápr 29. 19:29
 -- Kiszolgáló verziója: 10.4.32-MariaDB
 -- PHP verzió: 8.2.12
 
@@ -187,7 +187,7 @@ CREATE TABLE `schedule` (
   `time` time NOT NULL,
   `animal_id` int(11) NOT NULL,
   `services_id` int(11) NOT NULL,
-  `comments` int(11) NOT NULL
+  `comments` text NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
@@ -195,10 +195,13 @@ CREATE TABLE `schedule` (
 --
 
 INSERT INTO `schedule` (`id`, `date`, `time`, `animal_id`, `services_id`, `comments`) VALUES
-(0, '2025-05-09', '13:00:00', 10, 11, 0),
-(0, '2025-05-01', '12:00:00', 10, 13, 0),
-(0, '2025-05-09', '13:00:00', 10, 4, 0),
-(0, '2025-04-19', '11:00:00', 10, 50, 0);
+(1, '2025-05-09', '13:00:00', 10, 11, 'Nagyon jó'),
+(2, '2025-05-01', '12:00:00', 10, 13, 'Nagyon jó'),
+(3, '2025-05-09', '13:00:00', 10, 4, 'Nagyon jó'),
+(4, '2025-04-19', '11:00:00', 10, 50, 'Nagyon jó'),
+(5, '2025-05-10', '13:00:00', 14, 19, 'Nagyon jó'),
+(6, '2025-05-10', '13:00:00', 14, 14, 'Nagyon jó'),
+(7, '2025-04-30', '13:00:00', 20, 50, 'Nagyon jó');
 
 -- --------------------------------------------------------
 
@@ -294,6 +297,12 @@ ALTER TABLE `prices`
   ADD PRIMARY KEY (`id`);
 
 --
+-- A tábla indexei `schedule`
+--
+ALTER TABLE `schedule`
+  ADD PRIMARY KEY (`id`);
+
+--
 -- A tábla indexei `users`
 --
 ALTER TABLE `users`
@@ -327,6 +336,12 @@ ALTER TABLE `pets`
 --
 ALTER TABLE `prices`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=57;
+
+--
+-- AUTO_INCREMENT a táblához `schedule`
+--
+ALTER TABLE `schedule`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 
 --
 -- AUTO_INCREMENT a táblához `users`
