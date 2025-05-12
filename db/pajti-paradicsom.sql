@@ -257,9 +257,37 @@ CREATE TABLE `services` (
 --
 
 INSERT INTO `services` (`id`, `name`, `description`, `img`) VALUES
-(1, 'Pajti Hotel', 'Kutyusunkat hosszabb távra, jelenlétünk nélkül másra bízni sokszor nehéz döntés, bizalmi kérdés. A Pajti Paradicsom elsődleges célja kutyapanzióiban, hogy a kutyusok a lehető legjobban érezzék magukat, majd a tartózkodást követően a gazdi boldogan vihesse haza kedvencét.', 'foto2.jpg'),
-(2, 'Pajti kozmetika', 'Az okosság és intelligencia, illedelmesség, kedvesség, szófogadóság, szeretőképesség már-már minden olyan kvalitás, amivel rendelkezhet négylábú társunk! Mindezek mellett azonban nem szabad megfeledkeznünk szépségükről, ápoltságukról sem – ami nekünk első ránézésére talán csak esztétika, kutyusunknak jóérzés és egészség!', 'foto1.jpg'),
-(3, 'Pajti fotózás', 'Nálunk a fotózás nem csak a gép kattintásairól szól, hanem sokkal inkább egy közös alkotásról, egy felejthetetlen élményről, érzékeny lelkű kutyáknak és gazdáiknak. Egy letisztult stílusú, élményorientált fotózáson várunk rád, ahol nincs helye a kényszernek, nincsenek megjátszott Instagram-képek, és nincsenek elvárások sem a gazditól, sem a kutyától.', 'foto.jpg');
+(1, 'Pajti Hotel', 'A Pajti Hotel tökéletes választás, ha hosszabb vagy rövidebb időre szeretné biztonságban és kényelemben tudni kedvencét. Legyen szó akár nyaralásról, üzleti útról vagy bármilyen más elfoglaltságról, ahol nem tudja magával vinni kutyáját, mi szeretettel és odafigyeléssel gondoskodunk róla. 
+Hotelünkben a kutyák tágas, jól felszerelt boxokban vagy külön szobákban kerülnek elhelyezésre, ahol elegendő helyük van a mozgásra és pihenésre. A napi többszöri séták és a rendszeres játék biztosítják, hogy kedvence ne unatkozzon és jól érezze magát.
+Szakképzett gondozóink folyamatosan felügyelik a kutyákat, biztosítva számukra a megfelelő táplálást, ivóvizet és szükség esetén a gyógyszerelést. A hotel területén állatorvosi felügyelet is rendelkezésre áll, így vészhelyzet esetén azonnal szakszerű ellátást tudunk nyújtani.
+A Pajti Hotel nem csupán egy megőrzőhely, hanem egy olyan hely, ahol a kutyák jól érzik magukat. A gazdik nyugodtak lehetnek, hiszen tudják, hogy kedvencük a legjobb kezekben van, amíg ők távol vannak.
+Fontos tudnivalók:
+A kutyák csak érvényes oltásokkal és féreghajtással vehetők fel.
+A helyek korlátozott száma miatt javasoljuk a mielőbbi időpontfoglalást.
+A részletes házirendet és árakat a weboldalunkon vagy telefonon találja.
+Bízunk benne, hogy a Pajti Hotel lesz kedvence második otthona!', 'foto2.jpg'),
+
+(2, 'Pajti kozmetika', 'Szívélyesen üdvözöljük Önt és négylábú társát a Pajti Paradicsom kutyakozmetikában, Makó városának szeretetteljes és gondoskodó oázisában! Mi itt, a Pajti Paradicsomban, nem csupán egy kutyakozmetika vagyunk, hanem egy olyan hely, ahol a kutyák kényelme, egészsége és jólléte a legfontosabb. Tudjuk, hogy kedvence az Ön számára családtag, éppen ezért olyan odaadással és szakértelemmel bánunk vele, mintha a sajátunk lenne.
+A Pajti Paradicsom csapata szakképzett és tapasztalt kutyakozmetikusokból áll, akik nem csupán a szőrzetápolás mesterei, hanem igazi állatbarátok is. Munkánk során a türelem, a szeretet és a nyugodt légkör megteremtése a legfontosabb, hogy kedvence a lehető legjobban érezze magát a kozmetikázás ideje alatt. Tisztában vagyunk azzal, hogy minden kutya egyedi személyiség, ezért a kezeléseket mindig az ő igényeihez és temperamentumához igazítjuk. Legyen szó egy félénk kölyökről, egy idősödő matuzsálemről vagy egy energikus fiatalról, nálunk mindenki a megérdemelt figyelmet és törődést kapja.
+Szolgáltatásaink széles skáláját kínáljuk, hogy kedvence mindig a legjobb formájában tündökölhessen.
+A Pajti Paradicsomban a legmodernebb eszközökkel és a legmagasabb minőségű, kutyabarát kozmetikumokkal dolgozunk. A higiéniára kiemelt figyelmet fordítunk, a szalonunk mindig tiszta és rendezett, hogy kedvence a lehető legbiztonságosabban és legkényelmesebben érezze magát.
+Hiszünk abban, hogy a kozmetikázás nem csupán a külső megjelenésről szól, hanem hozzájárul kedvence egészségéhez és jóllétéhez is. A rendszeres szőrzetápolás segít megelőzni a bőrproblémákat, csökkenti a szőrhullást, és javítja a kutya közérzetét.
+Szeretettel várjuk Önt és kedvencét a Pajti Paradicsomban, ahol a kutyák a paradicsomban érzik magukat! Forduljon hozzánk bizalommal, és kérjen időpontot még ma!
+', 'foto1.jpg'),
+(3, 'Pajti fotózás', 'Miért válassza a Pajti fotózást?
+Szakértelem és tapasztalat: Tapasztalt állatfotósaink türelmesen és szeretettel közelítenek a kutyákhoz, legyen szó akár egy energikus kölyökről, egy félénk mentett állatról vagy egy idősödő matuzsálemről. Tudjuk, hogyan hozzuk ki a legjobbat minden modellből.
+Kényelmes és stresszmentes környezet: A fotózás nyugodt és barátságos környezetben zajlik, ahol kedvence biztonságban és kényelemben érzi magát. Kerüljük a felesleges stresszt, hogy a képeken a valódi énje tükröződjön.
+Egyedi stílus és kreativitás: Nem sablonfotókat készítünk. Minden fotózás egyedi, tükrözi kedvence személyiségét és az Önök kapcsolatát. Legyen szó játékos portrékról, akciódús pillanatképekről vagy meghitt családi fotókról, mi megvalósítjuk az elképzeléseit.
+Minőségi végeredmény: A fotózás során készült legjobb képek professzionális utómunkán esnek át, hogy a végeredmény lenyűgöző és időtálló legyen. Különböző formátumokban (digitális, nyomtatott) és csomagokban kínáljuk a képeket, hogy mindenki megtalálja a számára legmegfelelőbbet.
+Szolgáltatásaink:
+Portréfotózás: Kedvence egyedi portréja, amely kiemeli szépségét és személyiségét.
+Akciófotózás: Játék közben, futás közben vagy más aktív pillanatokban készült képek.
+Családi fotózás: Közös fotók Önnel és családjával.
+Tematikus fotózás: Ünnepi vagy évszaki témákhoz kapcsolódó fotók (pl. karácsonyi, szülinapi).
+Fotókönyv készítése: A legjobb képekből gyönyörű fotókönyv összeállítása.
+Ajándékozzon örök emléket!
+A Pajti fotózás tökéletes ajándék lehet bármilyen alkalomra. Lepje meg magát vagy szeretteit egyedi és személyes emlékekkel!
+Keressen minket bizalommal, és kérjen időpontot!', 'foto.jpg');
 
 -- --------------------------------------------------------
 
