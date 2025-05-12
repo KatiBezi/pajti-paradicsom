@@ -29,4 +29,3 @@ if ($result && $db->affectedRows() > 0) {
 
 // Kapcsolat lezárása
 $db = null;
-?>

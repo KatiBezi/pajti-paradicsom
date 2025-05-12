@@ -25,4 +25,4 @@ if ($args['password'] !== $user['password'])
     Util::setError('Hibás jelszó!');
 
 Util::setResponse(['user_id' => $user['id']]);
-?>
+

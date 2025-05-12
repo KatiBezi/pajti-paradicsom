@@ -27,4 +27,4 @@ if (is_null($result)) {
 
 // Válasz visszaküldése
 Util::setResponse($result);
-?>
+

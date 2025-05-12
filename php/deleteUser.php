@@ -20,4 +20,3 @@ if ($result) {
 
 $db = null;
 
-?>

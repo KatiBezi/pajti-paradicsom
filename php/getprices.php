@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 require_once("../../common/php/environment.php");
 
-$queries = [
+/* $queries = [
     "prices_panzio" => "SELECT  `id`, 
                                 `services` AS `name`, 
                                 `price` 
@@ -28,7 +28,7 @@ $queries = [
                                ON `services`.`id` = `prices`.`service_id`
                             WHERE `services` = 3;"
 ];
-
+*/
 $query =  "SELECT   `prices`.`id`,
                     `service_id`,
                     `services`.`name` AS `name`,
