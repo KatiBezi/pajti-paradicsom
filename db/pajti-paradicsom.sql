@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Gép: 127.0.0.1
--- Létrehozás ideje: 2025. Máj 13. 03:16
+-- Létrehozás ideje: 2025. Máj 13. 14:12
 -- Kiszolgáló verziója: 10.4.32-MariaDB
 -- PHP verzió: 8.2.12
 
@@ -44,7 +44,10 @@ INSERT INTO `contact` (`id`, `name`, `email`, `message`, `submission_date`) VALU
 (2, '', '', '', '2025-04-15 18:27:00'),
 (3, '', '', '', '2025-04-15 18:27:27'),
 (7, 'Katalin Bzi', 'bezi.katalin@gmail.com', 'Hello', '2025-04-15 18:58:44'),
-(8, 'Bezi Lajos', 'bezilala@gmail.com', 'Hellobello emberek!', '2025-04-15 19:03:10');
+(8, 'Bezi Lajos', 'bezilala@gmail.com', 'Hellobello emberek!', '2025-04-15 19:03:10'),
+(9, 'HarciMacska', 'HarciMacska@gmail.com', 'ide jön az üzenet', '2025-05-13 11:42:51'),
+(10, 'HarciKutya23', 'HarciKutya23@gmail.com', 'Hello Mindenki!', '2025-05-13 11:48:57'),
+(11, 'HarciMedve89', 'HarciMedve89@gmail.com', 'Visszatértem!', '2025-05-13 11:58:41');
 
 -- --------------------------------------------------------
 
@@ -89,20 +92,21 @@ CREATE TABLE `pets` (
 --
 
 INSERT INTO `pets` (`id`, `user_id`, `name`, `type`, `age`, `description`) VALUES
-(9, 3, 'Szimba', 'Macska', 8, 'harapós'),
-(10, 3, 'Mulan', 'kutya', 8, 'PITBULL'),
-(11, 3, 'Szása', 'Kutya', 5, 'juhász'),
-(14, 3, 'Hugo', 'kutya', 3, 'fehér'),
-(18, 3, 'Lilás', 'kutya', 3, 'német juhász'),
+(9, 3, 'Szimba', 'Macska', 7, 'harapós'),
+(10, 3, 'Mulan', 'kutya', 8, 'PITBULL fekete fehér'),
+(18, 3, 'Liláp', 'kutya', 3, 'német juhász'),
 (19, 3, 'Gigi', 'macska', 4, 'szép'),
-(21, 3, 'Noni', 'macsska', 5, 'vörös'),
-(23, 4, 'Palacsinta', 'Kutya', 0, 'Dobberman'),
+(23, 4, 'Palacsinti', 'Kutya', 0, 'Dobbermanó'),
 (24, 4, 'Mókus', 'Kutya', 0, 'Puli'),
 (25, 4, 'Kókusz', 'Kutya', 2, 'keverék hosszú szőrű'),
-(26, 4, 'Jónás', 'macska', 3, 'perzsa'),
+(26, 4, 'Jónás', 'macska', 3, 'perzsaszerű vadmacska'),
 (27, 14, 'Marci', 'Kutya', 5, 'jól szocializált'),
 (31, 3, 'Murko', 'nyúl', 5, 'barna'),
-(32, 3, 'Hedvig', 'kutya', 1, 'hófehér');
+(32, 3, 'Hedvig', 'kutya', 1, 'hófehér'),
+(34, 3, 'Cili', 'macska', 7, NULL),
+(35, 4, 'Pinduri', 'kutya', 2, 'a legszebb a világon'),
+(36, 29, 'Lótusz', 'macska', 4, 'bengáli'),
+(39, 3, 'Lóri', 'egyéb', 1, 'törpemalac');
 
 -- --------------------------------------------------------
 
@@ -196,36 +200,21 @@ CREATE TABLE `schedule` (
 INSERT INTO `schedule` (`id`, `date`, `time`, `animal_id`, `services_id`, `comments`) VALUES
 (1, '2025-05-09', '13:00:00', 10, 11, '0'),
 (2, '2025-05-01', '12:00:00', 10, 13, '0'),
-(5, '2025-05-15', '12:00:00', 11, 14, '0'),
-(6, '2025-05-22', '09:00:00', 11, 8, '0'),
-(9, '2025-05-30', '13:00:00', 11, 13, '0'),
-(10, '2025-05-24', '13:00:00', 14, 30, '0'),
 (11, '2025-05-08', '14:00:00', 18, 16, '0'),
 (12, '2025-05-28', '15:00:00', 18, 32, '0'),
-(13, '2025-05-29', '09:00:00', 21, 56, '0'),
 (16, '2025-05-29', '12:00:00', 9, 11, '0'),
-(18, '2025-05-27', '12:00:00', 14, 36, '0'),
-(19, '2025-05-24', '11:00:00', 11, 11, '0'),
-(20, '2025-05-23', '09:00:00', 14, 23, '0'),
 (21, '2025-05-14', '10:00:00', 18, 17, '0'),
 (22, '2025-05-15', '09:00:00', 10, 12, '0'),
 (23, '2025-05-16', '11:00:00', 10, 30, '0'),
 (25, '2025-05-14', '11:00:00', 10, 9, '0'),
 (26, '2025-05-13', '16:00:00', 9, 5, '0'),
 (27, '2025-05-12', '10:00:00', 10, 5, '0'),
-(28, '2025-05-12', '13:00:00', 11, 50, '0'),
-(30, '2025-05-06', '11:00:00', 11, 4, '0'),
 (32, '2025-05-13', '09:00:00', 9, 4, '0'),
-(33, '2025-05-12', '10:00:00', 11, 9, '0'),
-(34, '2025-05-15', '13:00:00', 11, 5, '0'),
 (35, '2025-05-23', '12:00:00', 19, 9, '0'),
 (37, '2025-05-13', '11:00:00', 10, 5, '0'),
-(39, '2025-05-21', '12:00:00', 11, 9, '0'),
 (40, '2025-05-08', '09:00:00', 18, 9, '0'),
-(41, '2025-05-12', '14:00:00', 11, 5, '0'),
 (43, '2025-05-13', '13:00:00', 10, 10, '0'),
-(44, '2025-05-22', '10:00:00', 14, 9, '0'),
-(46, '2025-06-03', '10:00:00', 14, 5, 'jó lesz');
+(49, '2025-06-04', '10:00:00', 24, 34, 'félős nagyon');
 
 -- --------------------------------------------------------
 
@@ -269,8 +258,8 @@ CREATE TABLE `users` (
 
 INSERT INTO `users` (`id`, `username`, `email`, `password`, `phone`) VALUES
 (1, 'Eszti', 'szjuheszti@gmail.com', 'Pajti2025', '306757818'),
-(3, 'bezik', 'bezi.katalin@gmail.com', 'Abcd123#', '+36202456783'),
-(4, 'Kis István', 'kispista@gmail.com', 'Abcd123#', '+36203698741'),
+(3, 'bezik', 'bezi.katalin@gmail.com', 'Abcd123#', '+36302456781'),
+(4, 'Kis István', 'kispista@gmail.com', 'Abcd123#', '+36203698743'),
 (5, 'Nagy Cecília', 'nagy.cili@gmail.com', 'Abcd123#', '+36542874562'),
 (6, 'Kimér Őrs', 'kimerors@gmail.com', 'Abcd123#', '+36526894371'),
 (7, 'Kovács Aladár', 'kovacsaladar@gmail.com', 'Abcd123#', '+36857412369'),
@@ -289,7 +278,9 @@ INSERT INTO `users` (`id`, `username`, `email`, `password`, `phone`) VALUES
 (24, 'ÉdesAnna', 'edesanna@gmail.com', 'Abcd123#', '+36552121444'),
 (25, 'JoJoShiva', 'jojo@gmail.com', 'Abcd123#', '+36805566999'),
 (27, 'bezikati', 'bezikata@gmail.com', 'Abcd123#', '+36202456780'),
-(28, 'Madaras Etelka', 'etelka@gmail.com', 'Abcd123#', '+36202456780');
+(28, 'Madaras Etelka', 'etelka@gmail.com', 'Abcd123#', '+36202456780'),
+(29, 'Ririke', 'ririke2@gmail.com', 'Abcd123#', '+3625785693'),
+(30, 'Gizike', 'gizike@gmail.com', 'Abcd123#', '+36529669693');
 
 --
 -- Indexek a kiírt táblákhoz
@@ -344,7 +335,7 @@ ALTER TABLE `users`
 -- AUTO_INCREMENT a táblához `contact`
 --
 ALTER TABLE `contact`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
 
 --
 -- AUTO_INCREMENT a táblához `gallery`
@@ -356,7 +347,7 @@ ALTER TABLE `gallery`
 -- AUTO_INCREMENT a táblához `pets`
 --
 ALTER TABLE `pets`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=33;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=40;
 
 --
 -- AUTO_INCREMENT a táblához `prices`
@@ -368,13 +359,13 @@ ALTER TABLE `prices`
 -- AUTO_INCREMENT a táblához `schedule`
 --
 ALTER TABLE `schedule`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=47;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=51;
 
 --
 -- AUTO_INCREMENT a táblához `users`
 --
 ALTER TABLE `users`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=29;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=31;
 
 --
 -- Megkötések a kiírt táblákhoz
