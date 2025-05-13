@@ -1,11 +1,15 @@
 <div class="container">
-  <div class="row justify-content-center gx-3 gy-3"> <div class="col-md-8 col-lg-6 mt-5 bg-light p-4 rounded">
+  <div class="row justify-content-center gx-3 gy-3">
+    <!-- Az űrlap tartalmát középre igazítottuk, hogy esztétikusan jelenjen meg -->
+    <div class="col-md-8 col-lg-6 mt-5 bg-light p-4 rounded">
       <h1 class="text-center mb-4">Pajti Paradicsom Időpontfoglalás</h1>
 
+      <!-- Az űrlap a foglalási adatokat gyűjti -->
       <form name="appointmentForm" ng-submit="submitAppointment()" novalidate>
         <fieldset class="form-group">
           <legend>Szolgáltatások:</legend>
 
+          <!-- Szolgáltatás kiválasztása: panzió -->
           <div class="form-check mb-2">
             <input
               class="form-check-input"
@@ -20,6 +24,7 @@
             <label class="form-check-label" for="panzio">Panzió</label>
           </div>
 
+          <!-- Szolgáltatás kiválasztása: kozmetika -->
           <div class="form-check mb-2">
             <input
               class="form-check-input"
@@ -34,6 +39,7 @@
             <label class="form-check-label" for="kozmetika">Kozmetika</label>
           </div>
 
+          <!-- Szolgáltatás kiválasztása: fotózás -->
           <div class="form-check mb-2">
             <input
               class="form-check-input"
@@ -48,6 +54,7 @@
             <label class="form-check-label" for="fotozas">Fotózás</label>
           </div>
 
+          <!-- Alszolgáltatás kiválasztása -->
           <div id="subServices" class="form-group mt-3 mb-3">
             <label for="subServiceSelect">Válassz alszolgáltatást:</label>
             <select
@@ -61,6 +68,7 @@
             </select>
           </div>
 
+          <!-- Kisállat kiválasztása -->
           <div class="form-group mb-3">
             <label for="petSelect">Válassz kisállatot:</label>
             <select
@@ -74,6 +82,7 @@
             </select>
           </div>
 
+          <!-- Dátum kiválasztása -->
           <div class="form-group mb-3">
             <label for="appointmentDate">Időpont (Dátum):</label>
             <input
@@ -87,6 +96,7 @@
             />
           </div>
 
+          <!-- Idő kiválasztása -->
           <div class="form-group mb-3">
             <label for="appointmentTime">Időpont (Óra):</label>
             <select
@@ -109,6 +119,7 @@
             </select>
           </div>
 
+          <!-- Megjegyzés mező -->
           <div class="form-group mb-3">
             <label for="comments">Megjegyzés (opcionális):</label>
             <textarea
@@ -121,12 +132,15 @@
             ></textarea>
           </div>
 
+          <!-- Visszajelző üzenetek -->
           <div class="alert alert-success" ng-if="successMessage">
             {{successMessage}}
           </div>
           <div class="alert alert-danger" ng-if="errorMessage">
             {{errorMessage}}
           </div>
+
+          <!-- Beküldés gomb -->
           <div class="form-group text-center">
             <button
               type="submit"
