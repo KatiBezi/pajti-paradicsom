@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Gép: 127.0.0.1
--- Létrehozás ideje: 2025. Máj 13. 14:12
+-- Létrehozás ideje: 2025. Máj 13. 15:04
 -- Kiszolgáló verziója: 10.4.32-MariaDB
 -- PHP verzió: 8.2.12
 
@@ -106,7 +106,8 @@ INSERT INTO `pets` (`id`, `user_id`, `name`, `type`, `age`, `description`) VALUE
 (34, 3, 'Cili', 'macska', 7, NULL),
 (35, 4, 'Pinduri', 'kutya', 2, 'a legszebb a világon'),
 (36, 29, 'Lótusz', 'macska', 4, 'bengáli'),
-(39, 3, 'Lóri', 'egyéb', 1, 'törpemalac');
+(39, 3, 'Lóri', 'egyéb', 1, 'törpemalac'),
+(40, 31, 'Jojó', 'macska', 2, NULL);
 
 -- --------------------------------------------------------
 
@@ -214,7 +215,8 @@ INSERT INTO `schedule` (`id`, `date`, `time`, `animal_id`, `services_id`, `comme
 (37, '2025-05-13', '11:00:00', 10, 5, '0'),
 (40, '2025-05-08', '09:00:00', 18, 9, '0'),
 (43, '2025-05-13', '13:00:00', 10, 10, '0'),
-(49, '2025-06-04', '10:00:00', 24, 34, 'félős nagyon');
+(49, '2025-06-04', '10:00:00', 24, 34, 'félős nagyon'),
+(51, '2025-05-30', '14:00:00', 19, 10, '');
 
 -- --------------------------------------------------------
 
@@ -258,7 +260,7 @@ CREATE TABLE `users` (
 
 INSERT INTO `users` (`id`, `username`, `email`, `password`, `phone`) VALUES
 (1, 'Eszti', 'szjuheszti@gmail.com', 'Pajti2025', '306757818'),
-(3, 'bezik', 'bezi.katalin@gmail.com', 'Abcd123#', '+36302456781'),
+(3, 'bezik', 'bezi.katalin@gmail.com', 'Abcd123#', '+36302456782'),
 (4, 'Kis István', 'kispista@gmail.com', 'Abcd123#', '+36203698743'),
 (5, 'Nagy Cecília', 'nagy.cili@gmail.com', 'Abcd123#', '+36542874562'),
 (6, 'Kimér Őrs', 'kimerors@gmail.com', 'Abcd123#', '+36526894371'),
@@ -280,7 +282,11 @@ INSERT INTO `users` (`id`, `username`, `email`, `password`, `phone`) VALUES
 (27, 'bezikati', 'bezikata@gmail.com', 'Abcd123#', '+36202456780'),
 (28, 'Madaras Etelka', 'etelka@gmail.com', 'Abcd123#', '+36202456780'),
 (29, 'Ririke', 'ririke2@gmail.com', 'Abcd123#', '+3625785693'),
-(30, 'Gizike', 'gizike@gmail.com', 'Abcd123#', '+36529669693');
+(30, 'Gizike', 'gizike@gmail.com', 'Abcd123#', '+36529669693'),
+(31, 'HarciKutya23', 'HarciKutya23@gmail.com', 'Abcd123#', '+369635897458'),
+(32, 'HarciMacska45', 'HarciMacska45@gmail.com', 'Abcd123#', '+365248963251'),
+(33, 'Eperlekvar', 'eperlekvar234@gmail.com', 'Abcd123#', '+362056897855'),
+(34, 'Ilona78', 'ilona78@gmail.com', 'Abcd123#', '+3653897456');
 
 --
 -- Indexek a kiírt táblákhoz
@@ -347,7 +353,7 @@ ALTER TABLE `gallery`
 -- AUTO_INCREMENT a táblához `pets`
 --
 ALTER TABLE `pets`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=40;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=41;
 
 --
 -- AUTO_INCREMENT a táblához `prices`
@@ -359,13 +365,13 @@ ALTER TABLE `prices`
 -- AUTO_INCREMENT a táblához `schedule`
 --
 ALTER TABLE `schedule`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=51;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=52;
 
 --
 -- AUTO_INCREMENT a táblához `users`
 --
 ALTER TABLE `users`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=31;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=35;
 
 --
 -- Megkötések a kiírt táblákhoz
