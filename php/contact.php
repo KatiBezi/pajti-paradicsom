@@ -1,5 +1,5 @@
 <?php
-// EZ KÉSZ
+
 declare(strict_types=1);
 
 require_once("../../common/php/environment.php");

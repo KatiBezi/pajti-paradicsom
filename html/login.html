@@ -30,14 +30,21 @@
             </div>
             <div class="form-group">
               <label for="password">Jelszó:</label>
-              <input
-                type="password"
-                class="form-control"
-                id="password"
-                name="password"
-                ng-model="user.password"
-                required
-              />
+              <div class="input-group">
+                <input
+                  type="{{ showPassword ? 'text' : 'password' }}"
+                  class="form-control"
+                  id="password"
+                  name="password"
+                  ng-model="user.password"
+                  required
+                />
+                <div class="input-group-append">
+                  <button class="btn btn-outline-secondary" type="button" ng-click="showPassword = !showPassword">
+                    <i class="fa" ng-class="showPassword ? 'fa-eye-slash' : 'fa-eye'"></i>
+                  </button>
+                </div>
+              </div>
               <div
                 ng-show="loginForm.password.$invalid && loginForm.password.$touched"
                 class="text-danger"
@@ -45,7 +52,7 @@
                 A jelszó megadása kötelező!
               </div>
             </div>
-            <div class="d-flex justify-content-center mt-3 ">
+            <div class="d-flex justify-content-center mt-3">
               <button
                 type="submit"
                 class="btn btn-primary"
@@ -55,7 +62,7 @@
               </button>
             </div>
           </form>
-          <p class="text-center mt-3"><strong>Még nincs fiókod? <a ui-sref="register">Regisztrálj!</a></strong> </p>
+          <p class="text-center mt-3"><strong>Még nincs fiókod? <a ui-sref="register">Regisztrálj!</a></strong></p>
         </div>
       </div>
     </div>

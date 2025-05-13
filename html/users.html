@@ -185,8 +185,11 @@
 
     <!-- 4. JOBB OLDALI PANEL (KISÁLLAT REGISZTRÁCIÓ ÉS INFÓKÁRTYA) -->
     <div class="col-md-4 mb-4">
-      <!-- Kisállat regisztráció panel (fix magasság) -->
-      <div class="card rounded border p-3 mb-3" style="height: 500px; overflow-y: auto;">
+      <!-- Kisállat regisztráció panel -->
+      <div
+        class="card rounded border p-3 mb-3"
+        style="height: 500px; overflow-y: auto"
+      >
         <div class="card-body">
           <h5 class="card-title">Kisállat regisztráció</h5>
           <form name="petForm" ng-submit="registerPet()" novalidate>
@@ -201,13 +204,20 @@
             </div>
             <div class="form-group">
               <label>Típus:</label>
-              <select class="form-control" ng-model="newPet.type" required>
-                <option value="">Válassz típust</option>
-                <option value="kutya">Kutya</option>
-                <option value="macska">Macska</option>
-                <option value="nyúl">Nyúl</option>
-                <option value="egyéb">Egyéb</option>
-              </select>
+              <div class="input-group">
+                <select class="form-control" ng-model="newPet.type" required>
+                  <option value="">Válassz típust</option>
+                  <option value="kutya">Kutya</option>
+                  <option value="macska">Macska</option>
+                  <option value="nyúl">Nyúl</option>
+                  <option value="egyéb">Egyéb</option>
+                </select>
+                <div class="input-group-append">
+                  <span class="input-group-text">
+                    <i class="fas fa-chevron-down"></i>
+                  </span>
+                </div>
+              </div>
             </div>
             <div class="form-group">
               <label>Kor:</label>
@@ -239,14 +249,15 @@
           </form>
         </div>
       </div>
-      
-      <!-- Információs kártya a foglalásokról -->
+
+      <!-- Információs kártya -->
       <div class="card border-danger">
         <div class="card-body">
           <h5 class="card-title text-danger">Fontos információ!</h5>
           <p class="card-text">
-            Foglalás törlése csak telefonon lehetséges 48 órával az időpont előtt!<br>
-            Kérlek hívd az alábbi telefonszámot:<br>
+            Foglalás törlése csak telefonon lehetséges 48 órával az időpont
+            előtt!<br />
+            Kérlek hívd az alábbi telefonszámot:<br />
             <strong>+36 30 777 66 55</strong>
           </p>
         </div>

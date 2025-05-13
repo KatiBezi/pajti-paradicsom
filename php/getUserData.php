@@ -2,10 +2,8 @@
 
 declare(strict_types=1);
 
-// Környezeti beállítások betöltése
 require_once("../../common/php/environment.php");
 
-// Argumentumok lekérése a kérésből 
 $args = Util::getArgs();
 
 // SQL parancs beállítása a felhasználó adatainak lekérdezéséhez ID alapján
@@ -19,18 +17,16 @@ $query = "SELECT
                  WHERE
                     `id` = :user_id";
 
-// Csatlakozás a MySQL szerverhez
+
 $db = new Database();
 
 // SQL parancs végrehajtása a megadott argumentumokkal
 $result = $db->execute($query, $args);
 
-// Adatbázis kapcsolat lezárása
 $db = null;
 
 // Eredmény ellenőrzése
 if (is_null($result)) {
-    // Ha a lekérdezés eredménye null, az azt jelenti, hogy a felhasználó nem létezik
     Util::setError("A felhasználó nem létezik!");
 }
 

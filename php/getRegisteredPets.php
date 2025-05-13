@@ -2,10 +2,8 @@
 
 declare(strict_types=1);
 
-// Környezeti beállítások és segédfüggvények betöltése
 require_once("../../common/php/environment.php");
 
-// Lekérdezéshez szükséges bemeneti adatok lekérése 
 $args = Util::getArgs();
 
 // SQL lekérdezés: kisállatok és jövőbeli időpontjaik lekérdezése
@@ -36,13 +34,10 @@ $query = "
                 `s`.`time`;
             ";
 
-// Adatbázis kapcsolat létrehozása
 $db = new Database();
 
-// Lekérdezés végrehajtása a felhasználó azonosítójával
 $result = $db->execute($query, $args);
 
-// Kapcsolat bezárása
 $db = null;
 
 // Hibaellenőrzés: ha a lekérdezés sikertelen volt

@@ -12,14 +12,14 @@ $db = new Database();
 $query = "UPDATE `pets` 
             SET `name` = ?, 
                 `age` = ?,  
-                `type` = ? 
+                `description` = ? 
             WHERE `id` = ?";
 
 // SQL parancs végrehajtása
 $result = $db->execute($query, [
     $args['name'] ?? null, 
     $args['age'] ?? null,  
-    $args['type'] ?? null, 
+    $args['description'] ?? null, 
     $args['id'],      
 ]);
 

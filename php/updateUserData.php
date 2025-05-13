@@ -2,13 +2,11 @@
 
 declare(strict_types=1);
 
-// Környezeti beállítások betöltése
+
 require_once("../../common/php/environment.php");
 
-// Argumentumok lekérése
 $args = Util::getArgs();
 
-// Adatbázis objektum létrehozása
 $db = new Database();
 
 // SQL lekérdezés a felhasználó adatainak frissítéséhez az ID alapján
@@ -26,10 +24,8 @@ $result = $db->execute($query, [
 
 // Ellenőrizzük, hogy a frissítés sikeres volt-e és érintett-e legalább egy sort
 if ($result && $db->affectedRows() > 0) {
-    // Sikeres frissítés esetén egy üzenetet küldünk vissza
     Util::setResponse(['success' => true, 'message' => 'Felhasználó adatai sikeresen frissítve!']);
 } else {
-    // Sikertelen frissítés esetén egy hibaüzenetet állítunk be
     Util::setError("Hiba történt a felhasználó adatainak frissítése során");
 }
 // Adatbázis kapcsolat lezárása

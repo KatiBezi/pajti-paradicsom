@@ -3,10 +3,9 @@ declare(strict_types=1);
 
 require_once("../../common/php/environment.php");
 
-// Kérés adatainak lekérése
+
 $args = Util::getArgs(); 
 
-// Adatbázis kapcsolat létrehozása
 $db = new Database();
 
 // Időpont foglaltság ellenőrzése
