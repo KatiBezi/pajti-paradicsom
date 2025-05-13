@@ -140,14 +140,7 @@
                   ng-model="editPetData.name"
                 />
               </div>
-              <div class="form-group">
-                <label>Típus:</label>
-                <input
-                  type="text"
-                  class="form-control"
-                  ng-model="editPetData.type"
-                />
-              </div>
+             
               <div class="form-group">
                 <label>Kor:</label>
                 <input
@@ -202,21 +195,17 @@
                 required
               />
             </div>
+
             <div class="form-group">
               <label>Típus:</label>
               <div class="input-group">
-                <select class="form-control" ng-model="newPet.type" required>
+                <select class="form-select" ng-model="newPet.type" required>
                   <option value="">Válassz típust</option>
                   <option value="kutya">Kutya</option>
                   <option value="macska">Macska</option>
                   <option value="nyúl">Nyúl</option>
                   <option value="egyéb">Egyéb</option>
                 </select>
-                <div class="input-group-append">
-                  <span class="input-group-text">
-                    <i class="fas fa-chevron-down"></i>
-                  </span>
-                </div>
               </div>
             </div>
             <div class="form-group">

@@ -475,7 +475,7 @@
             }).then(function(response) {
                 $scope.pets = response;
             }).catch(function(e) {
-                console.error("Error loading pets:", e);
+                console.error("Hiba történt a kisállatok betöltése során:", e);
                 alert("Hiba történt a kisállatok betöltése során.");
             });
         };
