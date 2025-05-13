@@ -1,22 +1,16 @@
 <div class="container mt-5">
-  <!-- Bejelentkezési felület fő konténere -->
   <div class="row justify-content-center">
     <div class="col-md-8 col-lg-6">
       <div class="card shadow">
-        <!-- Kártya formázás a bejelentkezési blokkhoz -->
         <div class="card-body p-4">
           <h2 class="text-center">Bejelentkezés</h2>
-
-          <!-- Sikeres vagy sikertelen bejelentkezési visszajelzés -->
           <div ng-if="successMessage" class="alert alert-success">
             {{ successMessage }}
           </div>
           <div ng-if="errorMessage" class="alert alert-danger">
             {{ errorMessage }}
           </div>
-
           <form name="loginForm" ng-submit="submitLoginForm()" novalidate>
-            <!-- Felhasználónév mező -->
             <div class="form-group">
               <label for="username">Felhasználónév:</label>
               <input
@@ -34,8 +28,6 @@
                 A felhasználónév megadása kötelező!
               </div>
             </div>
-
-            <!-- Jelszó mező -->
             <div class="form-group">
               <label for="password">Jelszó:</label>
               <div class="input-group">
@@ -52,10 +44,7 @@
                   ng-click="showPassword = !showPassword"
                   style="cursor: pointer"
                 >
-                  <i
-                    class="fa"
-                    ng-class="showPassword ? 'fa-lock' : 'fa-unlock'"
-                  ></i>
+                  <i class="fa" ng-class="showPassword ? 'fa-lock' : 'fa-unlock'"></i>
                 </span>
               </div>
               <div
@@ -65,8 +54,6 @@
                 A jelszó megadása kötelező!
               </div>
             </div>
-
-            <!-- Bejelentkezési gomb -->
             <div class="d-flex justify-content-center mt-3">
               <button
                 type="submit"
@@ -77,8 +64,6 @@
               </button>
             </div>
           </form>
-
-          <!-- Regisztrációra ösztönző szöveg -->
           <p class="text-center mt-3">
             <strong
               >Még nincs fiókod? <a ui-sref="register">Regisztrálj!</a></strong

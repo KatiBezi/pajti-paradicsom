@@ -1,15 +1,11 @@
 <div class="container">
-  <div class="row justify-content-center gx-3 gy-3">
-    <!-- Az űrlap tartalmát középre igazítottuk, hogy esztétikusan jelenjen meg -->
-    <div class="col-md-8 col-lg-6 mt-5 bg-light p-4 rounded">
+  <div class="row justify-content-center gx-3 gy-3"> <div class="col-md-8 col-lg-6 mt-5 bg-light p-4 rounded">
       <h1 class="text-center mb-4">Pajti Paradicsom Időpontfoglalás</h1>
 
-      <!-- Az űrlap a foglalási adatokat gyűjti -->
       <form name="appointmentForm" ng-submit="submitAppointment()" novalidate>
         <fieldset class="form-group">
           <legend>Szolgáltatások:</legend>
 
-          <!-- Szolgáltatás kiválasztása: panzió -->
           <div class="form-check mb-2">
             <input
               class="form-check-input"
@@ -24,7 +20,6 @@
             <label class="form-check-label" for="panzio">Panzió</label>
           </div>
 
-          <!-- Szolgáltatás kiválasztása: kozmetika -->
           <div class="form-check mb-2">
             <input
               class="form-check-input"
@@ -39,7 +34,6 @@
             <label class="form-check-label" for="kozmetika">Kozmetika</label>
           </div>
 
-          <!-- Szolgáltatás kiválasztása: fotózás -->
           <div class="form-check mb-2">
             <input
               class="form-check-input"
@@ -54,55 +48,91 @@
             <label class="form-check-label" for="fotozas">Fotózás</label>
           </div>
 
-          <!-- Alszolgáltatás kiválasztása -->
           <div id="subServices" class="form-group mt-3 mb-3">
             <label for="subServiceSelect">Válassz alszolgáltatást:</label>
             <select
               id="subServiceSelect"
               class="form-select"
               ng-model="scheduleData.subServiceId"
+              ng-options="price.id as price.name + (price.type ? ' (' + price.type + ')' : '') + ' - ' + price.price + ' Ft' for price in filteredPrices"
+              ng-disabled="!scheduleData.serviceType || filteredPrices.length === 0"
               required
             >
             </select>
           </div>
 
-          <!-- Kisállat kiválasztása -->
           <div class="form-group mb-3">
             <label for="petSelect">Válassz kisállatot:</label>
-            <select id="petSelect" class="form-select" name="petSelect" ng-model="scheduleData.petId" required>
+            <select
+              id="petSelect"
+              class="form-select"
+              name="petSelect"
+              ng-model="scheduleData.petId"
+              ng-options="pet.id as pet.name for pet in pets"
+              required
+            >
             </select>
           </div>
 
-          <!-- Dátum kiválasztása -->
           <div class="form-group mb-3">
             <label for="appointmentDate">Időpont (Dátum):</label>
-            <input type="date" class="form-control" id="appointmentDate" name="appointmentDate" ng-model="scheduleData.appointmentDate" required />
+            <input
+              type="date"
+              class="form-control"
+              id="appointmentDate"
+              name="appointmentDate"
+              ng-model="scheduleData.appointmentDate"
+              min="{{tomorrow}}"
+              required
+            />
           </div>
 
-          <!-- Idő kiválasztása -->
           <div class="form-group mb-3">
             <label for="appointmentTime">Időpont (Óra):</label>
-            <select class="form-select" id="appointmentTime" name="appointmentTime" ng-model="scheduleData.appointmentTime" required>
+            <select
+              class="form-select"
+              id="appointmentTime"
+              name="appointmentTime"
+              ng-model="scheduleData.appointmentTime"
+              required
+            >
+              <option value="">Válassz időpontot</option>
+              <option value="09:00">09:00</option>
+              <option value="10:00">10:00</option>
+              <option value="11:00">11:00</option>
+              <option value="12:00">12:00</option>
+              <option value="13:00">13:00</option>
+              <option value="14:00">14:00</option>
+              <option value="15:00">15:00</option>
+              <option value="16:00">16:00</option>
+              <option value="17:00">17:00</option>
             </select>
           </div>
 
-          <!-- Megjegyzés mező -->
           <div class="form-group mb-3">
             <label for="comments">Megjegyzés (opcionális):</label>
-            <textarea class="form-control" id="comments" name="comments" ng-model="scheduleData.comments" rows="3" placeholder="Ide írhatja speciális kéréseit..."></textarea>
+            <textarea
+              class="form-control"
+              id="comments"
+              name="comments"
+              ng-model="scheduleData.comments"
+              rows="3"
+              placeholder="Ide írhatja speciális kéréseit..."
+            ></textarea>
           </div>
 
-          <!-- Visszajelző üzenetek -->
           <div class="alert alert-success" ng-if="successMessage">
             {{successMessage}}
           </div>
           <div class="alert alert-danger" ng-if="errorMessage">
             {{errorMessage}}
           </div>
-
-          <!-- Beküldés gomb -->
           <div class="form-group text-center">
-            <button type="submit" class="btn btn-primary btn-block mb-3" ng-disabled="appointmentForm.$invalid">
+            <button
+              type="submit"
+              class="btn btn-primary btn-block mb-3"
+              ng-disabled="appointmentForm.$invalid"
+            >
               Időpontfoglalás
             </button>
           </div>

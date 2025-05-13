@@ -1,112 +1,103 @@
 <div class="container">
-  <!-- Fő konténer a szolgáltatások megjelenítéséhez -->
   <div class="row justify-content-center mt-5">
     <h2 class="text-center mb-3">Pajti Panzió</h2>
 
-    <!-- Bal oldali képek -->
     <div class="col-md-3 text-center">
-      <img
-        src="media\image\prices_html\pp_banner.jpg"
-        alt="panzio"
-        class="img-fluid rounded shadow mb-3"
-      />
-      <img
-        src="media\image\prices_html\napkozi2.jpg"
-        alt="panzio1"
-        class="img-fluid rounded shadow"
-      />
+        <img
+            src="media\image\prices_html\pp_banner.jpg"
+            alt="panzio"
+            class="img-fluid rounded shadow mb-3"
+        />
+        <img
+            src="media\image\prices_html\napkozi2.jpg"
+            alt="panzio1"
+            class="img-fluid rounded shadow"
+        />
     </div>
 
-    <!-- Táblázat a panzió árakkal -->
     <div class="col-md-6">
-      <table class="table table-bordered table-striped w-100">
-        <thead class="thead-dark">
-          <tr>
-            <th class="text-start col-6">Szolgáltatás megnevezése</th>
-            <th class="text-start col-6">Ár (HUF)</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr ng-repeat="row in prices" ng-if="row.service_id==1">
-            <td class="text-start">{{row.type}}</td>
-            <td class="text-start">{{row.price}}</td>
-          </tr>
-        </tbody>
-      </table>
+        <table class="table table-bordered table-striped w-100">
+            <thead class="thead-dark">
+                <tr>
+                    <th class="text-start col-6">Szolgáltatás megnevezése</th>
+                    <th class="text-start col-6">Ár (HUF)</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr ng-repeat="row in prices" ng-if="row.service_id==1">
+                    <td class="text-start">{{row.type}}</td>
+                    <td class="text-start">{{row.price}}</td>
+                </tr>
+            </tbody>
+        </table>
     </div>
 
-    <!-- Jobb oldali képek -->
     <div class="col-md-3 text-center">
-      <img
-        src="media\image\prices_html\pp_banner.jpg"
-        alt="napkozi banner"
-        class="img-fluid rounded shadow mb-3"
-      />
-      <img
-        src="media\image\prices_html\napkozi1.jpg"
-        alt="napkozi"
-        class="img-fluid rounded shadow"
-      />
+        <img
+            src="media\image\prices_html\pp_banner.jpg"
+            alt="napkozi banner"
+            class="img-fluid rounded shadow mb-3"
+        />
+        <img
+            src="media\image\prices_html\napkozi1.jpg"
+            alt="napkozi"
+            class="img-fluid rounded shadow"
+        />
     </div>
-  </div>
+</div>
 
-  <!-- Pajti Kozmetika rész -->
-  <div class="row justify-content-center mt-5">
+ 
+<div class="row justify-content-center mt-5">
     <h2 class="text-center mb-3">Pajti Kozmetika</h2>
 
-    <!-- Bal oldali képek -->
     <div class="col-md-3 text-center">
-      <img
-        src="media\image\prices_html\ppk_banner.jpg"
-        alt="Kozmetika"
-        class="img-fluid rounded shadow mb-3"
-      />
-      <img
-        src="media\image\prices_html\kozmetika1.jpg"
-        alt="Kozmetika"
-        class="img-fluid rounded shadow"
-      />
+        <img
+            src="media\image\prices_html\ppk_banner.jpg"
+            alt="Kozmetika"
+            class="img-fluid rounded shadow mb-3"
+        />
+        <img
+            src="media\image\prices_html\kozmetika1.jpg"
+            alt="Kozmetika"
+            class="img-fluid rounded shadow"
+        />
     </div>
 
-    <!-- Táblázat a kozmetikai árakkal -->
     <div class="col-md-6">
-      <table class="table table-bordered table-striped w-100">
-        <thead class="thead-dark">
-          <tr>
-            <th class="text-start col-6">Szolgáltatás megnevezése</th>
-            <th class="text-start col-6">Ár (HUF)</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr ng-repeat="row in prices" ng-if="row.service_id==2">
-            <td class="text-start">{{row.type}}</td>
-            <td class="text-start">{{row.price}}</td>
-          </tr>
-        </tbody>
-      </table>
+        <table class="table table-bordered table-striped w-100">
+            <thead class="thead-dark">
+                <tr>
+                    <th class="text-start col-6">Szolgáltatás megnevezése</th>
+                    <th class="text-start col-6">Ár (HUF)</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr ng-repeat="row in prices" ng-if="row.service_id==2">
+                    <td class="text-start">{{row.type}}</td>
+                    <td class="text-start">{{row.price}}</td>
+                </tr>
+            </tbody>
+        </table>
     </div>
 
-    <!-- Jobb oldali képek -->
     <div class="col-md-3 text-center">
-      <img
-        src="media\image\prices_html\ppk_banner.jpg"
-        alt="Kozmetika"
-        class="img-fluid rounded shadow mb-3"
-      />
-      <img
-        src="media\image\prices_html\kozmetika1.jpg"
-        alt="Kozmetika"
-        class="img-fluid rounded shadow"
-      />
+        <img
+            src="media\image\prices_html\ppk_banner.jpg"
+            alt="Kozmetika"
+            class="img-fluid rounded shadow mb-3"
+        />
+        <img
+            src="media\image\prices_html\kozmetika1.jpg"
+            alt="Kozmetika"
+            class="img-fluid rounded shadow"
+        />
     </div>
-  </div>
+</div>
 
-  <!-- Pajti Fotózás rész -->
   <div class="row justify-content-center mt-5">
     <h2 class="text-center mb-3">Pajti Fotózás</h2>
 
     <div class="row align-items-center">
-      <!-- Bal oldali kép -->
       <div class="col-md-3 text-center">
         <img
           src="media\image\prices_html\fotozas1.jpg"
@@ -115,7 +106,6 @@
         />
       </div>
 
-      <!-- Táblázat a fotózás árakkal -->
       <div class="col-md-6">
         <table class="table table-bordered table-striped w-100">
           <thead class="thead-dark">
@@ -133,7 +123,6 @@
         </table>
       </div>
 
-      <!-- Jobb oldali kép -->
       <div class="col-md-3 text-center">
         <img
           src="media\image\prices_html\fotozas2.jpg"
@@ -144,7 +133,6 @@
     </div>
   </div>
 
-  <!-- Foglalásra ösztönző üzenet -->
   <div class="row justify-content-center my-5">
     <h3 class="text-center">
       Válaszd ki a kedvenc csomagodat, és örökítsd meg kedvenced legszebb
