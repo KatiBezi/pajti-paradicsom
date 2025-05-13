@@ -233,7 +233,11 @@
           confirmEmail: "",
           password: "",
           confirmPassword: "",
+         
         };
+        
+        $scope.showPassword = false;
+        $scope.showConfirmPassword = false;
 
         $scope.submitRegisterForm = function () {
           $http

@@ -15,7 +15,10 @@
                 placeholder="pl. felhasznalo123"
                 required
               />
-              <div class="invalid-feedback" ng-show="registerForm.username.$touched && registerForm.username.$invalid">
+              <div
+                class="invalid-feedback"
+                ng-show="registerForm.username.$touched && registerForm.username.$invalid"
+              >
                 Kérjük, add meg a felhasználóneved!
               </div>
             </div>
@@ -29,7 +32,10 @@
                 ng-model="user.phone"
                 placeholder="pl. +36301234567"
               />
-              <div class="invalid-feedback" ng-show="registerForm.phone.$touched && registerForm.phone.$invalid">
+              <div
+                class="invalid-feedback"
+                ng-show="registerForm.phone.$touched && registerForm.phone.$invalid"
+              >
                 Kérjük, adj meg egy telefonszámot!
               </div>
             </div>
@@ -44,13 +50,18 @@
                 placeholder="pl. pelda@email.com"
                 required
               />
-              <div class="invalid-feedback" ng-show="registerForm.email.$touched && registerForm.email.$invalid">
+              <div
+                class="invalid-feedback"
+                ng-show="registerForm.email.$touched && registerForm.email.$invalid"
+              >
                 Kérjük, adj meg egy érvényes email címet!
               </div>
             </div>
 
             <div class="mb-3">
-              <label for="confirmEmail" class="form-label">Email cím megerősítése</label>
+              <label for="confirmEmail" class="form-label"
+                >Email cím megerősítése</label
+              >
               <input
                 type="email"
                 class="form-control"
@@ -59,38 +70,61 @@
                 placeholder="pl. pelda@email.com"
                 required
               />
-              <div class="invalid-feedback" ng-show="registerForm.confirmEmail.$touched && registerForm.confirmEmail.$invalid">
+              <div
+                class="invalid-feedback"
+                ng-show="registerForm.confirmEmail.$touched && registerForm.confirmEmail.$invalid"
+              >
                 Kérjük, erősítsd meg az email címed!
               </div>
             </div>
 
             <div class="mb-3">
               <label for="password" class="form-label">Jelszó</label>
-              <input
-                type="password"
-                class="form-control"
-                id="password"
-                ng-model="user.password"
-                placeholder="pl. Jelszo123!"
-                required
-              />
-              <div class="invalid-feedback" ng-show="registerForm.password.$touched && registerForm.password.$invalid">
-                Kérjük, adj meg egy jelszót!
+              <div class="input-group">
+                <input
+                  type="{{showPassword ? 'text' : 'password'}}"
+                  class="form-control"
+                  id="password"
+                  ng-model="user.password"
+                  placeholder="Abcd123#"
+                  required
+                />
+                <button
+                  type="button"
+                  class="btn btn-outline-secondary"
+                  ng-click="showPassword = !showPassword"
+                >
+                  <i
+                    class="fa"
+                    ng-class="showPassword ? 'fa-lock' : 'fa-unlock'"
+                  ></i>
+                </button>
               </div>
             </div>
 
             <div class="mb-3">
-              <label for="confirmPassword" class="form-label">Jelszó megerősítése</label>
-              <input
-                type="password"
-                class="form-control"
-                id="confirmPassword"
-                ng-model="user.confirmPassword"
-                placeholder="pl. Jelszo123!"
-                required
-              />
-              <div class="invalid-feedback" ng-show="registerForm.confirmPassword.$touched && registerForm.confirmPassword.$invalid">
-                Kérjük, erősítsd meg a jelszavad!
+              <label for="confirmPassword" class="form-label"
+                >Jelszó megerősítése</label
+              >
+              <div class="input-group">
+                <input
+                  type="{{showConfirmPassword ? 'text' : 'password'}}"
+                  class="form-control"
+                  id="confirmPassword"
+                  ng-model="user.confirmPassword"
+                  placeholder="Abcd123#"
+                  required
+                />
+                <button
+                  type="button"
+                  class="btn btn-outline-secondary"
+                  ng-click="showConfirmPassword = !showConfirmPassword"
+                >
+                  <i
+                    class="fa"
+                    ng-class="showPassword ? 'fa-lock' : 'fa-unlock'"
+                  ></i>
+                </button>
               </div>
             </div>
 
