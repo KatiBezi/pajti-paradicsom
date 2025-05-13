@@ -1,6 +1,5 @@
 <div class="container">
-  <div class="row justify-content-center">
-    <div class="col-md-8 col-lg-6 mt-5 bg-light p-4 rounded">
+  <div class="row justify-content-center gx-3 gy-3"> <div class="col-md-8 col-lg-6 mt-5 bg-light p-4 rounded">
       <h1 class="text-center mb-4">Pajti Paradicsom Időpontfoglalás</h1>
 
       <form name="appointmentForm" ng-submit="submitAppointment()" novalidate>
@@ -59,20 +58,19 @@
               ng-disabled="!scheduleData.serviceType || filteredPrices.length === 0"
               required
             >
-              <option value="">Válassz alszolgáltatást!</option>
             </select>
           </div>
 
-          <div class="form-group">
+          <div class="form-group mb-3">
             <label for="petSelect">Válassz kisállatot:</label>
             <select
               id="petSelect"
               class="form-select"
+              name="petSelect"
               ng-model="scheduleData.petId"
               ng-options="pet.id as pet.name for pet in pets"
               required
             >
-              <option value="">Válassz egy kisállatot!</option>
             </select>
           </div>
 
@@ -129,8 +127,7 @@
           <div class="alert alert-danger" ng-if="errorMessage">
             {{errorMessage}}
           </div>
-
-          <div class="form-group">
+          <div class="form-group text-center">
             <button
               type="submit"
               class="btn btn-primary btn-block mb-3"
