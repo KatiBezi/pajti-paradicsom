@@ -8,7 +8,7 @@ require_once("../../common/php/environment.php");
 
 // Set SQL command
 $query = "SELECT `id`, `img`
-					FROM `gallery`;";
+			FROM `gallery`;";
 
 // Connect to MySQL server
 $db = new Database();

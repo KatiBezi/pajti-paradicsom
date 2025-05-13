@@ -9,7 +9,8 @@ $args = Util::getArgs();
 $db = new Database();
 
 // SQL lekérdezés a kisállat törlésére
-$query = "DELETE FROM `pets` WHERE `id` = ?";
+$query = "DELETE FROM `pets` 
+                WHERE `id` = ?";
 
 // SQL parancs végrehajtása
 $result = $db->execute($query, [$args['pet_id'],]);

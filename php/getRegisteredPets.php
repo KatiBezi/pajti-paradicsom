@@ -1,34 +1,71 @@
 <?php
-//Ez KÉSZ
 declare(strict_types=1);
 
-// Include environment
 require_once("../../common/php/environment.php");
 
-// Get arguments
 $args = Util::getArgs();
 
-// Set SQL command
-$query ="SELECT id, 
-				name, 
-				type,
-				age, 
-				description 
-			FROM pets 
-			WHERE user_id = :user_id";
+$query = "
+    SELECT
+        p.id AS pet_id,
+        p.name,
+        p.type,
+        p.age,
+        p.description,
+        s.id AS schedule_id,
+        s.date,
+        s.time
+    FROM
+        pets p
+    LEFT JOIN
+        schedule s ON p.id = s.animal_id AND (s.date > CURRENT_DATE() OR (s.date = CURRENT_DATE() AND s.time > CURRENT_TIME()))
+    WHERE
+        p.user_id = :user_id
+    ORDER BY
+        p.id, s.date, s.time;
+";
 
-// Connect to MySQL server
 $db = new Database();
 
-// Execute SQL command
 $result = $db->execute($query, $args);
 
-// Close connection
 $db = null;
 
-// Check result
-if (is_null($result))
-	Util::setError("A kisállat nem létezik!");
+if (is_null($result)) {
+    Util::setError("Hiba történt a kisállatok adatainak lekérésekor.");
+}
 
-// Ser response
-Util::setResponse($result);
+$petsWithSchedule = [];
+$currentPetId = null;
+$currentPet = null;
+
+foreach ($result as $row) {
+    if ($row['pet_id'] !== $currentPetId) {
+        if ($currentPet !== null) {
+            $petsWithSchedule[] = $currentPet;
+        }
+        $currentPet = [
+            'id' => $row['pet_id'],
+            'name' => $row['name'],
+            'type' => $row['type'],
+            'age' => $row['age'],
+            'description' => $row['description'],
+            'appointments' => []
+        ];
+        $currentPetId = $row['pet_id'];
+    }
+    
+    // Csak akkor adjuk hozzá az időpontot, ha van schedule_id
+    if ($row['schedule_id'] !== null) {
+        $currentPet['appointments'][] = [
+            'date' => $row['date'],
+            'time' => $row['time']
+        ];
+    }
+}
+
+if ($currentPet !== null) {
+    $petsWithSchedule[] = $currentPet;
+}
+
+Util::setResponse($petsWithSchedule);

@@ -122,46 +122,43 @@
       },
     ])
 
-  .controller("headerController", [
-    "authService",
-    "$scope",
-    "http",
-    function (authService, $scope, http) {
-      $scope.isLoggedIn = authService.isLoggedIn();
-      $scope.successMessage = "";
+    .controller("headerController", [
+      "authService",
+      "$scope",
+      "$http",
+      function (authService, $scope, $http) {
+        var vm = this;
+        vm.authService = authService;
+        $scope.isLoggedIn = authService.isLoggedIn();
+        $scope.successMessage = "";
 
-      $scope.$watch(
-        function () {
-          return authService.isLoggedIn();
-        },
-        function (newValue, oldValue) {
-          if (newValue !== oldValue) {
-            $scope.isLoggedIn = newValue;
+        $scope.$watch(
+          function () {
+            return authService.isLoggedIn();
+          },
+          function (newValue, oldValue) {
+            if (newValue !== oldValue) {
+              $scope.isLoggedIn = newValue;
+            }
           }
-        }
-      );
+        );
 
-      $scope.logout = function () {
-        http
-          .request({
-            url: "./php/logout.php",
-            method: "GET"
-          })
-          .then(function () {
-            authService.logout();
-            $scope.successMessage = "Sikeres kijelentkezés!";
-            alert("Sikeres kijelentkezés!")
-            setTimeout(function () {
-              $scope.successMessage = "";
-              $scope.$applyAsync(); 
-            }, 3000);
-          })
-          .catch((e) => console.log(e));
-      };
-    }
-  ])
-
-
+        $scope.logout = function () {
+          $http
+            .get("./php/logout.php")
+            .then(function (response) {
+              authService.logout();
+              $scope.successMessage = "Sikeres kijelentkezés!";
+              setTimeout(function () {
+                $scope.successMessage = "";
+              }, 3000);
+            })
+            .catch(function (error) {
+              console.error("Hiba a kijelentkezés során:", error);
+            });
+        };
+      },
+    ])
     //OK
     .controller("serviceController", [
       "$scope",
@@ -211,8 +208,7 @@
       function ($scope, http) {
         $scope.contact = {};
         $scope.submitContactForm = function () {
-          http
-          .request({
+          http.request({
             url: "./php/contact.php", 
             data: $scope.contact
           })
@@ -416,7 +412,7 @@
             })
             .catch((e) => console.log(e));
         };
-
+        
         // Új kisállat regisztrálása
         $scope.registerPet = function () {
           $http
@@ -441,11 +437,12 @@
       },
     ])
     .controller("scheduleController", [
-    "$scope",  
+    "$scope", 
+    "$state", 
     "authService", 
     "http", 
     "$filter",
-    function ($scope, authService, http, $filter) {
+    function ($scope, $state, authService, http, $filter) {
         // Inicializálás
         $scope.scheduleData = {
             serviceType: "",
@@ -470,20 +467,18 @@
             fotozas: 3
         };
     
-        // Betölti a regisztrált kisállatokat
+        // Betölti a kisállatokat
         $scope.loadRegisteredPets = function() {
-            http
-              .request({
+            http.request({
                 url: "./php/getPetsSchedule.php",
                 data: { user_id: authService.getUserId() }
             }).then(function(response) {
                 $scope.pets = response;
-            }) .catch((e) => {
-                console.log(e);
+            }).catch(function(e) {
+                console.error("Error loading pets:", e);
                 alert("Hiba történt a kisállatok betöltése során.");
             });
-          };
-          
+        };
     
         // Betölti az összes árat
         $scope.loadAllPrices = function() {
@@ -492,30 +487,31 @@
                 .then(function(response) {
                     $scope.allPrices = response;
                 })
-                .catch((e) => {
-                console.log(e);
-                alert("Hiba történt a szolgáltatások betöltése során.");
-            });     
+                .catch(function(e) {
+                    console.error("Hiba az árak betöltése során:", e);
+                    alert("Hiba történt a szolgáltatások betöltése során.");
+                });
         };
     
         // Szűri az árakat a kiválasztott szolgáltatás típus alapján
         $scope.loadSubServices = function() {
-          if (!$scope.scheduleData.serviceType) {
-              $scope.filteredPrices = [];
-              return;
-          }
-        serviceId = $scope.serviceIds[$scope.scheduleData.serviceType];
-        $scope.filteredPrices = $scope.allPrices.filter(function(price) {
-            return price.service_id == serviceId;
-        });
-
-        $scope.scheduleData.subServiceId = ""; 
-       };
+            if (!$scope.scheduleData.serviceType) {
+                $scope.filteredPrices = [];
+                return;
+            }
+    
+            var serviceId = $scope.serviceIds[$scope.scheduleData.serviceType];
+            $scope.filteredPrices = $scope.allPrices.filter(function(price) {
+                return price.service_id == serviceId;
+            });
+    
+            $scope.scheduleData.subServiceId = "";
+        };
 
         // Holnapi nap beállítása 
         $scope.today = new Date();
         $scope.tomorrow = new Date($scope.today);
-        $scope.tomorrow.setDate($scope.today.getDate() + 1);  
+        $scope.tomorrow.setDate($scope.today.getDate() + 1);  // Holnapi nap beállítása
 
         // Holnapi dátum formázása
         $scope.tomorrow = $filter('date')($scope.tomorrow, 'yyyy-MM-dd');
@@ -543,7 +539,7 @@
                 comments: $scope.scheduleData.comments || ""
             };
 
-            // HTTP kérés elküldése 
+            // HTTP kérés elküldése a backendhez
             http.request({
                 url: "./php/schedule.php",
                 method: "POST",

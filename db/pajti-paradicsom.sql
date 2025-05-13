@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Gép: 127.0.0.1
--- Létrehozás ideje: 2025. Máj 12. 16:01
+-- Létrehozás ideje: 2025. Máj 13. 03:16
 -- Kiszolgáló verziója: 10.4.32-MariaDB
 -- PHP verzió: 8.2.12
 
@@ -92,7 +92,6 @@ INSERT INTO `pets` (`id`, `user_id`, `name`, `type`, `age`, `description`) VALUE
 (9, 3, 'Szimba', 'Macska', 8, 'harapós'),
 (10, 3, 'Mulan', 'kutya', 8, 'PITBULL'),
 (11, 3, 'Szása', 'Kutya', 5, 'juhász'),
-(13, 3, 'Rozi', 'Macska', 14, 'fekete feher'),
 (14, 3, 'Hugo', 'kutya', 3, 'fehér'),
 (18, 3, 'Lilás', 'kutya', 3, 'német juhász'),
 (19, 3, 'Gigi', 'macska', 4, 'szép'),
@@ -101,7 +100,9 @@ INSERT INTO `pets` (`id`, `user_id`, `name`, `type`, `age`, `description`) VALUE
 (24, 4, 'Mókus', 'Kutya', 0, 'Puli'),
 (25, 4, 'Kókusz', 'Kutya', 2, 'keverék hosszú szőrű'),
 (26, 4, 'Jónás', 'macska', 3, 'perzsa'),
-(27, 14, 'Marci', 'Kutya', 5, 'jól szocializált');
+(27, 14, 'Marci', 'Kutya', 5, 'jól szocializált'),
+(31, 3, 'Murko', 'nyúl', 5, 'barna'),
+(32, 3, 'Hedvig', 'kutya', 1, 'hófehér');
 
 -- --------------------------------------------------------
 
@@ -185,7 +186,7 @@ CREATE TABLE `schedule` (
   `time` time NOT NULL,
   `animal_id` int(11) NOT NULL,
   `services_id` int(11) NOT NULL,
-  `comments` int(11) NOT NULL
+  `comments` text DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
@@ -193,51 +194,38 @@ CREATE TABLE `schedule` (
 --
 
 INSERT INTO `schedule` (`id`, `date`, `time`, `animal_id`, `services_id`, `comments`) VALUES
-(1, '2025-05-09', '13:00:00', 10, 11, 0),
-(2, '2025-05-01', '12:00:00', 10, 13, 0),
-(3, '2025-05-09', '13:00:00', 10, 4, 0),
-(4, '2025-04-19', '11:00:00', 10, 50, 0),
-(5, '2025-05-15', '12:00:00', 11, 14, 0),
-(6, '2025-05-22', '09:00:00', 11, 8, 0),
-(7, '2025-05-12', '09:00:00', 9, 11, 0),
-(8, '2025-05-30', '14:00:00', 13, 8, 0),
-(9, '2025-05-30', '13:00:00', 11, 13, 0),
-(10, '2025-05-24', '13:00:00', 14, 30, 0),
-(11, '2025-05-08', '14:00:00', 18, 16, 0),
-(12, '2025-05-28', '15:00:00', 18, 32, 0),
-(13, '2025-05-29', '09:00:00', 21, 56, 0),
-(14, '2025-05-12', '15:00:00', 13, 11, 0),
-(15, '2025-05-12', '17:00:00', 9, 11, 0),
-(16, '2025-05-29', '12:00:00', 9, 11, 0),
-(17, '2025-05-12', '10:00:00', 9, 16, 0),
-(18, '2025-05-27', '12:00:00', 14, 36, 0),
-(19, '2025-05-24', '11:00:00', 11, 11, 0),
-(20, '2025-05-23', '09:00:00', 14, 23, 0),
-(21, '2025-05-14', '10:00:00', 18, 17, 0),
-(22, '2025-05-15', '09:00:00', 10, 12, 0),
-(23, '2025-05-16', '11:00:00', 10, 30, 0),
-(24, '2025-05-06', '11:00:00', 13, 12, 0),
-(25, '2025-05-14', '11:00:00', 10, 9, 0),
-(26, '2025-05-13', '16:00:00', 9, 5, 0),
-(27, '2025-05-12', '10:00:00', 10, 5, 0),
-(28, '2025-05-12', '13:00:00', 11, 50, 0),
-(29, '2025-05-13', '09:00:00', 9, 10, 0),
-(30, '2025-05-06', '11:00:00', 11, 4, 0),
-(31, '2025-05-08', '11:00:00', 10, 10, 0),
-(32, '2025-05-13', '09:00:00', 9, 4, 0),
-(33, '2025-05-12', '10:00:00', 11, 9, 0),
-(34, '2025-05-15', '13:00:00', 11, 5, 0),
-(35, '2025-05-23', '12:00:00', 19, 9, 0),
-(36, '2025-05-09', '11:00:00', 10, 5, 0),
-(37, '2025-05-13', '11:00:00', 10, 5, 0),
-(38, '2025-05-16', '16:00:00', 9, 50, 0),
-(39, '2025-05-21', '12:00:00', 11, 9, 0),
-(40, '2025-05-08', '09:00:00', 18, 9, 0),
-(41, '2025-05-12', '14:00:00', 11, 5, 0),
-(42, '2025-05-12', '11:00:00', 10, 8, 0),
-(43, '2025-05-13', '13:00:00', 10, 10, 0),
-(44, '2025-05-22', '10:00:00', 14, 9, 0),
-(45, '2025-05-13', '10:00:00', 13, 8, 0);
+(1, '2025-05-09', '13:00:00', 10, 11, '0'),
+(2, '2025-05-01', '12:00:00', 10, 13, '0'),
+(5, '2025-05-15', '12:00:00', 11, 14, '0'),
+(6, '2025-05-22', '09:00:00', 11, 8, '0'),
+(9, '2025-05-30', '13:00:00', 11, 13, '0'),
+(10, '2025-05-24', '13:00:00', 14, 30, '0'),
+(11, '2025-05-08', '14:00:00', 18, 16, '0'),
+(12, '2025-05-28', '15:00:00', 18, 32, '0'),
+(13, '2025-05-29', '09:00:00', 21, 56, '0'),
+(16, '2025-05-29', '12:00:00', 9, 11, '0'),
+(18, '2025-05-27', '12:00:00', 14, 36, '0'),
+(19, '2025-05-24', '11:00:00', 11, 11, '0'),
+(20, '2025-05-23', '09:00:00', 14, 23, '0'),
+(21, '2025-05-14', '10:00:00', 18, 17, '0'),
+(22, '2025-05-15', '09:00:00', 10, 12, '0'),
+(23, '2025-05-16', '11:00:00', 10, 30, '0'),
+(25, '2025-05-14', '11:00:00', 10, 9, '0'),
+(26, '2025-05-13', '16:00:00', 9, 5, '0'),
+(27, '2025-05-12', '10:00:00', 10, 5, '0'),
+(28, '2025-05-12', '13:00:00', 11, 50, '0'),
+(30, '2025-05-06', '11:00:00', 11, 4, '0'),
+(32, '2025-05-13', '09:00:00', 9, 4, '0'),
+(33, '2025-05-12', '10:00:00', 11, 9, '0'),
+(34, '2025-05-15', '13:00:00', 11, 5, '0'),
+(35, '2025-05-23', '12:00:00', 19, 9, '0'),
+(37, '2025-05-13', '11:00:00', 10, 5, '0'),
+(39, '2025-05-21', '12:00:00', 11, 9, '0'),
+(40, '2025-05-08', '09:00:00', 18, 9, '0'),
+(41, '2025-05-12', '14:00:00', 11, 5, '0'),
+(43, '2025-05-13', '13:00:00', 10, 10, '0'),
+(44, '2025-05-22', '10:00:00', 14, 9, '0'),
+(46, '2025-06-03', '10:00:00', 14, 5, 'jó lesz');
 
 -- --------------------------------------------------------
 
@@ -257,37 +245,9 @@ CREATE TABLE `services` (
 --
 
 INSERT INTO `services` (`id`, `name`, `description`, `img`) VALUES
-(1, 'Pajti Hotel', 'A Pajti Hotel tökéletes választás, ha hosszabb vagy rövidebb időre szeretné biztonságban és kényelemben tudni kedvencét. Legyen szó akár nyaralásról, üzleti útról vagy bármilyen más elfoglaltságról, ahol nem tudja magával vinni kutyáját, mi szeretettel és odafigyeléssel gondoskodunk róla. 
-Hotelünkben a kutyák tágas, jól felszerelt boxokban vagy külön szobákban kerülnek elhelyezésre, ahol elegendő helyük van a mozgásra és pihenésre. A napi többszöri séták és a rendszeres játék biztosítják, hogy kedvence ne unatkozzon és jól érezze magát.
-Szakképzett gondozóink folyamatosan felügyelik a kutyákat, biztosítva számukra a megfelelő táplálást, ivóvizet és szükség esetén a gyógyszerelést. A hotel területén állatorvosi felügyelet is rendelkezésre áll, így vészhelyzet esetén azonnal szakszerű ellátást tudunk nyújtani.
-A Pajti Hotel nem csupán egy megőrzőhely, hanem egy olyan hely, ahol a kutyák jól érzik magukat. A gazdik nyugodtak lehetnek, hiszen tudják, hogy kedvencük a legjobb kezekben van, amíg ők távol vannak.
-Fontos tudnivalók:
-A kutyák csak érvényes oltásokkal és féreghajtással vehetők fel.
-A helyek korlátozott száma miatt javasoljuk a mielőbbi időpontfoglalást.
-A részletes házirendet és árakat a weboldalunkon vagy telefonon találja.
-Bízunk benne, hogy a Pajti Hotel lesz kedvence második otthona!', 'foto2.jpg'),
-
-(2, 'Pajti kozmetika', 'Szívélyesen üdvözöljük Önt és négylábú társát a Pajti Paradicsom kutyakozmetikában, Makó városának szeretetteljes és gondoskodó oázisában! Mi itt, a Pajti Paradicsomban, nem csupán egy kutyakozmetika vagyunk, hanem egy olyan hely, ahol a kutyák kényelme, egészsége és jólléte a legfontosabb. Tudjuk, hogy kedvence az Ön számára családtag, éppen ezért olyan odaadással és szakértelemmel bánunk vele, mintha a sajátunk lenne.
-A Pajti Paradicsom csapata szakképzett és tapasztalt kutyakozmetikusokból áll, akik nem csupán a szőrzetápolás mesterei, hanem igazi állatbarátok is. Munkánk során a türelem, a szeretet és a nyugodt légkör megteremtése a legfontosabb, hogy kedvence a lehető legjobban érezze magát a kozmetikázás ideje alatt. Tisztában vagyunk azzal, hogy minden kutya egyedi személyiség, ezért a kezeléseket mindig az ő igényeihez és temperamentumához igazítjuk. Legyen szó egy félénk kölyökről, egy idősödő matuzsálemről vagy egy energikus fiatalról, nálunk mindenki a megérdemelt figyelmet és törődést kapja.
-Szolgáltatásaink széles skáláját kínáljuk, hogy kedvence mindig a legjobb formájában tündökölhessen.
-A Pajti Paradicsomban a legmodernebb eszközökkel és a legmagasabb minőségű, kutyabarát kozmetikumokkal dolgozunk. A higiéniára kiemelt figyelmet fordítunk, a szalonunk mindig tiszta és rendezett, hogy kedvence a lehető legbiztonságosabban és legkényelmesebben érezze magát.
-Hiszünk abban, hogy a kozmetikázás nem csupán a külső megjelenésről szól, hanem hozzájárul kedvence egészségéhez és jóllétéhez is. A rendszeres szőrzetápolás segít megelőzni a bőrproblémákat, csökkenti a szőrhullást, és javítja a kutya közérzetét.
-Szeretettel várjuk Önt és kedvencét a Pajti Paradicsomban, ahol a kutyák a paradicsomban érzik magukat! Forduljon hozzánk bizalommal, és kérjen időpontot még ma!
-', 'foto1.jpg'),
-(3, 'Pajti fotózás', 'Miért válassza a Pajti fotózást?
-Szakértelem és tapasztalat: Tapasztalt állatfotósaink türelmesen és szeretettel közelítenek a kutyákhoz, legyen szó akár egy energikus kölyökről, egy félénk mentett állatról vagy egy idősödő matuzsálemről. Tudjuk, hogyan hozzuk ki a legjobbat minden modellből.
-Kényelmes és stresszmentes környezet: A fotózás nyugodt és barátságos környezetben zajlik, ahol kedvence biztonságban és kényelemben érzi magát. Kerüljük a felesleges stresszt, hogy a képeken a valódi énje tükröződjön.
-Egyedi stílus és kreativitás: Nem sablonfotókat készítünk. Minden fotózás egyedi, tükrözi kedvence személyiségét és az Önök kapcsolatát. Legyen szó játékos portrékról, akciódús pillanatképekről vagy meghitt családi fotókról, mi megvalósítjuk az elképzeléseit.
-Minőségi végeredmény: A fotózás során készült legjobb képek professzionális utómunkán esnek át, hogy a végeredmény lenyűgöző és időtálló legyen. Különböző formátumokban (digitális, nyomtatott) és csomagokban kínáljuk a képeket, hogy mindenki megtalálja a számára legmegfelelőbbet.
-Szolgáltatásaink:
-Portréfotózás: Kedvence egyedi portréja, amely kiemeli szépségét és személyiségét.
-Akciófotózás: Játék közben, futás közben vagy más aktív pillanatokban készült képek.
-Családi fotózás: Közös fotók Önnel és családjával.
-Tematikus fotózás: Ünnepi vagy évszaki témákhoz kapcsolódó fotók (pl. karácsonyi, szülinapi).
-Fotókönyv készítése: A legjobb képekből gyönyörű fotókönyv összeállítása.
-Ajándékozzon örök emléket!
-A Pajti fotózás tökéletes ajándék lehet bármilyen alkalomra. Lepje meg magát vagy szeretteit egyedi és személyes emlékekkel!
-Keressen minket bizalommal, és kérjen időpontot!', 'foto.jpg');
+(1, 'Pajti Hotel', 'A Pajti Hotel tökéletes választás, ha hosszabb vagy rövidebb időre szeretné biztonságban és kényelemben tudni kedvencét. Legyen szó akár nyaralásról, üzleti útról vagy bármilyen más elfoglaltságról, ahol nem tudja magával vinni kutyáját, mi szeretettel és odafigyeléssel gondoskodunk róla. \r\nHotelünkben a kutyák tágas, jól felszerelt boxokban vagy külön szobákban kerülnek elhelyezésre, ahol elegendő helyük van a mozgásra és pihenésre. A napi többszöri séták és a rendszeres játék biztosítják, hogy kedvence ne unatkozzon és jól érezze magát.\r\nSzakképzett gondozóink folyamatosan felügyelik a kutyákat, biztosítva számukra a megfelelő táplálást, ivóvizet és szükség esetén a gyógyszerelést. A hotel területén állatorvosi felügyelet is rendelkezésre áll, így vészhelyzet esetén azonnal szakszerű ellátást tudunk nyújtani.\r\nA Pajti Hotel nem csupán egy megőrzőhely, hanem egy olyan hely, ahol a kutyák jól érzik magukat. A gazdik nyugodtak lehetnek, hiszen tudják, hogy kedvencük a legjobb kezekben van, amíg ők távol vannak.\r\nFontos tudnivalók:\r\nA kutyák csak érvényes oltásokkal és féreghajtással vehetők fel.\r\nA helyek korlátozott száma miatt javasoljuk a mielőbbi időpontfoglalást.\r\nA részletes házirendet és árakat a weboldalunkon vagy telefonon találja.\r\nBízunk benne, hogy a Pajti Hotel lesz kedvence második otthona!', 'foto2.jpg'),
+(2, 'Pajti kozmetika', 'Szívélyesen üdvözöljük Önt és négylábú társát a Pajti Paradicsom kutyakozmetikában, Makó városának szeretetteljes és gondoskodó oázisában! Mi itt, a Pajti Paradicsomban, nem csupán egy kutyakozmetika vagyunk, hanem egy olyan hely, ahol a kutyák kényelme, egészsége és jólléte a legfontosabb. Tudjuk, hogy kedvence az Ön számára családtag, éppen ezért olyan odaadással és szakértelemmel bánunk vele, mintha a sajátunk lenne.\r\nA Pajti Paradicsom csapata szakképzett és tapasztalt kutyakozmetikusokból áll, akik nem csupán a szőrzetápolás mesterei, hanem igazi állatbarátok is. Munkánk során a türelem, a szeretet és a nyugodt légkör megteremtése a legfontosabb, hogy kedvence a lehető legjobban érezze magát a kozmetikázás ideje alatt. Tisztában vagyunk azzal, hogy minden kutya egyedi személyiség, ezért a kezeléseket mindig az ő igényeihez és temperamentumához igazítjuk. Legyen szó egy félénk kölyökről, egy idősödő matuzsálemről vagy egy energikus fiatalról, nálunk mindenki a megérdemelt figyelmet és törődést kapja.\r\nSzolgáltatásaink széles skáláját kínáljuk, hogy kedvence mindig a legjobb formájában tündökölhessen.\r\nA Pajti Paradicsomban a legmodernebb eszközökkel és a legmagasabb minőségű, kutyabarát kozmetikumokkal dolgozunk. A higiéniára kiemelt figyelmet fordítunk, a szalonunk mindig tiszta és rendezett, hogy kedvence a lehető legbiztonságosabban és legkényelmesebben érezze magát.\r\nHiszünk abban, hogy a kozmetikázás nem csupán a külső megjelenésről szól, hanem hozzájárul kedvence egészségéhez és jóllétéhez is. A rendszeres szőrzetápolás segít megelőzni a bőrproblémákat, csökkenti a szőrhullást, és javítja a kutya közérzetét.\r\nSzeretettel várjuk Önt és kedvencét a Pajti Paradicsomban, ahol a kutyák a paradicsomban érzik magukat! Forduljon hozzánk bizalommal, és kérjen időpontot még ma!\r\n', 'foto1.jpg'),
+(3, 'Pajti fotózás', 'Miért válassza a Pajti fotózást?\r\nSzakértelem és tapasztalat: Tapasztalt állatfotósaink türelmesen és szeretettel közelítenek a kutyákhoz, legyen szó akár egy energikus kölyökről, egy félénk mentett állatról vagy egy idősödő matuzsálemről. Tudjuk, hogyan hozzuk ki a legjobbat minden modellből.\r\nKényelmes és stresszmentes környezet: A fotózás nyugodt és barátságos környezetben zajlik, ahol kedvence biztonságban és kényelemben érzi magát. Kerüljük a felesleges stresszt, hogy a képeken a valódi énje tükröződjön.\r\nEgyedi stílus és kreativitás: Nem sablonfotókat készítünk. Minden fotózás egyedi, tükrözi kedvence személyiségét és az Önök kapcsolatát. Legyen szó játékos portrékról, akciódús pillanatképekről vagy meghitt családi fotókról, mi megvalósítjuk az elképzeléseit.\r\nMinőségi végeredmény: A fotózás során készült legjobb képek professzionális utómunkán esnek át, hogy a végeredmény lenyűgöző és időtálló legyen. Különböző formátumokban (digitális, nyomtatott) és csomagokban kínáljuk a képeket, hogy mindenki megtalálja a számára legmegfelelőbbet.\r\nSzolgáltatásaink:\r\nPortréfotózás: Kedvence egyedi portréja, amely kiemeli szépségét és személyiségét.\r\nAkciófotózás: Játék közben, futás közben vagy más aktív pillanatokban készült képek.\r\nCsaládi fotózás: Közös fotók Önnel és családjával.\r\nTematikus fotózás: Ünnepi vagy évszaki témákhoz kapcsolódó fotók (pl. karácsonyi, szülinapi).\r\nFotókönyv készítése: A legjobb képekből gyönyörű fotókönyv összeállítása.\r\nAjándékozzon örök emléket!\r\nA Pajti fotózás tökéletes ajándék lehet bármilyen alkalomra. Lepje meg magát vagy szeretteit egyedi és személyes emlékekkel!\r\nKeressen minket bizalommal, és kérjen időpontot!', 'foto.jpg');
 
 -- --------------------------------------------------------
 
@@ -352,19 +312,22 @@ ALTER TABLE `gallery`
 --
 ALTER TABLE `pets`
   ADD PRIMARY KEY (`id`),
-  ADD KEY `user_id` (`user_id`);
+  ADD KEY `user_id` (`user_id`),
+  ADD KEY `idx_user_id` (`user_id`);
 
 --
 -- A tábla indexei `prices`
 --
 ALTER TABLE `prices`
-  ADD PRIMARY KEY (`id`);
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `idx_service_id` (`service_id`);
 
 --
 -- A tábla indexei `schedule`
 --
 ALTER TABLE `schedule`
-  ADD PRIMARY KEY (`id`);
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `idx_animal_id` (`animal_id`);
 
 --
 -- A tábla indexei `users`
@@ -393,7 +356,7 @@ ALTER TABLE `gallery`
 -- AUTO_INCREMENT a táblához `pets`
 --
 ALTER TABLE `pets`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=31;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=33;
 
 --
 -- AUTO_INCREMENT a táblához `prices`
@@ -405,7 +368,7 @@ ALTER TABLE `prices`
 -- AUTO_INCREMENT a táblához `schedule`
 --
 ALTER TABLE `schedule`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=46;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=47;
 
 --
 -- AUTO_INCREMENT a táblához `users`
@@ -422,6 +385,12 @@ ALTER TABLE `users`
 --
 ALTER TABLE `pets`
   ADD CONSTRAINT `pets_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE CASCADE;
+
+--
+-- Megkötések a táblához `schedule`
+--
+ALTER TABLE `schedule`
+  ADD CONSTRAINT `fk_animal` FOREIGN KEY (`animal_id`) REFERENCES `pets` (`id`) ON DELETE CASCADE;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

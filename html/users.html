@@ -1,14 +1,19 @@
+<!-- 1. FŐ TÁROLÓ ELEM -->
 <div class="container">
   <div class="row">
+    <!-- 2. FEJLÉC SZAKASZ -->
     <div class="col-12 text-center mb-4">
       <h1 class="card-title">Regisztrált adatok</h1>
     </div>
+
+    <!-- 3. BAL OLDALI PANEL (FŐ TARTALOM) -->
     <div class="col-md-8 mb-4">
       <div class="card rounded border p-3 h-100">
         <div class="card-body">
+          <!-- 3.1 FELHASZNÁLÓI ADATOK SZAKASZ -->
           <h5 class="card-title">Felhasználói adatok</h5>
-         
           <div class="mb-4">
+            <!-- 3.1.1 ADATOK MEGJELENÍTÉSE (NEM SZERKESZTÉS MOD) -->
             <div ng-if="!isEditingUser">
               <p class="card-text">
                 <strong>Felhasználónév:</strong> {{ user.username }}
@@ -26,9 +31,10 @@
                 Fiók törlése
               </button>
             </div>
+
+            <!-- 3.1.2 ADATOK SZERKESZTÉSE (SZERKESZTÉS MOD) -->
             <div ng-if="isEditingUser">
               <form name="userForm">
-              
                 <div class="form-group">
                   <label>Felhasználónév:</label>
                   <p class="form-control-static">{{ user.username }}</p>
@@ -69,6 +75,7 @@
             </div>
           </div>
 
+          <!-- 3.2 KISÁLLATOK LISTÁJA -->
           <div>
             <h6 class="card-title">Regisztrált kisállatok</h6>
             <table class="table">
@@ -78,27 +85,45 @@
                   <th>Típus</th>
                   <th>Kor</th>
                   <th>Leírás</th>
+                  <th>Foglalások</th>
                   <th>Műveletek</th>
                 </tr>
               </thead>
               <tbody>
+                <!-- 3.2.1 KISÁLLAT SOROK (ISMÉTLŐDŐ ELEM) -->
                 <tr ng-repeat="pet in registeredPets">
                   <td>{{ pet.name }}</td>
                   <td>{{ pet.type }}</td>
                   <td>{{ pet.age }}</td>
                   <td>{{ pet.description }}</td>
                   <td>
+                    <!-- 3.2.2 IDŐPONTOK LISTÁJA -->
+                    <ul
+                      class="list-unstyled"
+                      ng-if="pet.appointments && pet.appointments.length > 0"
+                    >
+                      <li ng-repeat="appointment in pet.appointments">
+                        {{ appointment.date }} {{appointment.time }}
+                      </li>
+                    </ul>
+                    <span
+                      ng-if="!pet.appointments || pet.appointments.length === 0"
+                      >Nincs időpont</span
+                    >
+                  </td>
+                  <td>
+                    <!-- 3.2.3 MŰVELET GOMBOK -->
                     <button
                       class="btn btn-sm btn-primary"
                       ng-click="editPet(pet)"
                     >
-                      Szerkesztés
+                      <i class="fas fa-edit"></i> Szerkesztés
                     </button>
                     <button
                       class="btn btn-sm btn-danger"
                       ng-click="deletePet(pet.id)"
                     >
-                      Törlés
+                      <i class="fas fa-trash-alt"></i> Törlés
                     </button>
                   </td>
                 </tr>
@@ -106,6 +131,7 @@
             </table>
           </div>
 
+          <!-- 3.3 KISÁLLAT SZERKESZTŐ ŰRLAP -->
           <div ng-if="isEditingPet" class="mt-4">
             <h6 class="card-title">Kisállat szerkesztése</h6>
             <form name="editPetForm">
@@ -160,30 +186,56 @@
       </div>
     </div>
 
-    <!-- Jobb oldal: Kisállat regisztráció -->
+    <!-- 4. JOBB OLDALI PANEL (KISÁLLAT REGISZTRÁCIÓ) -->
     <div class="col-md-4 mb-4">
       <div class="card rounded border p-3 h-100">
         <div class="card-body">
           <h5 class="card-title">Kisállat regisztráció</h5>
+          <!-- 4.1 ÚJ KISÁLLAT ŰRLAPJA -->
           <form name="petForm" ng-submit="registerPet()" novalidate>
             <div class="form-group">
               <label>Név:</label>
-              <input type="text" class="form-control" ng-model="newPet.name" required />
+              <input
+                type="text"
+                class="form-control"
+                ng-model="newPet.name"
+                required
+              />
             </div>
             <div class="form-group">
               <label>Típus:</label>
-              <input type="text" class="form-control" ng-model="newPet.type" required />
+              <select class="form-control" ng-model="newPet.type" required>
+                <option value="">Válassz típust</option>
+                <option value="kutya">Kutya</option>
+                <option value="macska">Macska</option>
+                <option value="nyúl">Nyúl</option>
+                <option value="egyéb">Egyéb</option>
+              </select>
             </div>
             <div class="form-group">
               <label>Kor:</label>
-              <input type="number" class="form-control" ng-model="newPet.age" required />
+              <input
+                type="number"
+                class="form-control"
+                ng-model="newPet.age"
+                min="0"
+                max="30"
+                required
+              />
             </div>
             <div class="form-group">
               <label>Leírás:</label>
-              <textarea class="form-control" ng-model="newPet.description"></textarea>
+              <textarea
+                class="form-control"
+                ng-model="newPet.description"
+              ></textarea>
             </div>
-            <div class="d-flex justify-content-center mt-3 ">
-              <button type="submit" class="btn btn-primary" ng-disabled="petForm.$invalid">
+            <div class="d-flex justify-content-center mt-3">
+              <button
+                type="submit"
+                class="btn btn-primary"
+                ng-disabled="petForm.$invalid"
+              >
                 Regisztráció
               </button>
             </div>

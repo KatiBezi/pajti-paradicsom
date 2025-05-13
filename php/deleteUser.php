@@ -9,7 +9,8 @@ $args = Util::getArgs();
 
 $db = new Database();
 
-$deleteUserQuery = "DELETE FROM `users` WHERE `id` = ?";
+$deleteUserQuery = "DELETE FROM `users` 
+                           WHERE `id` = ?";
 $result = $db->execute($deleteUserQuery, [$args['user_id']]); 
 
 if ($result) {
