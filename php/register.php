@@ -1,5 +1,5 @@
 <?php
-//EZ KÉSZ
+
 declare(strict_types=1);
 
 require_once("../../common/php/environment.php");
@@ -17,13 +17,17 @@ if (
 ) {
     Util::setError("Hiányzó adat a regisztrációhoz.");
 }
+
+// E-mail ellenőrzés
 if (!filter_var($args['email'], FILTER_VALIDATE_EMAIL)) {
     Util::setError("Érvénytelen e-mail cím.");
 }
+
 if ($args['email'] !== $args['confirmEmail']) {
     Util::setError("Az e-mail címek nem egyeznek.");
 }
 
+// Jelszó megerősítés ellenőrzése
 if ($args['password'] !== $args['confirmPassword']) {
     Util::setError("A jelszavak nem egyeznek.");
 }
@@ -32,7 +36,9 @@ if ($args['password'] !== $args['confirmPassword']) {
 $db = new Database();
 
 // Email egyediség ellenőrzése
-$query = "SELECT `id` FROM `users` WHERE `email` = ? LIMIT 1";
+$query = "SELECT `id` 
+            FROM `users`
+            WHERE `email` = ? LIMIT 1";
 $result = $db->execute($query, [$args['email']]);
 
 if (!empty($result)) {
@@ -40,7 +46,8 @@ if (!empty($result)) {
 }
 
 // Felhasználó beszúrása
-$query = "INSERT INTO users (username, phone, email, password) VALUES (?, ?, ?, ?)";
+$query = "INSERT INTO `users` (`username`, `phone`, `email`, `password`) 
+          VALUES (?, ?, ?, ?)";
 $result = $db->execute($query, [
     $args['username'],
     $args['phone'],
@@ -53,7 +60,7 @@ $db = null;
 
 // Ellenőrzés
 if (!$result || empty($result['lastInsertId'])) {
-    Util::setError('A felhasználó regisztráció nem sikerült!');
+    Util::setError("A felhasználó regisztráció nem sikerült!");
 }
 
 // Sikeres válasz

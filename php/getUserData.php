@@ -1,35 +1,41 @@
 <?php
-//EZ KÉSZ
+
 declare(strict_types=1);
 
-// Include environment
+// Környezeti beállítások betöltése
 require_once("../../common/php/environment.php");
 
-// Get arguments
+// Argumentumok lekérése a kérésből 
 $args = Util::getArgs();
 
-// Set SQL command
-$query ="SELECT id,
-				username, 
-				email, 
-				phone 
-			FROM users 
-			WHERE id = :user_id";
-// Connect to MySQL server
+// SQL parancs beállítása a felhasználó adatainak lekérdezéséhez ID alapján
+$query = "SELECT
+                    `id`,
+                    `username`,
+                    `email`,
+                    `phone`
+                 FROM
+                    `users`
+                 WHERE
+                    `id` = :user_id";
+
+// Csatlakozás a MySQL szerverhez
 $db = new Database();
 
-// Execute SQL command
+// SQL parancs végrehajtása a megadott argumentumokkal
 $result = $db->execute($query, $args);
 
-// Close connection
+// Adatbázis kapcsolat lezárása
 $db = null;
 
-// Check result
-if (is_null($result))
-	Util::setError("A felhasználó nem létezik!");
+// Eredmény ellenőrzése
+if (is_null($result)) {
+    // Ha a lekérdezés eredménye null, az azt jelenti, hogy a felhasználó nem létezik
+    Util::setError("A felhasználó nem létezik!");
+}
 
-// Simplifying the result
+// Az eredmény egyszerűsítése, mivel csak egy felhasználót várunk (az ID alapján szűrünk)
 $result = $result[0];
 
-// Ser response
+// Válasz beállítása a lekérdezett felhasználói adatokkal
 Util::setResponse($result);

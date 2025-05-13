@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 // Környezeti változók betöltése
@@ -7,9 +8,14 @@ require_once("../../common/php/environment.php");
 // Paraméterek lekérése
 $args = Util::getArgs();
 
-$query = "SELECT id, name 
-			FROM pets 
-			WHERE user_id = ?";
+// Lekérdezés: kisállatok neveinek lekérése adott felhasználóhoz
+$query = "SELECT 
+             `id`, 
+             `name` 
+          FROM 
+             `pets` 
+          WHERE 
+             `user_id` = ?";
 
 // Adatbázis kapcsolat
 $db = new Database();
@@ -27,4 +33,3 @@ if (is_null($result)) {
 
 // Válasz visszaküldése
 Util::setResponse($result);
-

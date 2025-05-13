@@ -1,6 +1,5 @@
 <?php
 
-//EZ KÉSZ
 declare(strict_types=1);
 
 require_once("../../common/php/environment.php");
@@ -10,7 +9,11 @@ $args = Util::getArgs();
 $db = new Database();
 
 // SQL lekérdezés 
-$query = "UPDATE `pets` SET `name` = ?, `age` = ?, `type` = ? WHERE `id` = ?";
+$query = "UPDATE `pets` 
+            SET `name` = ?, 
+                `age` = ?,  
+                `type` = ? 
+            WHERE `id` = ?";
 
 // SQL parancs végrehajtása
 $result = $db->execute($query, [

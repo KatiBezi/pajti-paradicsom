@@ -1,5 +1,5 @@
 <?php
-//EZ KÉSZ
+
 declare(strict_types=1);
 
 require_once("../../common/php/environment.php");
@@ -12,7 +12,6 @@ if (
     empty($args['pet_name']) ||
     empty($args['pet_type']) ||
     empty($args['pet_age'])
-   
 ) {
     Util::setError("Hiányzó adat a regisztrációhoz.");
 }
@@ -20,8 +19,11 @@ if (
 // Adatbázis kapcsolat
 $db = new Database();
 
-$query = "INSERT INTO pets (user_id, name, type, age, description) VALUES (?, ?, ?, ?, ?)";
+// SQL parancs (backtickekkel)
+$query = "INSERT INTO `pets` (`user_id`, `name`, `type`, `age`, `description`) 
+          VALUES (?, ?, ?, ?, ?)";
 
+// Végrehajtás
 $result = $db->execute($query, [
     $args['user_id'],
     $args['pet_name'],
@@ -30,20 +32,13 @@ $result = $db->execute($query, [
     $args['description'] ?? null
 ]);
 
-$db = null;
-
-// SQL parancs az új felhasználó beszúrására
-$query = $db->preparateInsert("pets", $args);
-
-// SQL parancs végrehajtása
-$result = $db->execute($query, array_values($args));
-
 // Kapcsolat lezárása
 $db = null;
 
-// Check result
-if (!$result["affectedRows"])
-  Util::setError('A kisállat regisztráció nem sikerült!');
+// Eredmény ellenőrzése
+if (!$result || empty($result['lastInsertId'])) {
+    Util::setError("A kisállat regisztráció nem sikerült!");
+}
 
-// Set response
-Util::setResponse($result["lastInsertId" ]);
+// Válasz
+Util::setResponse($result['lastInsertId']);

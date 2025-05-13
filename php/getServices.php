@@ -1,27 +1,25 @@
 <?php
 
-// EZ KÉSZ
-
 declare(strict_types=1);
 
-// Include environment
+// Környezeti beállítások betöltése
 require_once("../../common/php/environment.php");
 
-// Set SQL command
-$query = "SELECT `id`, 
-				`name`, 
-				`description`,
-				`img` 
-			FROM `services`;";
+// SQL parancs beállítása a szolgáltatások adatainak lekérdezéséhez
+$query = "SELECT `id`,
+                        `name`,
+                        `description`,
+                        `img`
+                 FROM `services`;";
 
-// Connect to MySQL server
+// Csatlakozás a MySQL szerverhez
 $db = new Database();
 
-// Execute SQL command
+// SQL parancs végrehajtása
 $result = $db->execute($query);
 
-// Close connection
+// Adatbázis kapcsolat lezárása
 $db = null;
 
-// Ser response
+// Válasz beállítása a lekérdezett eredményekkel
 Util::setResponse($result);

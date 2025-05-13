@@ -1,25 +1,26 @@
 <?php
-// EZ KÉSZ
 
 declare(strict_types=1);
 
-// Include environment
+// Környezeti beállítások betöltése
 require_once("../../common/php/environment.php");
 
-// Set SQL command
-$query = "SELECT `id`, `img`
-			FROM `gallery`;";
+// SQL parancs beállítása
+$query = "SELECT `id`,
+                 `img`
+            FROM `gallery`;";
 
-// Connect to MySQL server
+// Csatlakozás a MySQL szerverhez
 $db = new Database();
 
-// Execute SQL command
+// SQL parancs végrehajtása
 $result = $db->execute($query);
 
+// A lekérdezett eredmények tömbjének véletlenszerű sorrendbe állítása
 shuffle($result);
 
-// Close connection
+// Kapcsolat lezárása
 $db = null;
 
-// Ser response
+// Válasz beállítása
 Util::setResponse($result);

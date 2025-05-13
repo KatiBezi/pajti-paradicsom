@@ -6,35 +6,34 @@ require_once("../../common/php/environment.php");
 // Kérés adatainak lekérése
 $args = Util::getArgs(); 
 
-// Adatbázis kapcsolat
+// Adatbázis kapcsolat létrehozása
 $db = new Database();
 
 // Időpont foglaltság ellenőrzése
-$checkQuery = "SELECT id
-            FROM schedule
-            WHERE date = ? AND
-                time = ?";
+$checkQuery = "SELECT `id`
+               FROM `schedule`
+               WHERE `date` = ? AND `time` = ?";
 
 $existingAppointment = $db->execute($checkQuery, [
     $args['date'], 
     $args['time'] 
 ]);
 
-// Ha létezik már foglalás, hibaüzenet
+// Ha létezik már foglalás, hibát dobunk
 if (!empty($existingAppointment)) {
     Util::setError("Ez az időpont már foglalt. Kérjük válassz másik időpontot!");
 }
 
-// Az INSERT lekérdezés előkészítése a `preparateInsert` metódussal
+// Beszúrás előkészítése 
 $insertQuery = $db->preparateInsert('schedule', array_keys($args));  
 
-// Paraméterek: minden értéket átadunk az $args tömbből
+// SQL végrehajtása 
 $result = $db->execute($insertQuery, array_values($args)); 
 
-// Ellenőrizzük, hogy történt-e sikeres beszúrás
-if (!$result || empty($result["affectedRows"])) {
+// Sikeres beszúrás ellenőrzése
+if (!$result || empty($result['affectedRows'])) {
     Util::setError("Hiba történt az időpont foglalása során!");
 }
 
-// Sikeres válasz
+// Sikeres válasz visszaküldése
 Util::setResponse($result);
